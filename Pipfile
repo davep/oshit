@@ -10,6 +10,7 @@ mypy = "*"
 build = "*"
 twine = "*"
 pylint = "*"
+httpx = "*"
 
 [dev-packages]
 
