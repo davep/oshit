@@ -5,7 +5,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from json import loads
-from typing import Any
+from typing import Any, AsyncIterator, TypeVar
 from typing_extensions import Final, Self
 
 ##############################################################################
@@ -74,14 +74,14 @@ class Article(ItemBase):
         Returns:
             Self
         """
-        self.descendants = data["descendants"]
+        self.descendants = data.get("descendants", [])
         self.score = data["score"]
         self.title = data["title"]
         return super().populate_with(data)
 
 ##############################################################################
-class Story(Article):
-    """Class for holding a story."""
+class Link(Article):
+    """Class for holding an article that links to something."""
 
     url: str = ""
     """The URL associated with the story."""
@@ -97,6 +97,18 @@ class Story(Article):
         """
         self.url = data.get("url", "")
         return super().populate_with(data)
+
+##############################################################################
+class Story(Link):
+    """Class for holding a story."""
+
+##############################################################################
+class Job(Link):
+    """Class for holding a job."""
+
+##############################################################################
+ItemType = TypeVar("ItemType", bound="ItemBase")
+"""Generic type for an item pulled from the API."""
 
 ##############################################################################
 class HN:
@@ -163,25 +175,37 @@ class HN:
         """
         return loads(await self._call("item", f"{item_id}.json"))
 
-    async def item(self, item_id) -> ItemBase:
+    async def item(self, item_type: type[ItemType], item_id: int) -> ItemType:
         """Get an item by its ID.
 
         Args:
+            item_type: The type of the item to get from the API.
             item_id: The ID of the item to get.
 
         Returns:
             The item.
         """
-        return {
-            "story": Story,
-        }.get((item := await self._raw_item(item_id))["type"], UnknownItem)().populate_with(item)
+        if isinstance(item := {
+                "story": Story,
+                "job": Job
+        }.get((data := await self._raw_item(item_id))["type"], UnknownItem)().populate_with(data), item_type):
+            return item
+        raise ValueError(f"The item of ID '{item_id}' is of type '{item.item_type}', not {item_type.__name__}")
 
     async def top_story_ids(self) -> list[int]:
+        """Get the list of top story IDs.
+
+        Returns:
+            The list of the top story IDs.
+        """
+        return loads(await self._call("topstories.json"))
+
+    async def top_stories(self) -> AsyncIterator[Link]:
         """Get the IDs of the top stories.
 
         Returns:
-            A list of the top story IDs.
+            An iterator of the top stories.
         """
-        return loads(await self._call("topstories.json"))
+        return (await self.item(Link, item_id) for item_id in await self.top_story_ids())
 
 ### client.py ends here

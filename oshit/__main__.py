@@ -7,9 +7,8 @@ from .hn.client import HN
 ##############################################################################
 async def run() -> None:
     """Run the application."""
-    for story in await HN().top_story_ids():
-        if not (story := await HN().item(story)).url:
-            print(story)
+    async for story in await HN().top_stories():
+        print(f"{story.item_type} - {story.url}")
 
 ##############################################################################
 if __name__ == "__main__":
