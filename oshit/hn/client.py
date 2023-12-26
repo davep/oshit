@@ -80,6 +80,25 @@ class Article(ItemBase):
         return super().populate_with(data)
 
 ##############################################################################
+class Story(Article):
+    """Class for holding a story."""
+
+    url: str = ""
+    """The URL associated with the story."""
+
+    def populate_with(self, data: dict[str, Any]) -> Self:
+        """Populate the item with the data from the given JSON value.
+
+        Args:
+            data: The data to populate from.
+
+        Returns:
+            Self
+        """
+        self.url = data.get("url", "")
+        return super().populate_with(data)
+
+##############################################################################
 class HN:
     """HackerNews API client."""
 
