@@ -173,7 +173,7 @@ class HN:
             The item.
         """
         return {
-            "story": ItemBase,
+            "story": Story,
         }.get((item := await self._raw_item(item_id))["type"], UnknownItem)().populate_with(item)
 
 ### client.py ends here
