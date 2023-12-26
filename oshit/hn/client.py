@@ -176,4 +176,12 @@ class HN:
             "story": Story,
         }.get((item := await self._raw_item(item_id))["type"], UnknownItem)().populate_with(item)
 
+    async def top_story_ids(self) -> list[int]:
+        """Get the IDs of the top stories.
+
+        Returns:
+            A list of the top story IDs.
+        """
+        return loads(await self._call("topstories.json"))
+
 ### client.py ends here
