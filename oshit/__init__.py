@@ -1,4 +1,4 @@
-"""An app."""
+"""A terminal-based HackerNews reader."""
 
 ######################################################################
 # Main app information.
