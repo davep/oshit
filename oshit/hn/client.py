@@ -65,6 +65,20 @@ class Article(ItemBase):
     title: str = ""
     """The title of the article."""
 
+    def populate_with(self, data: dict[str, Any]) -> Self:
+        """Populate the item with the data from the given JSON value.
+
+        Args:
+            data: The data to populate from.
+
+        Returns:
+            Self
+        """
+        self.descendants = data["descendants"]
+        self.score = data["score"]
+        self.title = data["title"]
+        return super().populate_with(data)
+
 ##############################################################################
 class HN:
     """HackerNews API client."""
