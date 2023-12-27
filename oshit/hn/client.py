@@ -139,7 +139,7 @@ class HN:
         return await self._id_list("topstories")
 
     async def top_stories(self) -> list[Link]:
-        """Get the IDs of the top stories.
+        """Get the top stories.
 
         Returns:
             The list of the top stories.
@@ -155,7 +155,7 @@ class HN:
         return await self._id_list("newstories")
 
     async def new_stories(self) -> list[Link]:
-        """Get the IDs of the new stories.
+        """Get the new stories.
 
         Returns:
             The list of the new stories.
@@ -171,7 +171,7 @@ class HN:
         return await self._id_list("beststories")
 
     async def best_stories(self) -> list[Link]:
-        """Get the IDs of the best stories.
+        """Get the best stories.
 
         Returns:
             The list of the best stories.
