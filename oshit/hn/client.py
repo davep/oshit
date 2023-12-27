@@ -4,7 +4,7 @@
 # Python imports.
 from asyncio import gather
 from json import loads
-from typing import Any
+from typing import Any, cast
 from typing_extensions import Final
 
 ##############################################################################
@@ -13,7 +13,7 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
 # Local imports.
-from .item import ItemType, Job, Link, Story, UnknownItem
+from .item import ItemType, Link, Loader
 
 ##############################################################################
 class HN:
@@ -79,7 +79,7 @@ class HN:
         Returns:
             The ID of the maximum item on HackerNews.
         """
-        return loads(await self._call("maxitem.json"))
+        return int(loads(await self._call("maxitem.json")))
 
     async def _raw_item(self, item_id: int) -> dict[str, Any]:
         """Get the raw data of an item from the API.
@@ -90,7 +90,7 @@ class HN:
         Returns:
             The JSON data of that item as a `dict`.
         """
-        return loads(await self._call("item", f"{item_id}.json"))
+        return cast(dict[str, Any], loads(await self._call("item", f"{item_id}.json")))
 
     async def item(self, item_type: type[ItemType], item_id: int) -> ItemType:
         """Get an item by its ID.
@@ -102,10 +102,7 @@ class HN:
         Returns:
             The item.
         """
-        if isinstance(item := {
-                "story": Story,
-                "job": Job
-        }.get((data := await self._raw_item(item_id))["type"], UnknownItem)().populate_with(data), item_type):
+        if isinstance(item := Loader.load(await self._raw_item(item_id)), item_type):
             return item
         raise ValueError(f"The item of ID '{item_id}' is of type '{item.item_type}', not {item_type.__name__}")
 
@@ -115,7 +112,7 @@ class HN:
         Returns:
             The list of the top story IDs.
         """
-        return loads(await self._call("topstories.json"))
+        return cast(list[int], loads(await self._call("topstories.json")))
 
     async def _items_from_ids(self, item_type: type[ItemType], item_ids: list[int]) -> list[ItemType]:
         """Turn a list of item IDs into a list of items.

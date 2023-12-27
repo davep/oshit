@@ -5,6 +5,7 @@
 from .article import Article
 from .base import Item, ItemType
 from .link import Job, Link, Story
+from .loader import Loader
 from .unknown import UnknownItem
 
 ##############################################################################
@@ -15,6 +16,7 @@ __all__ = [
     "ItemType",
     "Job",
     "Link",
+    "Loader",
     "Story",
     "UnknownItem",
 ]

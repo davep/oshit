@@ -8,6 +8,7 @@ from typing_extensions import Self
 ##############################################################################
 # Local imports.
 from .article import Article
+from .loader import Loader
 
 ##############################################################################
 class Link(Article):
@@ -29,10 +30,12 @@ class Link(Article):
         return super().populate_with(data)
 
 ##############################################################################
+@Loader.loads("story")
 class Story(Link):
     """Class for holding a story."""
 
 ##############################################################################
+@Loader.loads("job")
 class Job(Link):
     """Class for holding a job."""
 
