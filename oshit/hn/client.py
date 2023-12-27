@@ -13,7 +13,7 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
 # Local imports.
-from .item import ItemType, Link, Loader
+from .item import ItemType, Link, Job, Loader
 
 ##############################################################################
 class HN:
@@ -209,5 +209,21 @@ class HN:
             The list of the latest ShowHN stories.
         """
         return await self._items_from_ids(Link, await self.latest_show_story_ids())
+
+    async def latest_job_story_ids(self) -> list[int]:
+        """Get the list of the latest job story IDs.
+
+        Returns:
+            The list of the latest job story IDs.
+        """
+        return await self._id_list("jobstories")
+
+    async def latest_job_stories(self) -> list[Job]:
+        """Get the latest job stories.
+
+        Returns:
+            The list of the latest job stories.
+        """
+        return await self._items_from_ids(Job, await self.latest_job_story_ids())
 
 ### client.py ends here
