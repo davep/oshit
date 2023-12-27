@@ -122,7 +122,7 @@ class HN:
     """The base of the URL for the API."""
 
     def __init__(self) -> None:
-        """Iniitialise the API client object."""
+        """Initialise the API client object."""
         self._client_: AsyncClient | None = None
 
     @property
