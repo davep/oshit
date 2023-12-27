@@ -12,7 +12,7 @@ from .loader import Loader
 
 ##############################################################################
 class Link(Article):
-    """Class for holding an article that links to something."""
+    """Class for holding an article that potentially links to something."""
 
     url: str = ""
     """The URL associated with the article."""
@@ -28,6 +28,16 @@ class Link(Article):
         """
         self.url = data.get("url", "")
         return super().populate_with(data)
+
+    @property
+    def has_url(self) -> bool:
+        """Does this article actually have a link.
+
+        Some stories fall under the banner of being linkable, but don't
+        really have a link. This can be used to test if there really is a
+        link or not.
+        """
+        return bool(self.url.strip())
 
 ##############################################################################
 @Loader.loads("story")
