@@ -2,15 +2,16 @@
 
 ##############################################################################
 # Python imports.
+from asyncio import gather
 from dataclasses import dataclass, field
 from datetime import datetime
 from json import loads
-from typing import Any, AsyncIterator, TypeVar
+from typing import Any, TypeVar
 from typing_extensions import Final, Self
 
 ##############################################################################
 # HTTPX imports.
-import httpx
+from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
 @dataclass
@@ -120,6 +121,15 @@ class HN:
     _BASE: Final[str] = "https://hacker-news.firebaseio.com/v0/"
     """The base of the URL for the API."""
 
+    def __init__(self) -> None:
+        self._client: AsyncClient | None = None
+
+    @property
+    def client(self) -> AsyncClient:
+        if self._client is None:
+            self._client = AsyncClient()
+        return self._client
+
     def _api_url(self, *path: str) -> str:
         """Construct a URL for calling on the API.
 
@@ -141,20 +151,21 @@ class HN:
         Returns:
             The text returned from the call.
         """
-        async with httpx.AsyncClient() as client:
-            try:
-                response = await client.get(
-                    self._api_url(*path),
-                    params=params,
-                    headers={"user-agent": self.AGENT},
-                )
-            except httpx.RequestError as error:
-                raise error     # TODO
-            try:
-                response.raise_for_status()
-            except httpx.HTTPStatusError as error:
-                raise error     # TODO
-            return response.text
+        try:
+            response = await self.client.get(
+                self._api_url(*path),
+                params=params,
+                headers={"user-agent": self.AGENT},
+            )
+        except RequestError as error:
+            raise error     # TODO
+
+        try:
+            response.raise_for_status()
+        except HTTPStatusError as error:
+            raise error     # TODO
+
+        return response.text
 
     async def max_item_id(self) -> int:
         """Get the current maximum item ID.
@@ -200,12 +211,12 @@ class HN:
         """
         return loads(await self._call("topstories.json"))
 
-    async def top_stories(self) -> AsyncIterator[Link]:
+    async def top_stories(self) -> list[Link]:
         """Get the IDs of the top stories.
 
         Returns:
-            An iterator of the top stories.
+            The list of the top stories.
         """
-        return (await self.item(Link, item_id) for item_id in await self.top_story_ids())
+        return await gather(*[self.item(Link, item_id) for item_id in await self.top_story_ids()])
 
 ### client.py ends here
