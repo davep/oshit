@@ -9,7 +9,7 @@ from typing_extensions import Self
 
 ##############################################################################
 @dataclass
-class ItemBase:
+class Item:
     """Base class of an item found in the HackerNews API."""
 
     item_id: int = 0
@@ -44,7 +44,7 @@ class ItemBase:
         return self
 
 ##############################################################################
-ItemType = TypeVar("ItemType", bound="ItemBase")
+ItemType = TypeVar("ItemType", bound="Item")
 """Generic type for an item pulled from the API."""
 
 ### base.py ends here

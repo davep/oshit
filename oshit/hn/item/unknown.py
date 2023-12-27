@@ -2,10 +2,10 @@
 
 ##############################################################################
 # Local imports.
-from .base import ItemBase
+from .base import Item
 
 ##############################################################################
-class UnknownItem(ItemBase):
+class UnknownItem(Item):
     """A fallback while I work on this. This will go away."""
 
 ### unknown.py ends here

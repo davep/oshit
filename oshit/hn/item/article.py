@@ -11,10 +11,10 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from .base import ItemBase
+from .base import Item
 
 ##############################################################################
-class Article(ItemBase):
+class Article(Item):
     """Base class for all types of articles on HackerNews."""
 
     descendants: int = 0

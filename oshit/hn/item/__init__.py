@@ -3,7 +3,7 @@
 ##############################################################################
 # Local imports.
 from .article import Article
-from .base import ItemBase, ItemType
+from .base import Item, ItemType
 from .link import Job, Link, Story
 from .unknown import UnknownItem
 
@@ -11,7 +11,7 @@ from .unknown import UnknownItem
 # Exports.
 __all__ = [
     "Article",
-    "ItemBase",
+    "Item",
     "ItemType",
     "Job",
     "Link",
