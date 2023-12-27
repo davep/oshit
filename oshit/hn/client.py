@@ -178,4 +178,20 @@ class HN:
         """
         return await self._items_from_ids(Link, await self.best_story_ids())
 
+    async def latest_ask_story_ids(self) -> list[int]:
+        """Get the list of the latest ask story IDs.
+
+        Returns:
+            The list of the latest ask story IDs.
+        """
+        return await self._id_list("askstories")
+
+    async def latest_ask_stories(self) -> list[Link]:
+        """Get the latest AskHN stories.
+
+        Returns:
+            The list of the latest AskHN stories.
+        """
+        return await self._items_from_ids(Link, await self.latest_ask_story_ids())
+
 ### client.py ends here
