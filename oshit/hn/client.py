@@ -90,6 +90,7 @@ class HN:
         Returns:
             The JSON data of that item as a `dict`.
         """
+        # TODO: Possibly cache this.
         return cast(dict[str, Any], loads(await self._call("item", f"{item_id}.json")))
 
     async def item(self, item_type: type[ItemType], item_id: int) -> ItemType:
