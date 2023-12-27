@@ -1,17 +1,16 @@
 """The main entry point for the application."""
 
-import asyncio
-
-from .hn import HN
+##############################################################################
+# Local imports.
+from .app import OSHit
 
 ##############################################################################
-async def run() -> None:
+def run() -> None:
     """Run the application."""
-    for story in await HN().latest_job_stories():
-        print(f"{story.__class__.__name__} - {story.item_type} - {story.title} - {story.url}")
+    OSHit().run()
 
 ##############################################################################
 if __name__ == "__main__":
-    asyncio.run(run())
+    run()
 
 ### __main__.py ends here
