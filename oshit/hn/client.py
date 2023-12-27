@@ -3,113 +3,17 @@
 ##############################################################################
 # Python imports.
 from asyncio import gather
-from dataclasses import dataclass, field
-from datetime import datetime
 from json import loads
-from typing import Any, TypeVar
-from typing_extensions import Final, Self
+from typing import Any
+from typing_extensions import Final
 
 ##############################################################################
 # HTTPX imports.
 from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
-@dataclass
-class ItemBase:
-    """Base class of an item found in the HackerNews API."""
-
-    item_id: int = 0
-    """The ID of the item."""
-
-    by: str = ""
-    """The author of the item."""
-
-    item_type: str = ""
-    """The API's name for the type of the item."""
-
-    time: datetime = datetime(1970, 1, 1)
-    """The time of the item."""
-
-    kids: list[int] = field(default_factory=list)
-    """The children of the item."""
-
-    def populate_with(self, data: dict[str, Any]) -> Self:
-        """Populate the item with the data from the given JSON value.
-
-        Args:
-            data: The data to populate from.
-
-        Returns:
-            Self
-        """
-        self.item_id = data["id"]
-        self.by = data["by"]
-        self.item_type = data["type"]
-        self.time = datetime.fromtimestamp(data["time"])
-        self.kids = data.get("kids", [])
-        return self
-
-##############################################################################
-class UnknownItem(ItemBase):
-    """A fallback while I work on this. This will go away."""
-
-##############################################################################
-class Article(ItemBase):
-    """Base class for all types of articles on HackerNews."""
-
-    descendants: int = 0
-    """The number of descendants of the article."""
-
-    score: int = 0
-    """The score of the article."""
-
-    title: str = ""
-    """The title of the article."""
-
-    def populate_with(self, data: dict[str, Any]) -> Self:
-        """Populate the item with the data from the given JSON value.
-
-        Args:
-            data: The data to populate from.
-
-        Returns:
-            Self
-        """
-        self.descendants = data.get("descendants", [])
-        self.score = data["score"]
-        self.title = data["title"]
-        return super().populate_with(data)
-
-##############################################################################
-class Link(Article):
-    """Class for holding an article that links to something."""
-
-    url: str = ""
-    """The URL associated with the story."""
-
-    def populate_with(self, data: dict[str, Any]) -> Self:
-        """Populate the item with the data from the given JSON value.
-
-        Args:
-            data: The data to populate from.
-
-        Returns:
-            Self
-        """
-        self.url = data.get("url", "")
-        return super().populate_with(data)
-
-##############################################################################
-class Story(Link):
-    """Class for holding a story."""
-
-##############################################################################
-class Job(Link):
-    """Class for holding a job."""
-
-##############################################################################
-ItemType = TypeVar("ItemType", bound="ItemBase")
-"""Generic type for an item pulled from the API."""
+# Local imports.
+from .item import ItemType, Job, Link, Story, UnknownItem
 
 ##############################################################################
 class HN:
