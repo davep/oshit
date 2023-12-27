@@ -7,7 +7,7 @@ from .hn.client import HN
 ##############################################################################
 async def run() -> None:
     """Run the application."""
-    for story in await HN().top_stories():
+    for story in await HN().new_stories():
         print(f"{story.item_type} - {story.url}")
 
 ##############################################################################

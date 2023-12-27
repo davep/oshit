@@ -106,14 +106,6 @@ class HN:
             return item
         raise ValueError(f"The item of ID '{item_id}' is of type '{item.item_type}', not {item_type.__name__}")
 
-    async def top_story_ids(self) -> list[int]:
-        """Get the list of top story IDs.
-
-        Returns:
-            The list of the top story IDs.
-        """
-        return cast(list[int], loads(await self._call("topstories.json")))
-
     async def _items_from_ids(self, item_type: type[ItemType], item_ids: list[int]) -> list[ItemType]:
         """Turn a list of item IDs into a list of items.
 
@@ -126,6 +118,25 @@ class HN:
         """
         return await gather(*[self.item(item_type, item_id) for item_id in item_ids])
 
+    async def _id_list(self, list_type: str) -> list[int]:
+        """Get a given ID list.
+
+        Args:
+            list_type: The type of list to get.
+
+        Returns:
+            The list of item IDs.
+        """
+        return cast(list[int], loads(await self._call(f"{list_type}.json")))
+
+    async def top_story_ids(self) -> list[int]:
+        """Get the list of top story IDs.
+
+        Returns:
+            The list of the top story IDs.
+        """
+        return await self._id_list("topstories")
+
     async def top_stories(self) -> list[Link]:
         """Get the IDs of the top stories.
 
@@ -133,5 +144,21 @@ class HN:
             The list of the top stories.
         """
         return await self._items_from_ids(Link, await self.top_story_ids())
+
+    async def new_story_ids(self) -> list[int]:
+        """Get the list of new story IDs.
+
+        Returns:
+            The list of the new story IDs.
+        """
+        return await self._id_list("newstories")
+
+    async def new_stories(self) -> list[Link]:
+        """Get the IDs of the new stories.
+
+        Returns:
+            The list of the new stories.
+        """
+        return await self._items_from_ids(Link, await self.new_story_ids())
 
 ### client.py ends here
