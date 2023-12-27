@@ -211,12 +211,24 @@ class HN:
         """
         return loads(await self._call("topstories.json"))
 
+    async def _items_from_ids(self, item_type: type[ItemType], item_ids: list[int]) -> list[ItemType]:
+        """Turn a list of item IDs into a list of items.
+
+        Args:
+            item_type: The type of the item we'll be getting.
+            item_ids: The IDs of the items to get.
+
+        Returns:
+            The list of items.
+        """
+        return await gather(*[self.item(item_type, item_id) for item_id in item_ids])
+
     async def top_stories(self) -> list[Link]:
         """Get the IDs of the top stories.
 
         Returns:
             The list of the top stories.
         """
-        return await gather(*[self.item(Link, item_id) for item_id in await self.top_story_ids()])
+        return await self._items_from_ids(Link, await self.top_story_ids())
 
 ### client.py ends here
