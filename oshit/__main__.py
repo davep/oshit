@@ -2,7 +2,7 @@
 
 import asyncio
 
-from .hn.client import HN
+from .hn import HN
 
 ##############################################################################
 async def run() -> None:
