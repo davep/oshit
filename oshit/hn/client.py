@@ -19,7 +19,7 @@ from .item import ItemType, Link, Job, Loader, Story
 class HN:
     """HackerNews API client."""
 
-    AGENT: Final[str] = "OSHit (https://github.com/davep/oshit)"
+    AGENT: Final[str] = "Orange Site Hit (https://github.com/davep/oshit)"
     """The agent string to use when talking to the API."""
 
     _BASE: Final[str] = "https://hacker-news.firebaseio.com/v0/"
