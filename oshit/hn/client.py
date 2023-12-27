@@ -13,7 +13,7 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
 # Local imports.
-from .item import ItemType, Link, Job, Loader
+from .item import ItemType, Link, Job, Loader, Story
 
 ##############################################################################
 class HN:
@@ -186,13 +186,13 @@ class HN:
         """
         return await self._id_list("askstories")
 
-    async def latest_ask_stories(self) -> list[Link]:
+    async def latest_ask_stories(self) -> list[Story]:
         """Get the latest AskHN stories.
 
         Returns:
             The list of the latest AskHN stories.
         """
-        return await self._items_from_ids(Link, await self.latest_ask_story_ids())
+        return await self._items_from_ids(Story, await self.latest_ask_story_ids())
 
     async def latest_show_story_ids(self) -> list[int]:
         """Get the list of the latest show story IDs.
@@ -202,13 +202,13 @@ class HN:
         """
         return await self._id_list("showstories")
 
-    async def latest_show_stories(self) -> list[Link]:
+    async def latest_show_stories(self) -> list[Story]:
         """Get the latest ShowHN stories.
 
         Returns:
             The list of the latest ShowHN stories.
         """
-        return await self._items_from_ids(Link, await self.latest_show_story_ids())
+        return await self._items_from_ids(Story, await self.latest_show_story_ids())
 
     async def latest_job_story_ids(self) -> list[int]:
         """Get the list of the latest job story IDs.
