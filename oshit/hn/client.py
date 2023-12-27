@@ -122,13 +122,15 @@ class HN:
     """The base of the URL for the API."""
 
     def __init__(self) -> None:
-        self._client: AsyncClient | None = None
+        """Iniitialise the API client object."""
+        self._client_: AsyncClient | None = None
 
     @property
-    def client(self) -> AsyncClient:
-        if self._client is None:
-            self._client = AsyncClient()
-        return self._client
+    def _client(self) -> AsyncClient:
+        """The API client."""
+        if self._client_ is None:
+            self._client_ = AsyncClient()
+        return self._client_
 
     def _api_url(self, *path: str) -> str:
         """Construct a URL for calling on the API.
@@ -152,7 +154,7 @@ class HN:
             The text returned from the call.
         """
         try:
-            response = await self.client.get(
+            response = await self._client.get(
                 self._api_url(*path),
                 params=params,
                 headers={"user-agent": self.AGENT},
