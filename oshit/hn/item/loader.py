@@ -6,7 +6,7 @@ from typing import Any, Callable
 
 ##############################################################################
 # Local imports.
-from .base import Item
+from .base import Item, ItemType
 from .unknown import UnknownItem
 
 ##############################################################################
@@ -17,9 +17,14 @@ class Loader:
     """The map of type names to actual types."""
 
     @classmethod
-    def loads(cls, item_type: str) -> Callable[[type[Item]], type[Item]]:
-        """Decorator for declaring that a class loads a particular item type."""
-        def _register(handler: type[Item]) -> type[Item]:
+    def loads(cls, item_type: str) -> Callable[[type[ItemType]], type[ItemType]]:
+        """Decorator for declaring that a class loads a particular item type.
+
+        Args:
+            item_type: The HackerNews item type string to associate with the class.
+        """
+        def _register(handler: type[ItemType]) -> type[ItemType]:
+            """Register the item class."""
             cls._map[item_type] = handler
             return handler
         return _register
