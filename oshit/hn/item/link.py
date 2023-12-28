@@ -40,6 +40,11 @@ class Link(Article):
         """
         return bool(self.url.strip())
 
+    @property
+    def visitable_url(self) -> str:
+        """A visitable URL for the item."""
+        return self.url if self.has_url else super().visitable_url
+
 
 ##############################################################################
 @Loader.loads("story")

@@ -172,11 +172,7 @@ class Items(Generic[ArticleType], TabPane):
     def visit(self, event: OptionList.OptionSelected) -> None:
         """Handle an option list item being selected."""
         assert isinstance(option := event.option, HackerNewsArticle)
-        open_url(
-            option.article.url
-            if isinstance(option.article, Link) and option.article.has_url
-            else f"https://news.ycombinator.com/item?id={option.article.item_id}"
-        )
+        open_url(option.article.visitable_url)
 
 
 ### items.py ends here

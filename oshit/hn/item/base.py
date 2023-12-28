@@ -44,6 +44,11 @@ class Item:
         self.kids = data.get("kids", [])
         return self
 
+    @property
+    def visitable_url(self) -> str:
+        """A visitable URL for the item."""
+        return f"https://news.ycombinator.com/item?id={self.item_id}"
+
 
 ##############################################################################
 ItemType = TypeVar("ItemType", bound="Item")  # pylint:disable=invalid-name
