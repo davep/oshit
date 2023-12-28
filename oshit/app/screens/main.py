@@ -38,15 +38,21 @@ class Main(Screen[None]):
         ("d", "compact"),
     ]
 
+    def __init__(self) -> None:
+        """Initialise the screen."""
+        super().__init__()
+        self._hn = HN()
+        """The HackerNews client object."""
+
     def compose(self) -> ComposeResult:
         """Compose the main screen's layout."""
         yield Header()
         with HackerNews():
-            yield Items("top", "t", HN().top_stories)
-            yield Items("new", "n", HN().new_stories)
-            yield Items("ask", "a", HN().latest_ask_stories)
-            yield Items("show", "s", HN().latest_show_stories)
-            yield Items("jobs", "j", HN().latest_job_stories)
+            yield Items("top", "t", self._hn.top_stories)
+            yield Items("new", "n", self._hn.new_stories)
+            yield Items("ask", "a", self._hn.latest_ask_stories)
+            yield Items("show", "s", self._hn.latest_show_stories)
+            yield Items("jobs", "j", self._hn.latest_job_stories)
         yield Footer()
 
     def _refresh_subtitle(self) -> None:
