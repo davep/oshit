@@ -58,7 +58,7 @@ class HackerNewsArticle(Option):
         """The prompt for the article."""
         domain = ""
         if isinstance(self.article, Link) and self.article.has_url:
-            if domain := urlparse(self.article.url).hostname:
+            if domain := (urlparse(self.article.url).hostname or ""):
                 domain = f" [dim italic]({domain})[/]"
         icon_colour = " green" if isinstance(self.article, Job) else ""
         return Group(
