@@ -1,3 +1,5 @@
+"""The main screen for the application."""
+
 ##############################################################################
 # Textual imports.
 from textual.app import ComposeResult
