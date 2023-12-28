@@ -45,9 +45,14 @@ class Item:
         return self
 
     @property
+    def orange_site_url(self) -> str:
+        """The URL of the item on HackerNews."""
+        return f"https://news.ycombinator.com/item?id={self.item_id}"
+
+    @property
     def visitable_url(self) -> str:
         """A visitable URL for the item."""
-        return f"https://news.ycombinator.com/item?id={self.item_id}"
+        return self.orange_site_url
 
 
 ##############################################################################
