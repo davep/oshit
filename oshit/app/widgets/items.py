@@ -21,6 +21,7 @@ from oshit.hn.item import Article
 
 ArticleType = TypeVar("ArticleType", bound=Article)
 
+
 ##############################################################################
 class Items(Generic[ArticleType], TabPane):
     """The pane that displays the top stories."""
@@ -39,7 +40,9 @@ class Items(Generic[ArticleType], TabPane):
     }
     """
 
-    def __init__(self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]]) -> None:
+    def __init__(
+        self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]]
+    ) -> None:
         """Initialise the pane.
 
         Args:
@@ -67,8 +70,7 @@ class Items(Generic[ArticleType], TabPane):
         return (
             f"{self._description} - Updated {naturaltime(self._snarfed)}"
             if self._snarfed is not None
-            else
-            f"{self._description} - Loading..."
+            else f"{self._description} - Loading..."
         )
 
     @work
@@ -78,9 +80,7 @@ class Items(Generic[ArticleType], TabPane):
         display.loading = True
         self._items = await self._source()
         self._snarfed = datetime.now()
-        display.clear_options().add_options(
-            [item.title for item in self._items]
-        )
+        display.clear_options().add_options([item.title for item in self._items])
         if self._items:
             display.highlighted = 0
         display.loading = False
@@ -99,5 +99,6 @@ class Items(Generic[ArticleType], TabPane):
     def steal_focus(self) -> None:
         """Steal focus for the item list within."""
         self.query_one(OptionList).focus()
+
 
 ### items.py ends here

@@ -13,6 +13,7 @@ from typing_extensions import Self
 # Local imports.
 from .base import Item
 
+
 ##############################################################################
 class Article(Item):
     """Base class for all types of articles on HackerNews."""
@@ -39,5 +40,6 @@ class Article(Item):
         self.score = data["score"]
         self.title = data["title"]
         return super().populate_with(data)
+
 
 ### article.py ends here

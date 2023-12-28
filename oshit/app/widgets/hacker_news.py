@@ -10,6 +10,7 @@ from textual.widgets import Tabs
 from oshit.hn.item import Article
 from .items import Items
 
+
 ##############################################################################
 class HackerNews(TabbedContent):
     """The HackerNews content."""
@@ -56,5 +57,6 @@ class HackerNews(TabbedContent):
     def description(self) -> str:
         """The description of the current display."""
         return self.active_items.description
+
 
 ### hacker_news.py ends here

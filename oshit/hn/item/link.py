@@ -10,6 +10,7 @@ from typing_extensions import Self
 from .article import Article
 from .loader import Loader
 
+
 ##############################################################################
 class Link(Article):
     """Class for holding an article that potentially links to something."""
@@ -39,10 +40,12 @@ class Link(Article):
         """
         return bool(self.url.strip())
 
+
 ##############################################################################
 @Loader.loads("story")
 class Story(Link):
     """Class for holding a story."""
+
 
 ##############################################################################
 @Loader.loads("job")

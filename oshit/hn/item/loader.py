@@ -9,6 +9,7 @@ from typing import Any, Callable
 from .base import Item, ItemType
 from .unknown import UnknownItem
 
+
 ##############################################################################
 class Loader:
     """Helper class for loading up HackerNews items."""
@@ -23,10 +24,12 @@ class Loader:
         Args:
             item_type: The HackerNews item type string to associate with the class.
         """
+
         def _register(handler: type[ItemType]) -> type[ItemType]:
             """Register the item class."""
             cls._map[item_type] = handler
             return handler
+
         return _register
 
     @classmethod
@@ -40,5 +43,6 @@ class Loader:
             An instance of a item class, of the best-fit type.
         """
         return cls._map.get(data["type"], UnknownItem)().populate_with(data)
+
 
 ### loader.py ends here

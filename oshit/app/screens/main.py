@@ -12,6 +12,7 @@ from oshit import __version__
 from oshit.hn import HN
 from oshit.app.widgets import HackerNews, Items
 
+
 ##############################################################################
 class Main(Screen[None]):
     """The main screen of the application."""
@@ -64,5 +65,6 @@ class Main(Screen[None]):
         """
         self.query_one(HackerNews).active = items
         self.query_one(HackerNews).focus_active_pane()
+
 
 ### main.py ends here

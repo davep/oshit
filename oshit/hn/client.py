@@ -15,6 +15,7 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 # Local imports.
 from .item import ItemType, Link, Job, Loader, Story
 
+
 ##############################################################################
 class HN:
     """HackerNews API client."""
@@ -64,12 +65,12 @@ class HN:
                 headers={"user-agent": self.AGENT},
             )
         except RequestError as error:
-            raise error     # TODO
+            raise error  # TODO
 
         try:
             response.raise_for_status()
         except HTTPStatusError as error:
-            raise error     # TODO
+            raise error  # TODO
 
         return response.text
 
@@ -105,9 +106,13 @@ class HN:
         """
         if isinstance(item := Loader.load(await self._raw_item(item_id)), item_type):
             return item
-        raise ValueError(f"The item of ID '{item_id}' is of type '{item.item_type}', not {item_type.__name__}")
+        raise ValueError(
+            f"The item of ID '{item_id}' is of type '{item.item_type}', not {item_type.__name__}"
+        )
 
-    async def _items_from_ids(self, item_type: type[ItemType], item_ids: list[int]) -> list[ItemType]:
+    async def _items_from_ids(
+        self, item_type: type[ItemType], item_ids: list[int]
+    ) -> list[ItemType]:
         """Turn a list of item IDs into a list of items.
 
         Args:
@@ -225,5 +230,6 @@ class HN:
             The list of the latest job stories.
         """
         return await self._items_from_ids(Job, await self.latest_job_story_ids())
+
 
 ### client.py ends here
