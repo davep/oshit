@@ -46,8 +46,9 @@ class HackerNewsArticle(Option):
             compact: Should we use a compact or relaxed display?
         """
         self.article = article
-        self._compact = compact
         """The article being shown."""
+        self._compact = compact
+        """Should we show a compact form?"""
         super().__init__(self.prompt, id=str(article.item_id))
 
     @property
