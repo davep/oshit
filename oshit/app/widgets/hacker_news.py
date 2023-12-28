@@ -16,7 +16,7 @@ class HackerNews(TabbedContent):
     """The HackerNews content."""
 
     BINDINGS = [
-        ("escape", "tabs"),
+        ("escape", "escape"),
         ("down, enter", "pane"),
         ("left", "previous"),
         ("right", "next"),
@@ -35,9 +35,13 @@ class HackerNews(TabbedContent):
         """Give focus to the active pane."""
         self.active_items.steal_focus()
 
-    def action_tabs(self) -> None:
-        """Focus on the tabs."""
-        self.query_one(Tabs).focus()
+    def action_escape(self) -> None:
+        """Handle escape being pressed."""
+        tabs = self.query_one(Tabs)
+        if self.screen.focused == tabs:
+            self.app.exit()
+        else:
+            tabs.focus()
 
     def action_pane(self) -> None:
         """Focus on the current pane."""

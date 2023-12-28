@@ -33,7 +33,6 @@ class Main(Screen[None]):
         ("a", "go('ask')"),
         ("s", "go('show')"),
         ("j", "go('jobs')"),
-        ("escape", "tabs"),
         ("down, enter", "pane"),
         ("d", "compact"),
     ]
