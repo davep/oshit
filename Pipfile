@@ -4,17 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+httpx = "*"
+textual = "*"
+humanize = "*"
+
+[dev-packages]
 pre-commit = "*"
 black = "*"
 mypy = "*"
 build = "*"
 twine = "*"
 pylint = "*"
-httpx = "*"
-textual = "*"
-humanize = "*"
-
-[dev-packages]
 
 [requires]
 python_version = "3.10"
