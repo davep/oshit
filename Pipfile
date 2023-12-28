@@ -12,6 +12,7 @@ twine = "*"
 pylint = "*"
 httpx = "*"
 textual = "*"
+humanize = "*"
 
 [dev-packages]
 
