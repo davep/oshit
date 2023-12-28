@@ -35,6 +35,7 @@ class Main(Screen[None]):
         ("j", "go('jobs')"),
         ("escape", "tabs"),
         ("down, enter", "pane"),
+        ("d", "compact"),
     ]
 
     def compose(self) -> ComposeResult:
@@ -65,6 +66,10 @@ class Main(Screen[None]):
         """
         self.query_one(HackerNews).active = items
         self.query_one(HackerNews).focus_active_pane()
+
+    def action_compact(self) -> None:
+        """Toggle the compact display."""
+        self.query_one(HackerNews).compact = not self.query_one(HackerNews).compact
 
 
 ### main.py ends here

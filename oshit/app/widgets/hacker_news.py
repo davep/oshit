@@ -2,8 +2,8 @@
 
 ##############################################################################
 # Textual imports.
-from textual.widgets import TabbedContent
-from textual.widgets import Tabs
+from textual.reactive import var
+from textual.widgets import TabbedContent, Tabs
 
 ##############################################################################
 # Local imports.
@@ -21,6 +21,9 @@ class HackerNews(TabbedContent):
         ("left", "previous"),
         ("right", "next"),
     ]
+
+    compact: var[bool] = var(True)
+    """Should we use a compact or relaxed display?"""
 
     @property
     def active_items(self) -> Items[Article]:
@@ -57,6 +60,11 @@ class HackerNews(TabbedContent):
     def description(self) -> str:
         """The description of the current display."""
         return self.active_items.description
+
+    def _watch_compact(self) -> None:
+        """React to the compact value being changed."""
+        for pane in self.query(Items):
+            pane.compact = self.compact
 
 
 ### hacker_news.py ends here
