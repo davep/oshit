@@ -18,7 +18,7 @@ class Main(Screen[None]):
     """The main screen of the application."""
 
     CSS = """
-    TabbedContent {
+    TabbedContent, LoadingIndicator {
         background: $panel;
     }
     """
