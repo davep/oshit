@@ -60,7 +60,9 @@ class HackerNewsArticle(Option):
                 domain = f" [dim italic]({domain})[/]"
         return Group(
             f"[dim italic]{self.article.__class__.__name__[0]}[/] {self.article.title}{domain}",
-            f"  [dim italic]{intcomma(self.article.score)} points by {self.article.by} {naturaltime(self.article.time)}[/]",
+            f"  [dim italic]{intcomma(self.article.score)} "
+            f"point{'' if self.article.score == 1 else 's'} "
+            f"by {self.article.by} {naturaltime(self.article.time)}[/]",
             *([] if self._compact else [""]),
         )
 
