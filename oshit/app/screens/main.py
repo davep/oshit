@@ -29,6 +29,7 @@ class Main(Screen[None]):
     BINDINGS = [
         ("t", "go('top')"),
         ("n", "go('new')"),
+        ("b", "go('best')"),
         ("a", "go('ask')"),
         ("s", "go('show')"),
         ("j", "go('jobs')"),
