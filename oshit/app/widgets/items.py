@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from datetime import datetime
-from typing import Awaitable, Callable
+from typing import Awaitable, Callable, TypeVar, Generic
 
 ##############################################################################
 # Textual imports.
@@ -17,10 +17,12 @@ from humanize import naturaltime
 
 ##############################################################################
 # Local imports.
-from oshit.hn.item import Job, Link, Story
+from oshit.hn.item import Article
+
+ArticleType = TypeVar("ArticleType", bound=Article)
 
 ##############################################################################
-class Items(TabPane):
+class Items(Generic[ArticleType], TabPane):
     """The pane that displays the top stories."""
 
     DEFAULT_CSS = """
@@ -37,8 +39,7 @@ class Items(TabPane):
     }
     """
 
-    # TODO: The typing is kinda funky. Make it less funky.
-    def __init__(self, title: str, key: str, source: Callable[[], Awaitable[list[Link]] | Awaitable[list[Story]] | Awaitable[list[Job]]], id: str):
+    def __init__(self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]], id: str):
         """Initialise the pane.
 
         Args:
@@ -52,7 +53,7 @@ class Items(TabPane):
         """The time when the data was snarfed."""
         self._source = source
         """The source of items to show."""
-        self._items: list[Link] | list[Story] | list[Job] = []
+        self._items: list[ArticleType] = []
         """The items to show."""
 
     def compose(self) -> ComposeResult:

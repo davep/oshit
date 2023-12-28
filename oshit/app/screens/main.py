@@ -13,7 +13,7 @@ from oshit.hn import HN
 from oshit.app.widgets import HackerNews, Items
 
 ##############################################################################
-class Main(Screen):
+class Main(Screen[None]):
     """The main screen of the application."""
 
     CSS = """

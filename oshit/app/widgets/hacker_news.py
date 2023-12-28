@@ -7,6 +7,7 @@ from textual.widgets import Tabs
 
 ##############################################################################
 # Local imports.
+from oshit.hn.item import Article
 from .items import Items
 
 ##############################################################################
@@ -21,7 +22,7 @@ class HackerNews(TabbedContent):
     ]
 
     @property
-    def active_items(self) -> Items:
+    def active_items(self) -> Items[Article]:
         """The active items."""
         assert isinstance(items := self.get_pane(self.active), Items)
         return items
