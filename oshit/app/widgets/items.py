@@ -5,10 +5,12 @@
 from datetime import datetime
 from typing import Awaitable, Callable, TypeVar, Generic
 from typing_extensions import Self
+from webbrowser import open as open_url
 from urllib.parse import urlparse
 
 ##############################################################################
 # Textual imports.
+from textual import on
 from textual import work
 from textual.app import ComposeResult
 from textual.reactive import var
@@ -165,6 +167,16 @@ class Items(Generic[ArticleType], TabPane):
         """React to the compact setting being changed."""
         if self._items:
             self._redisplay()
+
+    @on(OptionList.OptionSelected)
+    def visit(self, event: OptionList.OptionSelected) -> None:
+        """Handle an option list item being selected."""
+        assert isinstance(option := event.option, HackerNewsArticle)
+        open_url(
+            option.article.url
+            if isinstance(option.article, Link) and option.article.has_url
+            else f"https://news.ycombinator.com/item?id={option.article.item_id}"
+        )
 
 
 ### items.py ends here
