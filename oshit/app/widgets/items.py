@@ -132,11 +132,11 @@ class Items(Generic[ArticleType], TabPane):
     def _redisplay(self) -> None:
         """Redisplay the items."""
         display = self.query_one(OptionList)
+        remember = display.highlighted
         display.clear_options().add_options(
             [HackerNewsArticle(item, self.compact) for item in self._items]
         )
-        if self._items:
-            display.highlighted = 0
+        display.highlighted = remember
 
     @work
     async def _load(self) -> None:
