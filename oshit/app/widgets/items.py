@@ -39,14 +39,15 @@ class Items(Generic[ArticleType], TabPane):
     }
     """
 
-    def __init__(self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]], id: str):
+    def __init__(self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]]) -> None:
         """Initialise the pane.
 
         Args:
             title: The title for the pane.
+            key: The key used to switch to this pane.
             source: The source of items for the pane.
         """
-        super().__init__(f"{title} [dim]\\[{key}][/]", id=id)
+        super().__init__(f"{title.capitalize()} [dim]\\[{key}][/]", id=title)
         self._description = title
         """The description of the pane."""
         self._snarfed: datetime | None = None

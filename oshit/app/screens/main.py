@@ -40,11 +40,11 @@ class Main(Screen[None]):
         """Compose the main screen's layout."""
         yield Header()
         with HackerNews():
-            yield Items("Top", "t", HN().top_stories, "top")
-            yield Items("New", "n", HN().new_stories, "new")
-            yield Items("Ask", "a", HN().latest_ask_stories, "ask")
-            yield Items("Show", "s", HN().latest_show_stories, "show")
-            yield Items("Jobs", "j", HN().latest_job_stories, "jobs")
+            yield Items("top", "t", HN().top_stories)
+            yield Items("new", "n", HN().new_stories)
+            yield Items("ask", "a", HN().latest_ask_stories)
+            yield Items("show", "s", HN().latest_show_stories)
+            yield Items("jobs", "j", HN().latest_job_stories)
         yield Footer()
 
     def _refresh_subtitle(self) -> None:
