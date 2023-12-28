@@ -75,7 +75,7 @@ class Main(Screen[None]):
 
     def action_compact(self) -> None:
         """Toggle the compact display."""
-        self.query_one(HackerNews).compact = not self.query_one(HackerNews).compact
+        news.compact = not (news := self.query_one(HackerNews)).compact
 
 
 ### main.py ends here
