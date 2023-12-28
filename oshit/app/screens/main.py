@@ -50,6 +50,7 @@ class Main(Screen[None]):
         with HackerNews():
             yield Items("top", "t", self._hn.top_stories)
             yield Items("new", "n", self._hn.new_stories)
+            yield Items("best", "b", self._hn.best_stories)
             yield Items("ask", "a", self._hn.latest_ask_stories)
             yield Items("show", "s", self._hn.latest_show_stories)
             yield Items("jobs", "j", self._hn.latest_job_stories)
