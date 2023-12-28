@@ -2,8 +2,9 @@
 
 ##############################################################################
 # Python imports.
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Awaitable, Callable, TypeVar, Generic
+from typing import Awaitable, Callable, cast, TypeVar, Generic
 from typing_extensions import Self
 from webbrowser import open as open_url
 from urllib.parse import urlparse
@@ -13,6 +14,7 @@ from urllib.parse import urlparse
 from textual import on
 from textual import work
 from textual.app import ComposeResult
+from textual.message import Message
 from textual.reactive import var
 from textual.widgets import OptionList, TabPane
 from textual.widgets.option_list import Option
@@ -72,11 +74,33 @@ class HackerNewsArticle(Option):
 class ArticleList(OptionList):
     """Widget to show a list of articles."""
 
+    BINDINGS = [
+        ("c", "comments"),
+    ]
+
     def clear_options(self) -> Self:
         """Workaround for https://github.com/Textualize/textual/issues/3714"""
         super().clear_options()
         self._clear_content_tracking()
         return self
+
+    @dataclass
+    class ShowComments(Message):
+        """Show the comments for the given item."""
+
+        article: Article
+        """The article to show the comments for."""
+
+    def action_comments(self) -> None:
+        """Visit the comments for the given"""
+        if self.highlighted is not None:
+            self.post_message(
+                self.ShowComments(
+                    cast(
+                        HackerNewsArticle, self.get_option_at_index(self.highlighted)
+                    ).article
+                )
+            )
 
 
 ##############################################################################
@@ -177,6 +201,16 @@ class Items(Generic[ArticleType], TabPane):
         """Handle an option list item being selected."""
         assert isinstance(option := event.option, HackerNewsArticle)
         open_url(option.article.visitable_url)
+
+    @on(ArticleList.ShowComments)
+    def comments(self, event: ArticleList.ShowComments) -> None:
+        """Show the comments for the current article.
+
+        Args:
+            event: The event to handle.
+        """
+        # TODO: Eventually do this locally, in a modal screen.
+        open_url(event.article.orange_site_url)
 
 
 ### items.py ends here
