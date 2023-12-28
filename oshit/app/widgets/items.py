@@ -19,7 +19,9 @@ from humanize import naturaltime
 # Local imports.
 from oshit.hn.item import Article
 
+##############################################################################
 ArticleType = TypeVar("ArticleType", bound=Article)
+"""Generic type for the items pane."""
 
 
 ##############################################################################
