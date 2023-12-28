@@ -23,7 +23,7 @@ from rich.console import Group
 
 ##############################################################################
 # Humanize imports.
-from humanize import naturaltime
+from humanize import intcomma, naturaltime
 
 ##############################################################################
 # Local imports.
@@ -59,7 +59,7 @@ class HackerNewsArticle(Option):
                 domain = f" [dim italic]({domain})[/]"
         return Group(
             f"[dim italic]{self.article.__class__.__name__[0]}[/] {self.article.title}{domain}",
-            f"  [dim italic]{self.article.score} points by {self.article.by} {naturaltime(self.article.time)}[/]",
+            f"  [dim italic]{intcomma(self.article.score)} points by {self.article.by} {naturaltime(self.article.time)}[/]",
             *([] if self._compact else [""]),
         )
 
