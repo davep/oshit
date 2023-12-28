@@ -29,7 +29,7 @@ from humanize import intcomma, naturaltime
 
 ##############################################################################
 # Local imports.
-from oshit.hn.item import Article, Job, Link
+from ...hn.item import Article, Job, Link
 
 ##############################################################################
 ArticleType = TypeVar("ArticleType", bound=Article)

@@ -7,7 +7,7 @@ from textual.widgets import TabbedContent, Tabs
 
 ##############################################################################
 # Local imports.
-from oshit.hn.item import Article
+from ...hn.item import Article
 from .items import Items
 
 

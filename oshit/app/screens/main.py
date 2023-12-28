@@ -8,9 +8,9 @@ from textual.widgets import Footer, Header
 
 ##############################################################################
 # Local imports.
-from oshit import __version__
-from oshit.hn import HN
-from oshit.app.widgets import HackerNews, Items
+from ... import __version__
+from ...hn import HN
+from ..widgets import HackerNews, Items
 
 
 ##############################################################################
