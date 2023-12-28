@@ -67,7 +67,7 @@ class HackerNews(TabbedContent):
 
     def _watch_compact(self) -> None:
         """React to the compact value being changed."""
-        for pane in self.query(Items):
+        for pane in self.query(Items).results():
             pane.compact = self.compact
 
 

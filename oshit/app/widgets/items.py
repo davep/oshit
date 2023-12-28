@@ -5,9 +5,9 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Awaitable, Callable, cast, TypeVar, Generic
-from typing_extensions import Self
 from webbrowser import open as open_url
 from urllib.parse import urlparse
+from typing_extensions import Self
 
 ##############################################################################
 # Textual imports.
@@ -179,6 +179,7 @@ class Items(Generic[ArticleType], TabPane):
 
     def _refresh_description(self) -> None:
         """Force a refresh of the description."""
+        # pylint:disable=attribute-defined-outside-init
         self.screen.sub_title = self.description
 
     def on_show(self) -> None:

@@ -56,7 +56,7 @@ class Item:
 
 
 ##############################################################################
-ItemType = TypeVar("ItemType", bound="Item")  # pylint:disable=invalid-name
+ItemType = TypeVar("ItemType", bound="Item")
 """Generic type for an item pulled from the API."""
 
 ### base.py ends here
