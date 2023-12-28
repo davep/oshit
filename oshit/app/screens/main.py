@@ -23,8 +23,7 @@ class Main(Screen[None]):
     }
     """
 
-    TITLE = "Orange Site Hit"
-    SUB_TITLE = f"v{__version__}"
+    TITLE = f"Orange Site Hit v{__version__}"
     AUTO_FOCUS = "#top > *"
 
     BINDINGS = [
