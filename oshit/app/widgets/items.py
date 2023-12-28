@@ -4,6 +4,7 @@
 # Python imports.
 from datetime import datetime
 from typing import Awaitable, Callable, TypeVar, Generic
+from typing_extensions import Self
 from urllib.parse import urlparse
 
 ##############################################################################
@@ -62,6 +63,17 @@ class HackerNewsArticle(Option):
 
 
 ##############################################################################
+class ArticleList(OptionList):
+    """Widget to show a list of articles."""
+
+    def clear_options(self) -> Self:
+        """Workaround for https://github.com/Textualize/textual/issues/3714"""
+        super().clear_options()
+        self._clear_content_tracking()
+        return self
+
+
+##############################################################################
 class Items(Generic[ArticleType], TabPane):
     """The pane that displays the top stories."""
 
@@ -104,7 +116,7 @@ class Items(Generic[ArticleType], TabPane):
 
     def compose(self) -> ComposeResult:
         """Compose the content of the pane."""
-        yield OptionList()
+        yield ArticleList()
 
     @property
     def description(self) -> str:
