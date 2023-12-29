@@ -4,6 +4,7 @@ Coming 2024, all being well.
 
 ## TODO
 
+- [ ] Add a reload facility
 - [ ] Cache items to some degree
 - [X] Add some persistence for config
   - [X] Light/dark mode
