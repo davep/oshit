@@ -43,7 +43,6 @@ class Main(Screen[None]):
     """
 
     TITLE = f"Orange Site Hit v{__version__}"
-    AUTO_FOCUS = "#top > *"
 
     BINDINGS = [
         Binding("f1", "help", "Help"),
@@ -84,7 +83,6 @@ class Main(Screen[None]):
     def on_mount(self) -> None:
         """Configure things once the DOM is ready."""
         self.set_interval(0.95, self._refresh_subtitle)
-        self.call_after_refresh(self.query_one(HackerNews).focus_active_pane)
 
     def action_help(self) -> None:
         """Show the help screen."""

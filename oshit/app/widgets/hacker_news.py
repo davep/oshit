@@ -57,13 +57,11 @@ class HackerNews(TabbedContent):
         """Move to the previous pane of items."""
         if self.screen.focused != self.query_one(Tabs):
             self.query_one(Tabs).action_previous_tab()
-            self.call_after_refresh(self.focus_active_pane)
 
     def action_next(self) -> None:
         """Move to the next pane of items."""
         if self.screen.focused != self.query_one(Tabs):
             self.query_one(Tabs).action_next_tab()
-            self.call_after_refresh(self.focus_active_pane)
 
     @property
     def description(self) -> str:
