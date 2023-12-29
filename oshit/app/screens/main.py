@@ -108,7 +108,7 @@ class Main(Screen[None]):
     @on(ShowUser)
     async def show_user(self, event: ShowUser) -> None:
         """Handle a request to show the details of a user."""
-        self.app.push_screen(UserDetails(await self._hn.user(event.user)))
+        self.app.push_screen(UserDetails(self._hn, event.user))
 
 
 ### main.py ends here

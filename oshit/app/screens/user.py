@@ -7,7 +7,7 @@ from webbrowser import open as open_url
 
 ##############################################################################
 # Textual imports.
-from textual import on
+from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
@@ -19,6 +19,7 @@ from humanize import intcomma, naturaltime
 
 ##############################################################################
 # Local imports.
+from ...hn import HN
 from ...hn.user import User
 
 
@@ -45,7 +46,7 @@ class Data(Label):
 
 
 ##############################################################################
-class UserDetails(ModalScreen):
+class UserDetails(ModalScreen[None]):
     """Modal dialog for showing the details of a user."""
 
     DEFAULT_CSS = """
@@ -79,20 +80,27 @@ class UserDetails(ModalScreen):
     UserDetails Button {
         margin-left: 1;
     }
+
+    UserDetails .hidden {
+        display: none;
+    }
     """
 
     BINDINGS = [("space", "visit"), ("escape", "close")]
 
     AUTO_FOCUS = "#close"
 
-    def __init__(self, user: User) -> None:
+    def __init__(self, client: HN, user_id: str) -> None:
         """Initialise the user details dialog.
 
         Args:
-            user: The user details to display.
+            client: The HackerNews client object.
+            user_id: The ID of the user to display.
         """
         super().__init__()
-        self._user = user
+        self._hn = client
+        self._user = User(user_id)
+        self._user_id = user_id
 
     @staticmethod
     def _tidy_about(about: str) -> str:
@@ -115,21 +123,40 @@ class UserDetails(ModalScreen):
         with Vertical() as dialog:
             dialog.border_title = "User details"
             yield Title("User ID:")
-            yield Data(self._user.user_id)
-            if self._user.about:
-                yield Title("About:")
-                yield Data(self._tidy_about(self._user.about))
+            yield Data(self._user_id)
+            yield Title("About:", classes="about hidden")
+            yield Data(id="about", classes="about hidden")
             yield Title("Karma:")
-            yield Data(intcomma(self._user.karma))
+            yield Data(id="karma")
             yield Title("Account created:")
-            yield Data(
-                f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]"
-            )
+            yield Data(id="created")
             yield Title("Submission count:")
-            yield Data(f"{intcomma(len(self._user.submitted))}")
+            yield Data(id="submissions")
             with Horizontal():
                 yield Button("Visit [dim]\\[Space][/]", id="visit")
                 yield Button("Okay [dim]\\[Esc][/]", id="close")
+
+    @work
+    async def _load_user(self) -> None:
+        """Load up the details for the user."""
+        self.query_one(Vertical).border_subtitle = "Loading..."
+        self._user = await self._hn.user(self._user_id)
+        self.query_one("#about", Data).update(self._tidy_about(self._user.about))
+        self.query_one("#karma", Data).update(intcomma(self._user.karma))
+        self.query_one("#created", Data).update(
+            f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]"
+        )
+        self.query_one("#submissions", Data).update(
+            f"{intcomma(len(self._user.submitted))}"
+        )
+        self.query(".about").set_class(
+            not bool(self._tidy_about(self._user.about)), "hidden"
+        )
+        self.query_one(Vertical).border_subtitle = ""
+
+    def on_mount(self) -> None:
+        """Configure the dialog once the DOM is ready."""
+        self._load_user()
 
     @on(Button.Pressed, "#close")
     def action_close(self) -> None:
