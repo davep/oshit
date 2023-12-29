@@ -9,7 +9,7 @@ from webbrowser import open as open_url
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
-from textual.containers import Horizontal, Vertical
+from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label
 
@@ -63,6 +63,11 @@ class UserDetails(ModalScreen[None]):
         background: $surface;
         border: panel $primary;
         border-title-color: $accent;
+    }
+
+    UserDetails VerticalScroll {
+        max-height: 20;
+        height: auto;
     }
 
     UserDetails Data {
@@ -125,7 +130,8 @@ class UserDetails(ModalScreen[None]):
             yield Title("User ID:")
             yield Data(self._user_id)
             yield Title("About:", classes="about hidden")
-            yield Data(id="about", classes="about hidden")
+            with VerticalScroll(classes="about hidden"):
+                yield Data(id="about")
             yield Title("Karma:")
             yield Data(id="karma")
             yield Title("Account created:")
