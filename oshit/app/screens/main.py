@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Textual imports.
+from textual import on
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.screen import Screen
@@ -11,8 +12,10 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ...hn import HN
+from ..commands import ShowUser
 from ..widgets import HackerNews, Items
 from .help import Help
+from .user import UserDetails
 
 
 ##############################################################################
@@ -101,6 +104,11 @@ class Main(Screen[None]):
         """Toggle the compact display."""
         news = self.query_one(HackerNews)
         news.compact = not news.compact
+
+    @on(ShowUser)
+    async def show_user(self, event: ShowUser) -> None:
+        """Handle a request to show the details of a user."""
+        self.app.push_screen(UserDetails(await self._hn.user(event.user)))
 
 
 ### main.py ends here

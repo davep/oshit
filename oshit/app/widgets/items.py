@@ -14,6 +14,7 @@ from typing_extensions import Self
 from textual import on
 from textual import work
 from textual.app import ComposeResult
+from textual.binding import Binding
 from textual.message import Message
 from textual.reactive import var
 from textual.widgets import OptionList, TabPane
@@ -30,6 +31,7 @@ from humanize import intcomma, naturaltime
 ##############################################################################
 # Local imports.
 from ...hn.item import Article, Job, Link
+from ..commands import ShowUser
 
 ##############################################################################
 ArticleType = TypeVar("ArticleType", bound=Article)
@@ -92,7 +94,8 @@ class ArticleList(OptionList):
     """
 
     BINDINGS = [
-        ("c", "comments"),
+        Binding("c", "comments", "Comments"),
+        Binding("u", "user", "View User"),
     ]
 
     def clear_options(self) -> Self:
@@ -116,6 +119,17 @@ class ArticleList(OptionList):
                     cast(
                         HackerNewsArticle, self.get_option_at_index(self.highlighted)
                     ).article
+                )
+            )
+
+    def action_user(self) -> None:
+        """Show the details of the user."""
+        if self.highlighted is not None:
+            self.post_message(
+                ShowUser(
+                    cast(
+                        HackerNewsArticle, self.get_option_at_index(self.highlighted)
+                    ).article.by
                 )
             )
 
