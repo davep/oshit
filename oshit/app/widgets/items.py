@@ -195,9 +195,14 @@ class Items(Generic[ArticleType], TabPane):
         # pylint:disable=attribute-defined-outside-init
         self.screen.sub_title = self.description
 
+    @property
+    def loaded(self) -> bool:
+        """Has this tab loaded its items?"""
+        return bool(self._items)
+
     def on_show(self) -> None:
         """Handle being shown."""
-        if not self._items:
+        if not self.loaded:
             self._load()
         self._refresh_description()
 
@@ -207,7 +212,7 @@ class Items(Generic[ArticleType], TabPane):
 
     def _watch_compact(self) -> None:
         """React to the compact setting being changed."""
-        if self._items:
+        if self.loaded:
             self._redisplay()
 
     @on(OptionList.OptionSelected)
