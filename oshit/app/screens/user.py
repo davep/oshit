@@ -1,6 +1,10 @@
 """Provides a modal screen for showing the details of a user."""
 
 ##############################################################################
+# Python imports.
+from html import unescape
+
+##############################################################################
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
@@ -53,9 +57,14 @@ class UserDetails(ModalScreen):
         height: auto;
         width: auto;
         min-width: 40%;
+        max-width: 80vw;
         background: $surface;
         border: panel $primary;
         border-title-color: $accent;
+    }
+
+    UserDetails Data {
+        max-width: 70vw;
     }
 
     UserDetails Horizontal {
@@ -78,12 +87,31 @@ class UserDetails(ModalScreen):
         super().__init__()
         self._user = user
 
+    @staticmethod
+    def _tidy_about(about: str) -> str:
+        """Tidy the about string.
+
+        Args:
+            about: The about test for a user.
+
+        Returns:
+            The about text tidied up for display.
+
+        The about text for a user, as pulled back from the API, is some
+        unholy HTML mess. This function does a quick and dirty attempt to
+        fix that up.
+        """
+        return unescape(about.replace("<p>", "\n"))
+
     def compose(self) -> ComposeResult:
         """Compose the dialog."""
         with Vertical() as dialog:
             dialog.border_title = "User details"
             yield Title("User ID:")
             yield Data(self._user.user_id)
+            if self._user.about:
+                yield Title("About:")
+                yield Data(self._tidy_about(self._user.about))
             yield Title("Karma:")
             yield Data(intcomma(self._user.karma))
             yield Title("Account created:")
