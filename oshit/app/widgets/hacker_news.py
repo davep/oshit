@@ -8,6 +8,7 @@ from textual.widgets import TabbedContent, Tabs
 ##############################################################################
 # Local imports.
 from ...hn.item import Article
+from ..data import load_configuration, save_configuration
 from .items import Items
 
 
@@ -24,6 +25,10 @@ class HackerNews(TabbedContent):
 
     compact: var[bool] = var(True)
     """Should we use a compact or relaxed display?"""
+
+    def on_mount(self) -> None:
+        """Configure the widget once the DOM is ready."""
+        self.compact = load_configuration().compact_mode
 
     @property
     def active_items(self) -> Items[Article]:
@@ -69,6 +74,9 @@ class HackerNews(TabbedContent):
         """React to the compact value being changed."""
         for pane in self.query(Items).results():
             pane.compact = self.compact
+        configuration = load_configuration()
+        configuration.compact_mode = self.compact
+        save_configuration(configuration)
 
 
 ### hacker_news.py ends here
