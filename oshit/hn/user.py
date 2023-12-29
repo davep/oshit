@@ -44,5 +44,10 @@ class User:
         self.submitted = data.get("submitted", [])
         return self
 
+    @property
+    def url(self) -> str:
+        """The HackerNews URL for the user."""
+        return f"https://news.ycombinator.com/user?id={self.user_id}"
+
 
 ### user.py ends here
