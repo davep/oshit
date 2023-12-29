@@ -13,6 +13,8 @@ from .screens import Main
 class OSHit(App[None]):
     """The Orange Site Hit application."""
 
+    ENABLE_COMMAND_PALETTE = False
+
     def on_mount(self) -> None:
         """Get things going once the app is up and running."""
         self.push_screen(Main())
