@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Textual imports.
+from textual import on
 from textual.reactive import var
 from textual.widgets import TabbedContent, Tabs
 
@@ -62,6 +63,14 @@ class HackerNews(TabbedContent):
         """Move to the next pane of items."""
         if self.screen.focused != self.query_one(Tabs):
             self.query_one(Tabs).action_next_tab()
+
+    @on(TabbedContent.TabActivated)
+    def _settle_focus(self) -> None:
+        """Settle the focus in the best place possible when a tab is activated."""
+        if self.active_items.loaded:
+            self.active_items.steal_focus()
+        else:
+            self.query_one(Tabs).focus()
 
     @property
     def description(self) -> str:
