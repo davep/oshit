@@ -16,6 +16,9 @@ class User:
     user_id: str = ""
     """The ID of the user."""
 
+    about: str = ""
+    """The user's about text."""
+
     karma: int = 0
     """The user's karma."""
 
@@ -35,6 +38,7 @@ class User:
             Self.
         """
         self.user_id = data["id"]
+        self.about = data.get("about", "")
         self.karma = data["karma"]
         self.created = datetime.fromtimestamp(data["created"])
         self.submitted = data.get("submitted", [])
