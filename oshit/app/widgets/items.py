@@ -56,14 +56,14 @@ class HackerNewsArticle(Option):
     @property
     def prompt(self) -> Group:
         """The prompt for the article."""
+        prefix = f"[dim italic{' green' if isinstance(self.article, Job) else ''}]{self.article.__class__.__name__[0]}[/]"
         domain = ""
         if isinstance(self.article, Link) and self.article.has_url:
             if domain := (urlparse(self.article.url).hostname or ""):
                 domain = f" [dim italic]({domain})[/]"
-        icon_colour = " green" if isinstance(self.article, Job) else ""
         return Group(
-            f"[dim italic{icon_colour}]{self.article.__class__.__name__[0]}[/] {self.article.title}{domain}",
-            f"  [dim italic]{intcomma(self.article.score)} "
+            f"{prefix if self._compact else ' '} {self.article.title}{domain}",
+            f"{' ' if self._compact else prefix} [dim italic]{intcomma(self.article.score)} "
             f"point{'' if self.article.score == 1 else 's'} "
             f"by {self.article.by} {naturaltime(self.article.time)}[/]",
             *([] if self._compact else [""]),
