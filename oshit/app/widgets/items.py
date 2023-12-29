@@ -74,6 +74,19 @@ class HackerNewsArticle(Option):
 class ArticleList(OptionList):
     """Widget to show a list of articles."""
 
+    CONTEXT_HELP = """
+    ## Highlighted item keys
+
+    | Key | Description |
+    | - | - |
+    | <kbd>Enter</kbd> | Open the URL for the item in your browser. |
+    | <kbd>c</kbd> | View the comments for the item. |
+
+    *Currently the comments binding will just open the HackerNews page for
+    the item, in your browser. I'll soon be adding in-app viewing of
+    comments.*
+    """
+
     BINDINGS = [
         ("c", "comments"),
     ]
