@@ -3,6 +3,7 @@
 ##############################################################################
 # Python imports.
 from html import unescape
+from webbrowser import open as open_url
 
 ##############################################################################
 # Textual imports.
@@ -74,9 +75,15 @@ class UserDetails(ModalScreen):
         border-top: solid $primary;
         padding-top: 1;
     }
+
+    UserDetails Button {
+        margin-left: 1;
+    }
     """
 
-    BINDINGS = [("escape", "close")]
+    BINDINGS = [("space", "visit"), ("escape", "close")]
+
+    AUTO_FOCUS = "#close"
 
     def __init__(self, user: User) -> None:
         """Initialise the user details dialog.
@@ -121,12 +128,18 @@ class UserDetails(ModalScreen):
             yield Title("Submission count:")
             yield Data(f"{intcomma(len(self._user.submitted))}")
             with Horizontal():
-                yield Button("Okay [dim]\\[Esc]")
+                yield Button("Visit [dim]\\[Space][/]", id="visit")
+                yield Button("Okay [dim]\\[Esc][/]", id="close")
 
-    @on(Button.Pressed)
+    @on(Button.Pressed, "#close")
     def action_close(self) -> None:
         """Close the dialog screen."""
         self.dismiss(None)
+
+    @on(Button.Pressed, "#visit")
+    def action_visit(self) -> None:
+        """Visit the page for the user."""
+        open_url(self._user.url)
 
 
 ### user.py ends here
