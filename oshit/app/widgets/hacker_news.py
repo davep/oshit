@@ -43,8 +43,7 @@ class HackerNews(TabbedContent):
 
     def action_escape(self) -> None:
         """Handle escape being pressed."""
-        tabs = self.query_one(Tabs)
-        if self.screen.focused == tabs:
+        if self.screen.focused == (tabs := self.query_one(Tabs)):
             self.app.exit()
         else:
             tabs.focus()
