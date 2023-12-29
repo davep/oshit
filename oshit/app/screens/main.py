@@ -11,6 +11,7 @@ from textual.widgets import Footer, Header
 from ... import __version__
 from ...hn import HN
 from ..widgets import HackerNews, Items
+from .help import Help
 
 
 ##############################################################################
@@ -27,6 +28,7 @@ class Main(Screen[None]):
     AUTO_FOCUS = "#top > *"
 
     BINDINGS = [
+        ("f1", "help"),
         ("t", "go('top')"),
         ("n", "go('new')"),
         ("b", "go('best')"),
@@ -63,6 +65,10 @@ class Main(Screen[None]):
         """Configure things once the DOM is ready."""
         self.set_interval(0.95, self._refresh_subtitle)
         self.call_after_refresh(self.query_one(HackerNews).focus_active_pane)
+
+    def action_help(self) -> None:
+        """Show the help screen."""
+        self.app.push_screen(Help(self))
 
     def action_go(self, items: str) -> None:
         """Go to the given list of items.
