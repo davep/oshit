@@ -14,6 +14,7 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 ##############################################################################
 # Local imports.
 from .item import ItemType, Link, Job, Loader, Story
+from .user import User
 
 
 ##############################################################################
@@ -230,6 +231,22 @@ class HN:
             The list of the latest job stories.
         """
         return await self._items_from_ids(Job, await self.latest_job_story_ids())
+
+    class NoSuchUser(Exception):
+        """Exception raised if no such user exists."""
+
+    async def user(self, user_id: str) -> User:
+        """Get the details of the given user.
+
+        Args:
+            user_id: The ID of the user.
+
+        Returns:
+            The details of the user.
+        """
+        if user := loads(await self._call("user", f"{user_id}.json")):
+            return User().populate_with(user)
+        raise self.NoSuchUser(f"Unknown user: {user_id}")
 
 
 ### client.py ends here
