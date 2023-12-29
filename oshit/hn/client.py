@@ -243,6 +243,9 @@ class HN:
 
         Returns:
             The details of the user.
+
+        Raises:
+            HN.NoSuchUser: If the user is not known.
         """
         if user := loads(await self._call("user", f"{user_id}.json")):
             return User().populate_with(user)
