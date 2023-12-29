@@ -3,6 +3,7 @@
 ##############################################################################
 # Textual imports.
 from textual.app import ComposeResult
+from textual.binding import Binding
 from textual.screen import Screen
 from textual.widgets import Footer, Header
 
@@ -18,6 +19,21 @@ from .help import Help
 class Main(Screen[None]):
     """The main screen of the application."""
 
+    CONTEXT_HELP = """
+    ## Application keys
+
+    | Key | Description |
+    | - | - |
+    | <kbd>F1</kbd> | This help screen. |
+    | <kbd>F2</kbd> | Toggle compact/relaxed display. |
+    | <kbd>t</kbd> | View the top stories. |
+    | <kbd>n</kbd> | View the new stories. |
+    | <kbd>b</kbd> | View the best stories. |
+    | <kbd>a</kbd> | View the AskHN stories. |
+    | <kbd>s</kbd> | View the ShowHN stories. |
+    | <kbd>j</kbd> | View the jobs. |
+    """
+
     CSS = """
     TabbedContent, LoadingIndicator {
         background: $panel;
@@ -28,15 +44,15 @@ class Main(Screen[None]):
     AUTO_FOCUS = "#top > *"
 
     BINDINGS = [
-        ("f1", "help"),
-        ("t", "go('top')"),
-        ("n", "go('new')"),
-        ("b", "go('best')"),
-        ("a", "go('ask')"),
-        ("s", "go('show')"),
-        ("j", "go('jobs')"),
-        ("down, enter", "pane"),
-        ("d", "compact"),
+        Binding("f1", "help", "Help"),
+        Binding("f2", "compact", "Compact/Relaxed"),
+        Binding("t", "go('top')"),
+        Binding("n", "go('new')"),
+        Binding("b", "go('best')"),
+        Binding("a", "go('ask')"),
+        Binding("s", "go('show')"),
+        Binding("j", "go('jobs')"),
+        Binding("down, enter", "pane"),
     ]
 
     def __init__(self) -> None:
