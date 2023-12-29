@@ -26,6 +26,7 @@ class Main(Screen[None]):
     | - | - |
     | <kbd>F1</kbd> | This help screen. |
     | <kbd>F2</kbd> | Toggle compact/relaxed display. |
+    | <kbd>F12</kbd> | Quit the application. |
     | <kbd>t</kbd> | View the top stories. |
     | <kbd>n</kbd> | View the new stories. |
     | <kbd>b</kbd> | View the best stories. |
@@ -46,6 +47,7 @@ class Main(Screen[None]):
     BINDINGS = [
         Binding("f1", "help", "Help"),
         Binding("f2", "compact", "Compact/Relaxed"),
+        Binding("f12", "quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
         Binding("b", "go('best')"),
