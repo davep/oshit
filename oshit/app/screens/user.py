@@ -136,19 +136,27 @@ class UserDetails(ModalScreen[None]):
                 yield Button("Visit [dim]\\[Space][/]", id="visit")
                 yield Button("Okay [dim]\\[Esc][/]", id="close")
 
+    def _set(self, field: str, value: str) -> None:
+        """Set the value of a field on the form.
+
+        Args:
+            field: The field to set.
+            value: The value to set the field to.
+        """
+        self.query_one(f"#{field}", Data).update(value)
+
     @work
     async def _load_user(self) -> None:
         """Load up the details for the user."""
         self.query_one(Vertical).border_subtitle = "Loading..."
         self._user = await self._hn.user(self._user_id)
-        self.query_one("#about", Data).update(self._tidy_about(self._user.about))
-        self.query_one("#karma", Data).update(intcomma(self._user.karma))
-        self.query_one("#created", Data).update(
-            f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]"
+        self._set("about", self._tidy_about(self._user.about))
+        self._set("karma", intcomma(self._user.karma))
+        self._set(
+            "created",
+            f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]",
         )
-        self.query_one("#submissions", Data).update(
-            f"{intcomma(len(self._user.submitted))}"
-        )
+        self._set("submissions", f"{intcomma(len(self._user.submitted))}")
         self.query(".about").set_class(
             not bool(self._tidy_about(self._user.about)), "hidden"
         )
