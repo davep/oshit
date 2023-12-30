@@ -106,7 +106,7 @@ class Main(Screen[None]):
         news.compact = not news.compact
 
     @on(ShowUser)
-    async def show_user(self, event: ShowUser) -> None:
+    def show_user(self, event: ShowUser) -> None:
         """Handle a request to show the details of a user."""
         self.app.push_screen(UserDetails(self._hn, event.user))
 
