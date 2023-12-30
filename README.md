@@ -9,7 +9,7 @@ Coming 2024, all being well.
 - [X] Add some persistence for config
   - [X] Light/dark mode
   - [X] Compact/relaxed mode
-- [ ] See if there's a sensible method of getting a comment count
+- [X] See if there's a sensible method of getting a comment count
 - [X] Tweak where focus/highlight lands when switching panes
 - [X] Exception capture and handling of API requests
 

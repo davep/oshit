@@ -69,7 +69,8 @@ class HackerNewsArticle(Option):
             f"{prefix if self._compact else ' '} {self.article.title}{domain}",
             f"{' ' if self._compact else prefix} [dim italic]{intcomma(self.article.score)} "
             f"point{'' if self.article.score == 1 else 's'} "
-            f"by {self.article.by} {naturaltime(self.article.time)}[/]",
+            f"by {self.article.by} {naturaltime(self.article.time)}, "
+            f"{intcomma(self.article.descendants)} comment{'' if self.article.descendants == 1 else 's'}[/]",
             *([] if self._compact else [""]),
         )
 
