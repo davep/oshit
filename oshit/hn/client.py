@@ -27,6 +27,15 @@ class HN:
     _BASE: Final[str] = "https://hacker-news.firebaseio.com/v0/"
     """The base of the URL for the API."""
 
+    class Error(Exception):
+        """Base class for HackerNews errors."""
+
+    class RequestError(Error):
+        """Exception raised if there was a problem making an API request."""
+
+    class NoSuchUser(Error):
+        """Exception raised if no such user exists."""
+
     def __init__(self) -> None:
         """Initialise the API client object."""
         self._client_: AsyncClient | None = None
@@ -66,12 +75,12 @@ class HN:
                 headers={"user-agent": self.AGENT},
             )
         except RequestError as error:
-            raise error  # TODO
+            raise self.RequestError(str(error))
 
         try:
             response.raise_for_status()
         except HTTPStatusError as error:
-            raise error  # TODO
+            raise self.RequestError(str(error))
 
         return response.text
 
@@ -231,9 +240,6 @@ class HN:
             The list of the latest job stories.
         """
         return await self._items_from_ids(Job, await self.latest_job_story_ids())
-
-    class NoSuchUser(Exception):
-        """Exception raised if no such user exists."""
 
     async def user(self, user_id: str) -> User:
         """Get the details of the given user.

@@ -3,6 +3,7 @@
 ##############################################################################
 # Python imports.
 from webbrowser import open as open_url
+from httpx import RequestError
 
 ##############################################################################
 # Textual imports.
@@ -112,7 +113,7 @@ class UserDetails(ModalScreen[None]):
         with Vertical() as dialog:
             dialog.border_title = "User details"
             yield Title("User ID:")
-            yield Data(self._user_id)
+            yield Data(self._user_id, id="user-id")
             yield Title("About:", classes="about hidden")
             with VerticalScroll(classes="about hidden"):
                 yield Data(id="about", markup=False)
@@ -139,16 +140,36 @@ class UserDetails(ModalScreen[None]):
     async def _load_user(self) -> None:
         """Load up the details for the user."""
         self.query_one(Vertical).border_subtitle = "Loading..."
-        self._user = await self._hn.user(self._user_id)
-        self._set("about", self._user.about)
-        self._set("karma", intcomma(self._user.karma))
-        self._set(
-            "created",
-            f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]",
-        )
-        self._set("submissions", f"{intcomma(len(self._user.submitted))}")
-        self.query(".about").set_class(not self._user.has_about, "hidden")
-        self.query_one(Vertical).border_subtitle = ""
+        try:
+            self._user = await self._hn.user(self._user_id)
+        except HN.RequestError as error:
+            self.app.bell()
+            self.notify(
+                str(error),
+                title=f"Error loading user data for '{self._user_id}'",
+                timeout=8,
+                severity="error",
+            )
+            self._set("user-id", f"{self._user_id} [red italic](API error)[/]")
+        except HN.NoSuchUser:
+            self.notify(
+                "No such user",
+                title=f"There is no such user as '{self._user_id}'",
+                severity="error",
+                timeout=8,
+            )
+            self._set("user-id", f"{self._user_id} [red italic](Unknown User)[/]")
+        else:
+            self._set("about", self._user.about)
+            self._set("karma", intcomma(self._user.karma))
+            self._set(
+                "created",
+                f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]",
+            )
+            self._set("submissions", f"{intcomma(len(self._user.submitted))}")
+            self.query(".about").set_class(not self._user.has_about, "hidden")
+        finally:
+            self.query_one(Vertical).border_subtitle = ""
 
     def on_mount(self) -> None:
         """Configure the dialog once the DOM is ready."""

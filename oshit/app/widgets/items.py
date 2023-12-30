@@ -30,6 +30,7 @@ from humanize import intcomma, naturaltime
 
 ##############################################################################
 # Local imports.
+from ...hn import HN
 from ...hn.item import Article, Job, Link
 from ..commands import ShowUser
 
@@ -185,7 +186,7 @@ class Items(Generic[ArticleType], TabPane):
         return (
             f"{self._description.capitalize()} - Updated {naturaltime(self._snarfed)}"
             if self._snarfed is not None
-            else f"{self._description.capitalize()} - Loading..."
+            else f"{self._description.capitalize()}{' - Loading...' if self.query_one(OptionList).loading else ''}"
         )
 
     def _redisplay(self) -> None:
@@ -202,9 +203,20 @@ class Items(Generic[ArticleType], TabPane):
         """Load up the items and display them."""
         display = self.query_one(OptionList)
         display.loading = True
-        self._items = await self._source()
-        self._snarfed = datetime.now()
-        self._redisplay()
+        self._refresh_description()
+        try:
+            self._items = await self._source()
+        except HN.RequestError as error:
+            self.app.bell()
+            self.notify(
+                str(error),
+                title=f"Error loading items for '{self._description.capitalize()}'",
+                timeout=8,
+                severity="error",
+            )
+        else:
+            self._snarfed = datetime.now()
+            self._redisplay()
         display.loading = False
         self._refresh_description()
 
