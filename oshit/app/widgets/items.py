@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Awaitable, Callable, cast, TypeVar, Generic
 from webbrowser import open as open_url
-from urllib.parse import urlparse
 from typing_extensions import Self
 
 ##############################################################################
@@ -65,8 +64,8 @@ class HackerNewsArticle(Option):
             "[/]"
         )
         domain = ""
-        if isinstance(self.article, Link) and self.article.has_url:
-            if domain := (urlparse(self.article.url).hostname or ""):
+        if isinstance(self.article, Link):
+            if domain := self.article.domain:
                 domain = f" [dim italic]({domain})[/]"
         return Group(
             f"{prefix if self._compact else ' '} {self.article.title}{domain}",
