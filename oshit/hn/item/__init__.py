@@ -4,6 +4,7 @@
 # Local imports.
 from .article import Article
 from .base import Item, ItemType
+from .comment import Comment
 from .link import Job, Link, Story
 from .loader import Loader
 from .unknown import UnknownItem
@@ -12,6 +13,7 @@ from .unknown import UnknownItem
 # Exports.
 __all__ = [
     "Article",
+    "Comment",
     "Item",
     "ItemType",
     "Job",
