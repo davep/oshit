@@ -4,9 +4,12 @@
 # Python imports.
 from dataclasses import dataclass, field
 from datetime import datetime
-from html import unescape
 from typing import Any
 from typing_extensions import Self
+
+##############################################################################
+# Local imports.
+from .text import tidy_text
 
 
 ##############################################################################
@@ -53,7 +56,7 @@ class User:
     @property
     def about(self) -> str:
         """A clean version of the about text for the user."""
-        return unescape(self.raw_about.replace("<p>", "\n\n"))
+        return tidy_text(self.raw_about)
 
     @property
     def url(self) -> str:
