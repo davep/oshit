@@ -6,11 +6,11 @@ from webbrowser import open as open_url
 
 ##############################################################################
 # Textual imports.
-from textual import on
+from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
-from textual.widgets import Button, Collapsible, Label
+from textual.widgets import Button, Label
 
 ##############################################################################
 # Humanize imports.
@@ -19,7 +19,51 @@ from humanize import intcomma, naturaltime
 ##############################################################################
 # Local imports.
 from ...hn import HN
-from ...hn.item import Article
+from ...hn.item import Article, Comment
+
+
+##############################################################################
+class CommentCard(Vertical, can_focus=True):
+    """Widget that displays a comment."""
+
+    DEFAULT_CSS = """
+    CommentCard {
+        border-top: blank;
+        border-left: blank;
+        margin-left: 1;
+        margin-right: 1;
+        height: auto;
+    }
+
+    CommentCard.deleted {
+        color: $error;
+        text-style: italic;
+    }
+
+    CommentCard:focus {
+        border-top: vkey $primary;
+        border-left: vkey $primary;
+        background: $panel;
+    }
+
+    CommentCard Label {
+        width: 1fr;
+    }
+    """
+
+    def __init__(self, comment: Comment) -> None:
+        """Initialise the comment card.
+
+        Args:
+            comment: The comment display.
+        """
+        super().__init__(id=f"comment-{comment.item_id}")
+        self._comment = comment
+        """The comment to display."""
+        self.set_class(self._comment.deleted, "deleted")
+
+    def compose(self) -> ComposeResult:
+        yield Label("Deleted" if self._comment.deleted else self._comment.text)
 
 
 ##############################################################################
@@ -88,10 +132,27 @@ class Comments(ModalScreen[None]):
                     f"points{'' if self._article.score == 1 else 's'} "
                     f"by {self._article.by} {naturaltime(self._article.time)}",
                 )
-            yield VerticalScroll(Label("Comments go here"))
+            yield VerticalScroll(Label("[dim][i]No comments[/]", id="no-comments"))
             with Horizontal(id="buttons"):
                 yield Button("Visit [dim]\\[Space][/]", id="visit")
                 yield Button("Okay [dim]\\[Esc][/]", id="close")
+
+    @work
+    async def _load_comments(self, item: Article | Comment) -> None:
+        """Load the given list of comments into the display.
+
+        Args:
+            item: The item to load the comments for.
+        """
+        await self.query_one(VerticalScroll).mount_all(
+            CommentCard(comment) for comment in await self._hn.comments(item)
+        )
+
+    async def on_mount(self) -> None:
+        """Start the comment loading process once the DOM is ready."""
+        if self._article.kids:
+            await self.query_one("#no-comments").remove()
+            self._load_comments(self._article)
 
     @on(Button.Pressed, "#close")
     def action_close(self) -> None:
