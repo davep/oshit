@@ -68,6 +68,7 @@ class UserDetails(ModalScreen[None]):
     UserDetails VerticalScroll {
         max-height: 20;
         height: auto;
+        width: auto;
     }
 
     UserDetails Data {
