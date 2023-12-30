@@ -2,7 +2,6 @@
 
 ##############################################################################
 # Python imports.
-from dataclasses import dataclass
 from datetime import datetime
 from typing import Awaitable, Callable, cast, TypeVar, Generic
 from webbrowser import open as open_url
@@ -14,7 +13,6 @@ from textual import on
 from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.message import Message
 from textual.reactive import var
 from textual.widgets import OptionList, TabPane
 from textual.widgets.option_list import Option
@@ -31,7 +29,7 @@ from humanize import intcomma, naturaltime
 # Local imports.
 from ...hn import HN
 from ...hn.item import Article, Job, Link
-from ..commands import ShowUser
+from ..commands import ShowComments, ShowUser
 
 ##############################################################################
 ArticleType = TypeVar("ArticleType", bound=Article)
@@ -104,18 +102,11 @@ class ArticleList(OptionList):
         self._clear_content_tracking()
         return self
 
-    @dataclass
-    class ShowComments(Message):
-        """Show the comments for the given item."""
-
-        article: Article
-        """The article to show the comments for."""
-
     def action_comments(self) -> None:
         """Visit the comments for the given"""
         if self.highlighted is not None:
             self.post_message(
-                self.ShowComments(
+                ShowComments(
                     cast(
                         HackerNewsArticle, self.get_option_at_index(self.highlighted)
                     ).article
@@ -263,16 +254,6 @@ class Items(Generic[ArticleType], TabPane):
         """Handle an option list item being selected."""
         assert isinstance(option := event.option, HackerNewsArticle)
         open_url(option.article.visitable_url)
-
-    @on(ArticleList.ShowComments)
-    def comments(self, event: ArticleList.ShowComments) -> None:
-        """Show the comments for the current article.
-
-        Args:
-            event: The event to handle.
-        """
-        # TODO: Eventually do this locally, in a modal screen.
-        open_url(event.article.orange_site_url)
 
     def action_reload(self) -> None:
         """Reload the items"""

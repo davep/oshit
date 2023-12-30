@@ -12,8 +12,9 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ...hn import HN
-from ..commands import ShowUser
+from ..commands import ShowComments, ShowUser
 from ..widgets import HackerNews, Items
+from .comments import Comments
 from .help import Help
 from .user import UserDetails
 
@@ -109,6 +110,11 @@ class Main(Screen[None]):
     def show_user(self, event: ShowUser) -> None:
         """Handle a request to show the details of a user."""
         self.app.push_screen(UserDetails(self._hn, event.user))
+
+    @on(ShowComments)
+    def show_comments(self, event: ShowComments) -> None:
+        """Handle a request to show the comments for an article."""
+        self.app.push_screen(Comments(self._hn, event.article))
 
 
 ### main.py ends here
