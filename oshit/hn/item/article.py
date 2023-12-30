@@ -36,7 +36,7 @@ class Article(Item):
         Returns:
             Self
         """
-        self.descendants = data.get("descendants", [])
+        self.descendants = data.get("descendants", 0)
         self.score = data["score"]
         self.title = data["title"]
         return super().populate_with(data)
