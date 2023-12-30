@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Python imports.
+from urllib.parse import urlparse
 from typing import Any
 from typing_extensions import Self
 
@@ -44,6 +45,11 @@ class Link(Article):
     def visitable_url(self) -> str:
         """A visitable URL for the item."""
         return self.url if self.has_url else super().visitable_url
+
+    @property
+    def domain(self) -> str:
+        """The domain from the URL, if there is one."""
+        return urlparse(self.url).hostname or ""
 
 
 ##############################################################################
