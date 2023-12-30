@@ -4,6 +4,7 @@
 # Python imports.
 from dataclasses import dataclass, field
 from datetime import datetime
+from html import unescape
 from typing import Any
 from typing_extensions import Self
 
@@ -16,8 +17,8 @@ class User:
     user_id: str = ""
     """The ID of the user."""
 
-    about: str = ""
-    """The user's about text."""
+    raw_about: str = ""
+    """The raw version of the user's about text."""
 
     karma: int = 0
     """The user's karma."""
@@ -38,11 +39,21 @@ class User:
             Self.
         """
         self.user_id = data["id"]
-        self.about = data.get("about", "")
+        self.raw_about = data.get("about", "").strip()
         self.karma = data["karma"]
         self.created = datetime.fromtimestamp(data["created"])
         self.submitted = data.get("submitted", [])
         return self
+
+    @property
+    def has_about(self) -> bool:
+        """Does the user have an about text?"""
+        return bool(self.raw_about)
+
+    @property
+    def about(self) -> str:
+        """A clean version of the about text for the user."""
+        return unescape(self.raw_about.replace("<p>", "\n\n"))
 
     @property
     def url(self) -> str:

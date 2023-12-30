@@ -2,7 +2,6 @@
 
 ##############################################################################
 # Python imports.
-from html import unescape
 from webbrowser import open as open_url
 
 ##############################################################################
@@ -108,22 +107,6 @@ class UserDetails(ModalScreen[None]):
         self._user = User(user_id)
         self._user_id = user_id
 
-    @staticmethod
-    def _tidy_about(about: str) -> str:
-        """Tidy the about string.
-
-        Args:
-            about: The about test for a user.
-
-        Returns:
-            The about text tidied up for display.
-
-        The about text for a user, as pulled back from the API, is some
-        unholy HTML mess. This function does a quick and dirty attempt to
-        fix that up.
-        """
-        return unescape(about.replace("<p>", "\n"))
-
     def compose(self) -> ComposeResult:
         """Compose the dialog."""
         with Vertical() as dialog:
@@ -157,16 +140,14 @@ class UserDetails(ModalScreen[None]):
         """Load up the details for the user."""
         self.query_one(Vertical).border_subtitle = "Loading..."
         self._user = await self._hn.user(self._user_id)
-        self._set("about", self._tidy_about(self._user.about))
+        self._set("about", self._user.about)
         self._set("karma", intcomma(self._user.karma))
         self._set(
             "created",
             f"{naturaltime(self._user.created)} [dim]({self._user.created})[/]",
         )
         self._set("submissions", f"{intcomma(len(self._user.submitted))}")
-        self.query(".about").set_class(
-            not bool(self._tidy_about(self._user.about)), "hidden"
-        )
+        self.query(".about").set_class(not self._user.has_about, "hidden")
         self.query_one(Vertical).border_subtitle = ""
 
     def on_mount(self) -> None:
