@@ -28,6 +28,9 @@ class Item:
     kids: list[int] = field(default_factory=list)
     """The children of the item."""
 
+    deleted: bool = False
+    """Has this item been deleted?"""
+
     def populate_with(self, data: dict[str, Any]) -> Self:
         """Populate the item with the data from the given JSON value.
 
@@ -38,10 +41,11 @@ class Item:
             Self
         """
         self.item_id = data["id"]
-        self.by = data["by"]
+        self.by = data.get("by", "")
         self.item_type = data["type"]
         self.time = datetime.fromtimestamp(data["time"])
         self.kids = data.get("kids", [])
+        self.deleted = data.get("deleted", False)
         return self
 
     @property
