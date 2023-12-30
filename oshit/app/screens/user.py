@@ -3,7 +3,6 @@
 ##############################################################################
 # Python imports.
 from webbrowser import open as open_url
-from httpx import RequestError
 
 ##############################################################################
 # Textual imports.
