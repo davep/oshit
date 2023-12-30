@@ -132,7 +132,7 @@ class UserDetails(ModalScreen[None]):
             yield Data(self._user_id)
             yield Title("About:", classes="about hidden")
             with VerticalScroll(classes="about hidden"):
-                yield Data(id="about")
+                yield Data(id="about", markup=False)
             yield Title("Karma:")
             yield Data(id="karma")
             yield Title("Account created:")
