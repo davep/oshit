@@ -139,6 +139,14 @@ class ArticleList(OptionList):
 class Items(Generic[ArticleType], TabPane):
     """The pane that displays the top stories."""
 
+    CONTEXT_HELP = """
+    ## View keys
+
+    | Key | Description |
+    | - | - |
+    | <kbd>Ctrl</kbd>+<knd>r</kbd> | Reload. |
+    """
+
     DEFAULT_CSS = """
     Items OptionList {
         height: 1fr;
@@ -152,6 +160,10 @@ class Items(Generic[ArticleType], TabPane):
         background: $panel;
     }
     """
+
+    BINDINGS = [
+        ("ctrl+r", "reload"),
+    ]
 
     compact: var[bool] = var(True)
     """Should we use a compact display?"""
@@ -183,11 +195,14 @@ class Items(Generic[ArticleType], TabPane):
     @property
     def description(self) -> str:
         """The description for this pane."""
-        return (
-            f"{self._description.capitalize()} - Updated {naturaltime(self._snarfed)}"
-            if self._snarfed is not None
-            else f"{self._description.capitalize()}{' - Loading...' if self.query_one(OptionList).loading else ''}"
-        )
+        suffix = ""
+        if self._snarfed is None:
+            suffix = " - Loading..."
+        elif not self._items:
+            suffix = " - Reloading..."
+        else:
+            suffix = f" - Updated {naturaltime(self._snarfed)}"
+        return f"{self._description.capitalize()}{suffix}"
 
     def _redisplay(self) -> None:
         """Redisplay the items."""
@@ -234,7 +249,6 @@ class Items(Generic[ArticleType], TabPane):
         """Handle being shown."""
         if not self.loaded:
             self._load()
-        self._refresh_description()
 
     def steal_focus(self) -> None:
         """Steal focus for the item list within."""
@@ -260,6 +274,11 @@ class Items(Generic[ArticleType], TabPane):
         """
         # TODO: Eventually do this locally, in a modal screen.
         open_url(event.article.orange_site_url)
+
+    def action_reload(self) -> None:
+        """Reload the items"""
+        self._items = []
+        self._load()
 
 
 ### items.py ends here
