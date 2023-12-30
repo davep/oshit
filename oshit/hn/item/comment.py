@@ -1,0 +1,45 @@
+"""Provides the class that holds details of a HackerNews comment."""
+
+##############################################################################
+# Python imports.
+from typing import Any
+from typing_extensions import Self
+
+##############################################################################
+# Local imports.
+from ..text import tidy_text
+from .base import Item
+from .loader import Loader
+
+
+##############################################################################
+@Loader.loads("comment")
+class Comment(Item):
+    """Class that holds the details of a HackerNews comment."""
+
+    raw_text: str = ""
+    """The raw text of the comment."""
+
+    parent: int = 0
+    """The ID of the parent of the comment."""
+
+    def populate_with(self, data: dict[str, Any]) -> Self:
+        """Populate the item with the data from the given JSON value.
+
+        Args:
+            data: The data to populate from.
+
+        Returns:
+            Self
+        """
+        self.raw_text = data.get("text", "")
+        self.parent = data["parent"]
+        return super().populate_with(data)
+
+    @property
+    def text(self) -> str:
+        """The text for the comment."""
+        return tidy_text(self.raw_text)
+
+
+### comment.py ends here

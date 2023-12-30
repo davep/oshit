@@ -13,7 +13,7 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
 # Local imports.
-from .item import ItemType, Link, Job, Loader, Story
+from .item import Item, Comment, ItemType, Link, Job, Loader, Story
 from .user import User
 
 
@@ -256,6 +256,16 @@ class HN:
         if user := loads(await self._call("user", f"{user_id}.json")):
             return User().populate_with(user)
         raise self.NoSuchUser(f"Unknown user: {user_id}")
+
+    async def comments(self, item: Item) -> list[Comment]:
+        """Get the comments for the given item.
+
+        Args:
+            item: The item to get the comments for.
+        Returns:
+            The list of the top stories.
+        """
+        return await self._items_from_ids(Comment, item.kids)
 
 
 ### client.py ends here
