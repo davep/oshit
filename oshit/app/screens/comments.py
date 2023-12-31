@@ -265,7 +265,8 @@ class Comments(ModalScreen[None]):
                 yield Label(
                     f"{intcomma(self._article.score)} "
                     f"point{'' if self._article.score == 1 else 's'} "
-                    f"by {self._article.by} {naturaltime(self._article.time)}",
+                    f"by {self._article.by} {naturaltime(self._article.time)}, "
+                    f"{intcomma(self._article.descendants)} comment{'' if self._article.descendants == 1 else 's'}",
                 )
             with VerticalScroll() as comments:
                 comments.can_focus = False
