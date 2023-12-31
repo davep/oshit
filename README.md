@@ -53,7 +53,6 @@ discussion](https://github.com/davep/oshit/discussions).
 Things I'm considering adding or addressing:
 
 - [ ] Some degree of caching of items to reduce API hits.
-- [ ] Improve the navigation of comments.
 - [ ] Expand the text-cleaning code to handle links, etc.
 - [ ] Look at some "markup" of comments, eg: make quoted text more obvious.
 - [ ] Add searching
