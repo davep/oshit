@@ -205,13 +205,14 @@ class Comments(ModalScreen[None]):
     Comments > Vertical {
         width: 90%;
         height: 90%;
-        background: $surface;
+        background: $panel;
         border: panel $primary;
         border-title-color: $accent;
     }
 
     Comments #info {
-        padding: 1 1 0 1;
+        padding: 1;
+        background: $boost;
         height: auto;
         margin-bottom: 1;
         border-bottom: solid $primary;
