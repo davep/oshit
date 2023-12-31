@@ -169,6 +169,11 @@ class CommentCardWithReplies(CommentCard):
     CommentCardWithReplies > #replies {
         height: auto;
         margin-top: 1;
+        display: none;
+    }
+
+    CommentCardWithReplies > #replies.loaded {
+        display: block;
     }
     """
 
@@ -221,6 +226,7 @@ class CommentCardWithReplies(CommentCard):
                 self.LoadReplies(self.query_one("#replies"), self._comment)
             )
             self._replies_loaded = True
+            self.query_one("#replies").set_class(True, "loaded")
 
 
 ##############################################################################
