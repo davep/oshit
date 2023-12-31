@@ -140,13 +140,18 @@ class CommentCard(Vertical, can_focus=True):
         """
         if self.parent is None:
             return
+        children = [
+            child
+            for child in self.parent.children
+            if isinstance(child, CommentCard) and child.can_focus
+        ]
         try:
-            current = self.parent.children.index(self)
+            current = children.index(self)
         except ValueError:
             return
         candidate = current + direction
-        if -1 < candidate < len(self.parent.children):
-            self.parent.children[candidate].focus()
+        if -1 < candidate < len(children):
+            children[candidate].focus()
 
     def action_gndn(self) -> None:
         """Swallow up enter.
