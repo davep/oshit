@@ -30,17 +30,17 @@ the current top stories and jobs on HackerNews. Other lists available, via
 shortcut keys or via tabs at the top of the screen, are "New", "Best",
 "Ask", "Show" and "Jobs".
 
-**[Opening screen image here]**
+![The main index](./images/oshit-index.png)
 
 Pressing <kbd>u</kbd> when viewing a job or a comment will open a dialog
 that shows the details of the user who posted the item.
 
-**[User dialog image here]**
+![Viewing user details](./images/oshit-user-dialog.png)
 
 When viewing a story or job and pressing <kbd>c</kbd> a dialog will open
 that will let you view and navigate its comments.
 
-**[Comments image here]**
+![Viewing comments](./images/oshit-comments.png)
 
 ## Getting help
 
