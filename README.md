@@ -32,5 +32,6 @@ Things I'm considering adding or addressing:
 
 - [ ] Some degree of caching of items to reduce API hits.
 - [ ] Improve the navigation of comments.
+- [ ] Expand the text-cleaning code to handle links, etc.
 
 [//]: # (README.md ends here)
