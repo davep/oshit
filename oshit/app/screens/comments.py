@@ -75,10 +75,10 @@ class CommentCard(Vertical, can_focus=True):
     """
 
     BINDINGS = [
+        ("enter", "gndn"),
         ("p", "goto_parent", "Parent"),
         ("u", "view_user", "View User"),
         ("v", "view_online", "View on HN"),
-        ("enter", "load_replies"),
     ]
 
     def __init__(
@@ -128,6 +128,13 @@ class CommentCard(Vertical, can_focus=True):
             self.screen.query_one(f"#comment-{self._comment.parent}").focus()
         else:
             self.notify("Already at the top level", severity="warning")
+
+    def action_gndn(self) -> None:
+        """Swallow up enter.
+
+        This stops any press of enter bubbling up to any possible comment
+        that does have replies.
+        """
 
     def on_click(self, event: Click) -> None:
         """Ensure we get focus when we're clicked within anywhere."""
