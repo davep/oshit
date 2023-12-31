@@ -11,6 +11,7 @@ from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.css.query import NoMatches
 from textual.events import Click
 from textual.message import Message
 from textual.screen import ModalScreen
@@ -80,6 +81,7 @@ class CommentCard(Vertical, can_focus=True):
         Binding("s", "next(1)", "Next Sibling"),
         Binding("S", "next(-1)", "Prev Sibling", key_display="Sh+S"),
         Binding("p", "goto_parent", "Parent"),
+        Binding("r", "goto_root", "Go Root"),
         Binding("u", "view_user", "View User"),
         Binding("v", "view_online", "View on HN"),
     ]
@@ -152,6 +154,21 @@ class CommentCard(Vertical, can_focus=True):
         candidate = current + direction
         if -1 < candidate < len(children):
             children[candidate].focus()
+
+    def action_goto_root(self) -> None:
+        """Navigate up to the root comment."""
+        candidate = self
+        while True:
+            try:
+                candidate = self.screen.query_one(
+                    f"#comment-{candidate._comment.parent}", CommentCard
+                )
+            except NoMatches:
+                if candidate == self:
+                    self.notify("Already at the top level", severity="warning")
+                else:
+                    candidate.focus()
+                return
 
     def action_gndn(self) -> None:
         """Swallow up enter.
