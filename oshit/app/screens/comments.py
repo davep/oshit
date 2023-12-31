@@ -63,6 +63,7 @@ class CommentCard(Vertical, can_focus=True):
         self.set_class(self._comment.deleted, "deleted")
 
     def compose(self) -> ComposeResult:
+        """Compose the content of the comment card."""
         yield Label("Deleted" if self._comment.deleted else self._comment.text)
 
 
