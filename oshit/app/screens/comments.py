@@ -9,6 +9,7 @@ from webbrowser import open as open_url
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
+from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.events import Click
 from textual.message import Message
@@ -75,10 +76,12 @@ class CommentCard(Vertical, can_focus=True):
     """
 
     BINDINGS = [
-        ("enter", "gndn"),
-        ("p", "goto_parent", "Parent"),
-        ("u", "view_user", "View User"),
-        ("v", "view_online", "View on HN"),
+        Binding("enter", "gndn"),
+        Binding("s", "next(1)", "Next Sibling"),
+        Binding("S", "next(-1)", "Prev Sibling", key_display="Sh+S"),
+        Binding("p", "goto_parent", "Parent"),
+        Binding("u", "view_user", "View User"),
+        Binding("v", "view_online", "View on HN"),
     ]
 
     def __init__(
@@ -128,6 +131,22 @@ class CommentCard(Vertical, can_focus=True):
             self.screen.query_one(f"#comment-{self._comment.parent}").focus()
         else:
             self.notify("Already at the top level", severity="warning")
+
+    def action_next(self, direction: int) -> None:
+        """Move amongst sibling comments.
+
+        Args:
+            direction: The direction to move in.
+        """
+        if self.parent is None:
+            return
+        try:
+            current = self.parent.children.index(self)
+        except ValueError:
+            return
+        candidate = current + direction
+        if -1 < candidate < len(self.parent.children):
+            self.parent.children[candidate].focus()
 
     def action_gndn(self) -> None:
         """Swallow up enter.
