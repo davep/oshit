@@ -94,6 +94,7 @@ class ArticleList(OptionList):
 
     BINDINGS = [
         Binding("c", "comments", "Comments"),
+        Binding("v", "view_online", "View on HN"),
         Binding("u", "user", "View User"),
     ]
 
@@ -112,6 +113,15 @@ class ArticleList(OptionList):
                         HackerNewsArticle, self.get_option_at_index(self.highlighted)
                     ).article
                 )
+            )
+
+    def action_view_online(self) -> None:
+        """View an article online."""
+        if self.highlighted is not None:
+            open_url(
+                cast(
+                    HackerNewsArticle, self.get_option_at_index(self.highlighted)
+                ).article.orange_site_url
             )
 
     def action_user(self) -> None:
