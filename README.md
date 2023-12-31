@@ -33,5 +33,9 @@ Things I'm considering adding or addressing:
 - [ ] Some degree of caching of items to reduce API hits.
 - [ ] Improve the navigation of comments.
 - [ ] Expand the text-cleaning code to handle links, etc.
+- [ ] Add searching
+  - [ ] Amongst the current view
+  - [ ] Amongst loaded comments within comment view
+  - [ ] All of history ([`hn.algolia.com`](https://hn.algolia.com/api))
 
 [//]: # (README.md ends here)
