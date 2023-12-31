@@ -1,16 +1,36 @@
-# Orange Site Hit -- A HackerNews reader in the terminal
+# OSHit -- Get your hit of the Orange Site in the terminal
 
-Coming 2024, all being well.
+*Screenshot goes here*
+
+## Introduction
+
+OSHit is a read-only terminal-based client for HackerNews. It provides the
+ability to view all the top/recent items in the major categories, as well as
+allowing viewing comments and user details. Where relevant, bindings are
+always available to open the relevant view on HackerNews itself in your web
+browser.
+
+## Installing
+
+The package can be installed using [`pipx`](https://pypa.github.io/pipx/):
+
+```sh
+$ pipx install oshit
+```
+
+Once installed run the `oshit` command.
+
+## Getting help
+
+If you need help, or have any ideas, please feel free to [raise an
+issue](https://github.com/davep/oshit/issues) or [start a
+discussion](https://github.com/davep/oshit/discussions).
 
 ## TODO
 
-- [X] Add a reload facility
-- [ ] Cache items to some degree
-- [X] Add some persistence for config
-  - [X] Light/dark mode
-  - [X] Compact/relaxed mode
-- [X] See if there's a sensible method of getting a comment count
-- [X] Tweak where focus/highlight lands when switching panes
-- [X] Exception capture and handling of API requests
+Things I'm considering adding or addressing:
+
+- [ ] Some degree of caching of items to reduce API hits.
+- [ ] Improve the navigation of comments.
 
 [//]: # (README.md ends here)
