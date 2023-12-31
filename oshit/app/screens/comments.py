@@ -76,8 +76,8 @@ class CommentCard(Vertical, can_focus=True):
 
     BINDINGS = [
         ("p", "goto_parent", "Parent"),
-        ("v", "view_online", "View on HN"),
         ("u", "view_user", "View User"),
+        ("v", "view_online", "View on HN"),
         ("enter", "load_replies"),
     ]
 
