@@ -147,10 +147,15 @@ class CommentCardWithReplies(CommentCard):
     ]
 
     DEFAULT_CSS = """
-    CommentCardWithReplies .replies {
+    CommentCardWithReplies > .replies {
         margin-top: 0;
         link-color: $text-muted;
         link-style: italic;
+    }
+
+    CommentCardWithReplies > #replies {
+        height: auto;
+        margin-top: 1;
     }
     """
 
@@ -158,7 +163,7 @@ class CommentCardWithReplies(CommentCard):
     class LoadReplies(Message):
         """Message to request that replies are loaded."""
 
-        card: "CommentCard"
+        load_into: Widget
         """The card to load the comments into."""
 
         comment: Comment
@@ -176,6 +181,7 @@ class CommentCardWithReplies(CommentCard):
             f"[@click=load_replies]{count} {'reply' if count == 1 else 'replies'}[/]",
             classes="byline replies",
         )
+        yield Vertical(id="replies")
 
     @on(RepliesLabel.LoadRequested)
     def action_load_replies(
@@ -189,7 +195,9 @@ class CommentCardWithReplies(CommentCard):
             # the first one.
             self.query(CommentCard).first().focus()
         else:
-            self.post_message(self.LoadReplies(self, self._comment))
+            self.post_message(
+                self.LoadReplies(self.query_one("#replies"), self._comment)
+            )
             self._replies_loaded = True
 
 
@@ -306,7 +314,7 @@ class Comments(ModalScreen[None]):
         Args:
             event: The event to handle.
         """
-        self._load_comments(event.card, event.comment)
+        self._load_comments(event.load_into, event.comment)
 
 
 ### comments.py ends here
