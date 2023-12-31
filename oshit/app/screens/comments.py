@@ -75,15 +75,19 @@ class CommentCard(Vertical, can_focus=True):
     """
 
     BINDINGS = [
+        ("p", "goto_parent", "Parent"),
         ("v", "view_online", "View on HN"),
         ("u", "view_user", "View User"),
         ("enter", "load_replies"),
     ]
 
-    def __init__(self, client: HN, comment: Comment) -> None:
+    def __init__(
+        self, client: HN, parent_item: Article | Comment, comment: Comment
+    ) -> None:
         """Initialise the comment card.
 
         Args:
+            parent_item: The parent item of the comment.
             client: The HackerNews client object.
             comment: The comment display.
         """
@@ -91,6 +95,8 @@ class CommentCard(Vertical, can_focus=True):
         self.border_subtitle = f"#{comment.item_id}"
         self._hn = client
         """The HackerNews client object."""
+        self._parent_item = parent_item
+        """The item that is the parent of this comment."""
         self._comment = comment
         """The comment to display."""
         self.set_class(self._comment.deleted, "deleted")
@@ -115,6 +121,13 @@ class CommentCard(Vertical, can_focus=True):
     def action_view_user(self) -> None:
         """View the details of the user who wrote the comment."""
         self.app.push_screen(UserDetails(self._hn, self._comment.by))
+
+    def action_goto_parent(self) -> None:
+        """Go to the parent of the current comment."""
+        if isinstance(self._parent_item, Comment):
+            self.screen.query_one(f"#comment-{self._comment.parent}").focus()
+        else:
+            self.notify("Already at the top level", severity="warning")
 
     def on_click(self, event: Click) -> None:
         """Ensure we get focus when we're clicked within anywhere."""
@@ -169,8 +182,17 @@ class CommentCardWithReplies(CommentCard):
         comment: Comment
         """The comment to load the replies for."""
 
-    def __init__(self, client: HN, comment: Comment) -> None:
-        super().__init__(client, comment)
+    def __init__(
+        self, client: HN, parent_item: Article | Comment, comment: Comment
+    ) -> None:
+        """Initialise the comment card.
+
+        Args:
+            parent_item: The parent item of the comment.
+            client: The HackerNews client object.
+            comment: The comment display.
+        """
+        super().__init__(client, parent_item, comment)
         self._replies_loaded = False
         """Have replies been loaded?"""
 
@@ -292,7 +314,9 @@ class Comments(ModalScreen[None]):
             item: The item to load the comments for.
         """
         await within.mount_all(
-            (CommentCardWithReplies if comment.kids else CommentCard)(self._hn, comment)
+            (CommentCardWithReplies if comment.kids else CommentCard)(
+                self._hn, item, comment
+            )
             for comment in await self._hn.comments(item)
         )
 
