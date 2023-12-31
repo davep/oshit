@@ -41,5 +41,15 @@ class Comment(Item):
         """The text for the comment."""
         return tidy_text(self.raw_text)
 
+    @property
+    def flagged(self) -> bool:
+        """Does the comment appear to be flagged?"""
+        return self.raw_text == "[flagged]"
+
+    @property
+    def dead(self) -> bool:
+        """Does the comment appear to be dead?"""
+        return self.raw_text == "[dead]"
+
 
 ### comment.py ends here
