@@ -2,9 +2,9 @@
 
 ##############################################################################
 # Python imports.
-from asyncio import gather
+from asyncio import gather, Semaphore
 from json import loads
-from typing import Any, cast
+from typing import Any, cast, Awaitable
 from typing_extensions import Final
 
 ##############################################################################
@@ -36,9 +36,10 @@ class HN:
     class NoSuchUser(Error):
         """Exception raised if no such user exists."""
 
-    def __init__(self) -> None:
+    def __init__(self, max_concurrency: int = 50) -> None:
         """Initialise the API client object."""
         self._client_: AsyncClient | None = None
+        self._max_concurrency = max_concurrency
 
     @property
     def _client(self) -> AsyncClient:
@@ -132,7 +133,15 @@ class HN:
         Returns:
             The list of items.
         """
-        return await gather(*[self.item(item_type, item_id) for item_id in item_ids])
+        concurrency_limit = Semaphore(self._max_concurrency)
+
+        async def limited(coroutine: Awaitable[ItemType]) -> ItemType:
+            async with concurrency_limit:
+                return await coroutine
+
+        return await gather(
+            *[limited(self.item(item_type, item_id)) for item_id in item_ids]
+        )
 
     async def _id_list(self, list_type: str) -> list[int]:
         """Get a given ID list.
