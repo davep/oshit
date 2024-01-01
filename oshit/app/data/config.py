@@ -23,6 +23,12 @@ class Configuration:
     compact_mode: bool = True
     """Should the items display in compact mode?"""
 
+    maximum_concurrency: int = 50
+    """The maximum number of connections to use when getting items."""
+
+    connection_timeout: int | None = 5
+    """The timeout to use when connecting to the HackerNews API."""
+
 
 ##############################################################################
 def configuration_file() -> Path:
