@@ -26,8 +26,8 @@ class Configuration:
     maximum_concurrency: int = 50
     """The maximum number of connections to use when getting items."""
 
-    connection_timeout: int | None = 5
-    """The timeout to use when connecting to the HackerNews API."""
+    connection_timeout: int | None = 20
+    """The timeout (in seconds) to use when connecting to the HackerNews API."""
 
 
 ##############################################################################
