@@ -36,14 +36,16 @@ class HN:
     class NoSuchUser(Error):
         """Exception raised if no such user exists."""
 
-    def __init__(self, max_concurrency: int = 50) -> None:
+    def __init__(self, max_concurrency: int = 50, timeout: int | None = 5) -> None:
         """Initialise the API client object.
 
         Args:
             max_concurrency: The maximum number of concurrent connections to use.
+            timeout: The timeout for an attempted connection.
         """
         self._client_: AsyncClient | None = None
         self._max_concurrency = max_concurrency
+        self._timeout = timeout
 
     @property
     def _client(self) -> AsyncClient:
@@ -78,6 +80,7 @@ class HN:
                 self._api_url(*path),
                 params=params,
                 headers={"user-agent": self.AGENT},
+                timeout=self._timeout,
             )
         except RequestError as error:
             raise self.RequestError(str(error))
