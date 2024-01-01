@@ -42,6 +42,17 @@ that will let you view and navigate its comments.
 
 ![Viewing comments](https://raw.githubusercontent.com/davep/oshit/main/images/oshit-comments.png)
 
+## Tweaking
+
+Because of the nature of the HackerNews API there might be a need for you to
+dial in the ideal number of concurrent connections made to load up the data,
+and also the timeout for the connections. As of the time of writing the
+defaults are 50 concurrent connections and a timeout of 20 seconds.
+
+If you run into problems look in `~/.config/oshit/configuration.json` and
+change the `"maximum_concurrency"` and `"connection_timeout"` values to
+taste.
+
 ## Getting help
 
 If you need help, or have any ideas, please feel free to [raise an
@@ -52,7 +63,8 @@ discussion](https://github.com/davep/oshit/discussions).
 
 Things I'm considering adding or addressing:
 
-- [ ] Chill out on item loading (see [#2](https://github.com/davep/oshit/issues/2))
+- [X] Chill out on item loading (see [#2](https://github.com/davep/oshit/issues/2))
+- [ ] Add a configuration dialog for the connection value tweaks.
 - [ ] Some degree of caching of items to reduce API hits.
 - [ ] Expand the text-cleaning code to handle links, etc.
 - [ ] Look at some "markup" of comments, eg: make quoted text more obvious.
