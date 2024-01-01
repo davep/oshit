@@ -37,7 +37,11 @@ class HN:
         """Exception raised if no such user exists."""
 
     def __init__(self, max_concurrency: int = 50) -> None:
-        """Initialise the API client object."""
+        """Initialise the API client object.
+
+        Args:
+            max_concurrency: The maximum number of concurrent connections to use.
+        """
         self._client_: AsyncClient | None = None
         self._max_concurrency = max_concurrency
 
