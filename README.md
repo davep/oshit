@@ -52,6 +52,7 @@ discussion](https://github.com/davep/oshit/discussions).
 
 Things I'm considering adding or addressing:
 
+- [ ] Chill out on item loading (see [#2](https://github.com/davep/oshit/issues/2))
 - [ ] Some degree of caching of items to reduce API hits.
 - [ ] Expand the text-cleaning code to handle links, etc.
 - [ ] Look at some "markup" of comments, eg: make quoted text more obvious.
