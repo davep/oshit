@@ -2,9 +2,9 @@
 
 ##############################################################################
 # Python imports.
-from asyncio import gather
+from asyncio import gather, Semaphore
 from json import loads
-from typing import Any, cast
+from typing import Any, cast, Awaitable
 from typing_extensions import Final
 
 ##############################################################################
@@ -36,9 +36,19 @@ class HN:
     class NoSuchUser(Error):
         """Exception raised if no such user exists."""
 
-    def __init__(self) -> None:
-        """Initialise the API client object."""
+    def __init__(self, max_concurrency: int = 50, timeout: int | None = 5) -> None:
+        """Initialise the API client object.
+
+        Args:
+            max_concurrency: The maximum number of concurrent connections to use.
+            timeout: The timeout for an attempted connection.
+        """
         self._client_: AsyncClient | None = None
+        """The HTTPX client."""
+        self._max_concurrency = max_concurrency
+        """The maximum number of concurrent connections to use."""
+        self._timeout = timeout
+        """The timeout to use on connections."""
 
     @property
     def _client(self) -> AsyncClient:
@@ -73,6 +83,7 @@ class HN:
                 self._api_url(*path),
                 params=params,
                 headers={"user-agent": self.AGENT},
+                timeout=self._timeout,
             )
         except RequestError as error:
             raise self.RequestError(str(error))
@@ -132,7 +143,15 @@ class HN:
         Returns:
             The list of items.
         """
-        return await gather(*[self.item(item_type, item_id) for item_id in item_ids])
+        concurrency_limit = Semaphore(self._max_concurrency)
+
+        async def limited(coroutine: Awaitable[ItemType]) -> ItemType:
+            async with concurrency_limit:
+                return await coroutine
+
+        return await gather(
+            *[limited(self.item(item_type, item_id)) for item_id in item_ids]
+        )
 
     async def _id_list(self, list_type: str) -> list[int]:
         """Get a given ID list.

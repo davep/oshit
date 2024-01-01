@@ -12,6 +12,7 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ...hn import HN
+from ..data.config import load_configuration
 from ..commands import ShowComments, ShowUser
 from ..widgets import HackerNews, Items
 from .comments import Comments
@@ -65,7 +66,11 @@ class Main(Screen[None]):
     def __init__(self) -> None:
         """Initialise the screen."""
         super().__init__()
-        self._hn = HN()
+        config = load_configuration()
+        self._hn = HN(
+            max_concurrency=config.maximum_concurrency,
+            timeout=config.connection_timeout,
+        )
         """The HackerNews client object."""
 
     def compose(self) -> ComposeResult:
