@@ -44,8 +44,11 @@ class HN:
             timeout: The timeout for an attempted connection.
         """
         self._client_: AsyncClient | None = None
+        """The HTTPX client."""
         self._max_concurrency = max_concurrency
+        """The maximum number of concurrent connections to use."""
         self._timeout = timeout
+        """The timeout to use on connections."""
 
     @property
     def _client(self) -> AsyncClient:
