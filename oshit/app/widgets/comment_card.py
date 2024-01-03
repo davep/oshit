@@ -249,6 +249,7 @@ class CommentCardWithReplies(CommentCard):
         """Have replies been loaded?"""
 
     def compose(self) -> ComposeResult:
+        """Compose the content of the comment card."""
         yield from super().compose()
         count = len(self.comment.kids)
         yield RepliesLabel(
