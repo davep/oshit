@@ -9,8 +9,7 @@ from typing_extensions import Self
 
 ##############################################################################
 # Textual imports.
-from textual import on
-from textual import work
+from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.reactive import var
