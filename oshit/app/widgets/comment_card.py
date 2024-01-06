@@ -39,39 +39,43 @@ class CommentCard(Vertical, can_focus=True):
         margin-left: 1;
         margin-right: 1;
         height: auto;
-    }
 
-    CommentCard.deleted {
-        color: $error;
-        text-style: italic;
-        border: dashed $error 20%;
-        padding: 0;
-    }
+        &:focus {
+            border: dashed $accent;
+            background: $boost;
+        }
 
-    CommentCard.deleted Label {
-        width: 1fr;
-        text-align: center;
-    }
+        &.deleted {
+            color: $error 50%;
+            text-style: italic;
+            border: dashed $error 20%;
+            padding: 0;
 
-    CommentCard.flagged Label, CommentCard.dead Label {
-        color: $text-disabled;
-        text-style: italic;
-    }
+            Label {
+                text-align: center;
+            }
+        }
 
-    CommentCard:focus {
-        border: dashed $accent;
-        background: $boost;
-    }
+        Label {
+            width: 1fr;
+        }
 
-    CommentCard Label {
-        width: 1fr;
-    }
+        /* These two should be combined. https://github.com/Textualize/textual/issues/3969 */
+        &.flagged Label {
+            color: $text-disabled;
+            text-style: italic;
+        }
+        &.dead Label {
+            color: $text-disabled;
+            text-style: italic;
+        }
 
-    CommentCard .byline {
-        margin-top: 1;
-        text-align: right;
-        color: $text-muted;
-        text-style: italic;
+        .byline {
+            margin-top: 1;
+            text-align: right;
+            color: $text-muted;
+            text-style: italic;
+        }
     }
     """
 
