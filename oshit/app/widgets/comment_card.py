@@ -39,10 +39,17 @@ class CommentCard(Vertical, can_focus=True):
         margin-left: 1;
         margin-right: 1;
         height: auto;
+        color: $text 70%;
+
+        &:focus-within {
+            background: $boost 50%;
+            color: $text 80%;
+        }
 
         &:focus {
             border: dashed $accent;
             background: $boost;
+            color: $text;
         }
 
         &.deleted {
