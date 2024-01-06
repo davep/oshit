@@ -27,44 +27,44 @@ class Comments(ModalScreen[None]):
     DEFAULT_CSS = """
     Comments {
         align: center middle;
-    }
 
-    Comments > Vertical {
-        width: 90%;
-        height: 90%;
-        background: $panel;
-        border: panel $primary;
-        border-title-color: $accent;
-    }
+        &> Vertical {
+            width: 90%;
+            height: 90%;
+            background: $panel;
+            border: panel $primary;
+            border-title-color: $accent;
+        }
 
-    Comments #info {
-        padding: 1;
-        background: $boost;
-        height: auto;
-        margin-bottom: 1;
-        border-bottom: solid $primary;
-    }
+        #info {
+            padding: 1;
+            background: $boost;
+            height: auto;
+            margin-bottom: 1;
+            border-bottom: solid $primary;
+        }
 
-    Comments #buttons {
-        padding: 1 1 0 1;
-        height: auto;
-        border-top: solid $primary;
-        align-horizontal: right;
-    }
+        #buttons {
+            padding: 1 1 0 1;
+            height: auto;
+            border-top: solid $primary;
+            align-horizontal: right;
 
-    Comments #buttons Button {
-        margin-left: 1;
-    }
+            Button {
+                margin-left: 1;
+            }
+        }
 
-    Comments VerticalScroll {
-        height: 1fr;
-    }
+        VerticalScroll {
+            height: 1fr;
+        }
 
-    Comments #no-comments {
-        width: 1fr;
-        text-align: center;
-        color: $text-muted;
-        text-style: italic;
+        #no-comments {
+            width: 1fr;
+            text-align: center;
+            color: $text-muted;
+            text-style: italic;
+        }
     }
     """
 
