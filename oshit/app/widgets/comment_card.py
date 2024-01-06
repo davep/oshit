@@ -211,20 +211,23 @@ class CommentCardWithReplies(CommentCard):
     ]
 
     DEFAULT_CSS = """
-    CommentCardWithReplies > .replies {
-        margin-top: 0;
-        link-color: $text-muted;
-        link-style: italic;
-    }
+    CommentCardWithReplies {
 
-    CommentCardWithReplies > #replies {
-        height: auto;
-        margin-top: 1;
-        display: none;
-    }
+        &> .replies {
+            margin-top: 0;
+            link-color: $text-muted;
+            link-style: italic;
+        }
 
-    CommentCardWithReplies > #replies.loaded {
-        display: block;
+        &> #replies {
+            height: auto;
+            margin-top: 1;
+            display: none;
+
+            &.loaded {
+                display: block;
+            }
+        }
     }
     """
 
