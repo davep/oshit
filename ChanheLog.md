@@ -1,5 +1,11 @@
 # OSHit ChangeLog
 
+## v0.2.0
+
+**Released: WiP**
+
+- Tweaked the look of comment cards in the comments dialog.
+
 ## v0.1.1
 
 **Released: 2023-01-01**
