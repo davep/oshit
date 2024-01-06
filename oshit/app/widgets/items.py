@@ -149,11 +149,11 @@ class Items(Generic[ArticleType], TabPane):
         border: none;
         padding: 0;
         background: $panel;
-    }
 
-    Items OptionList:focus {
-        border: none;
-        background: $panel;
+        &:focus {
+            border: none;
+            background: $panel;
+        }
     }
     """
 
