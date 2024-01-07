@@ -23,4 +23,4 @@
 
 - Initial release.
 
-[//]: # (ChanheLog.md ends here)
+[//]: # (ChangeLog.md ends here)
