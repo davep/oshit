@@ -33,21 +33,32 @@ class CommentCard(Vertical, can_focus=True):
     """Widget that displays a comment."""
 
     DEFAULT_CSS = """
+    $card-border: heavy;
+
     CommentCard {
-        border: dashed $primary;
-        padding: 0 1 1 1;
-        margin-left: 1;
-        margin-right: 1;
+
+        border-left: $card-border $primary;
+        border-bottom: $card-border $primary;
+        padding: 1 0 1 1;
+        margin: 0 1 1 1;
         height: auto;
         color: $text 70%;
 
+        CommentCard {
+            padding: 1 0 1 1;
+            margin: 0 0 1 0;
+        }
+
         &:focus-within {
+            border-left: $card-border $accent 50%;
+            border-bottom: $card-border $accent 50%;
             background: $boost 50%;
             color: $text 80%;
         }
 
         &:focus {
-            border: dashed $accent;
+            border-left: $card-border $accent;
+            border-bottom: $card-border $accent;
             background: $boost;
             color: $text;
         }
@@ -65,6 +76,7 @@ class CommentCard(Vertical, can_focus=True):
 
         Label {
             width: 1fr;
+            padding-right: 1;
         }
 
         /* These two should be combined. https://github.com/Textualize/textual/issues/3969 */
