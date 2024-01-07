@@ -2,7 +2,7 @@
 
 ## v0.2.0
 
-**Released: WiP**
+**Released: 2023-01-07**
 
 - Tweaked the look of comment cards in the comments dialog.
 - Expanding the replies of a comment is now an open/close toggle.
