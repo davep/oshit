@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## v0.2.0
+
+**Released: 2023-01-07**
+
+- Tweaked the look of comment cards in the comments dialog.
+- Expanding the replies of a comment is now an open/close toggle.
+
 ## v0.1.1
 
 **Released: 2023-01-01**
@@ -17,4 +24,4 @@
 
 - Initial release.
 
-[//]: # (ChanheLog.md ends here)
+[//]: # (ChangeLog.md ends here)

@@ -33,45 +33,68 @@ class CommentCard(Vertical, can_focus=True):
     """Widget that displays a comment."""
 
     DEFAULT_CSS = """
+    $card-border: heavy;
+
     CommentCard {
-        border: dashed $primary;
-        padding: 0 1 1 1;
-        margin-left: 1;
-        margin-right: 1;
+
+        border-left: $card-border $primary;
+        border-bottom: $card-border $primary;
+        padding: 1 0 1 1;
+        margin: 0 1 1 1;
         height: auto;
-    }
+        color: $text 70%;
 
-    CommentCard.deleted {
-        color: $error;
-        text-style: italic;
-        border: dashed $error 20%;
-        padding: 0;
-    }
+        CommentCard {
+            padding: 1 0 1 1;
+            margin: 0 0 1 0;
+        }
 
-    CommentCard.deleted Label {
-        width: 1fr;
-        text-align: center;
-    }
+        &:focus-within {
+            border-left: $card-border $accent 50%;
+            border-bottom: $card-border $accent 50%;
+            background: $boost 50%;
+            color: $text 80%;
+        }
 
-    CommentCard.flagged Label, CommentCard.dead Label {
-        color: $text-disabled;
-        text-style: italic;
-    }
+        &:focus {
+            border-left: $card-border $accent;
+            border-bottom: $card-border $accent;
+            background: $boost;
+            color: $text;
+        }
 
-    CommentCard:focus {
-        border: dashed $accent;
-        background: $boost;
-    }
+        &.deleted {
+            color: $error 50%;
+            text-style: italic;
+            border: dashed $error 20%;
+            padding: 0;
 
-    CommentCard Label {
-        width: 1fr;
-    }
+            Label {
+                text-align: center;
+            }
+        }
 
-    CommentCard .byline {
-        margin-top: 1;
-        text-align: right;
-        color: $text-muted;
-        text-style: italic;
+        Label {
+            width: 1fr;
+            padding-right: 1;
+        }
+
+        /* These two should be combined. https://github.com/Textualize/textual/issues/3969 */
+        &.flagged Label {
+            color: $text-disabled;
+            text-style: italic;
+        }
+        &.dead Label {
+            color: $text-disabled;
+            text-style: italic;
+        }
+
+        .byline {
+            margin-top: 1;
+            text-align: right;
+            color: $text-muted;
+            text-style: italic;
+        }
     }
     """
 
@@ -207,20 +230,23 @@ class CommentCardWithReplies(CommentCard):
     ]
 
     DEFAULT_CSS = """
-    CommentCardWithReplies > .replies {
-        margin-top: 0;
-        link-color: $text-muted;
-        link-style: italic;
-    }
+    CommentCardWithReplies {
 
-    CommentCardWithReplies > #replies {
-        height: auto;
-        margin-top: 1;
-        display: none;
-    }
+        &> .replies {
+            margin-top: 0;
+            link-color: $text-muted;
+            link-style: italic;
+        }
 
-    CommentCardWithReplies > #replies.loaded {
-        display: block;
+        &> #replies {
+            height: auto;
+            margin-top: 1;
+            display: none;
+
+            &.loaded {
+                display: block;
+            }
+        }
     }
     """
 
@@ -266,9 +292,7 @@ class CommentCardWithReplies(CommentCard):
         if event is not None:
             event.stop()
         if self._replies_loaded:
-            # We've already loaded the comments so let's just bounce into
-            # the first one.
-            self.query(CommentCard).first().focus()
+            self.get_child_by_id("replies").toggle_class("loaded")
         else:
             self.post_message(
                 self.LoadReplies(self.query_one("#replies"), self.comment)

@@ -51,43 +51,43 @@ class UserDetails(ModalScreen[None]):
     DEFAULT_CSS = """
     UserDetails {
         align: center middle;
-    }
 
-    UserDetails Vertical {
-        padding: 1 2;
-        height: auto;
-        width: auto;
-        min-width: 40%;
-        max-width: 80vw;
-        background: $surface;
-        border: panel $primary;
-        border-title-color: $accent;
-    }
+        Vertical {
+            padding: 1 2;
+            height: auto;
+            width: auto;
+            min-width: 40%;
+            max-width: 80vw;
+            background: $surface;
+            border: panel $primary;
+            border-title-color: $accent;
+        }
 
-    UserDetails VerticalScroll {
-        max-height: 20;
-        height: auto;
-        width: auto;
-    }
+        VerticalScroll {
+            max-height: 20;
+            height: auto;
+            width: auto;
+        }
 
-    UserDetails Data {
-        max-width: 70vw;
-    }
+        Data {
+            max-width: 70vw;
+        }
 
-    UserDetails Horizontal {
-        height: auto;
-        width: 100%;
-        align-horizontal: right;
-        border-top: solid $primary;
-        padding-top: 1;
-    }
+        Horizontal {
+            height: auto;
+            width: 100%;
+            align-horizontal: right;
+            border-top: solid $primary;
+            padding-top: 1;
+        }
 
-    UserDetails Button {
-        margin-left: 1;
-    }
+        Button {
+            margin-left: 1;
+        }
 
-    UserDetails .hidden {
-        display: none;
+        .hidden {
+            display: none;
+        }
     }
     """
 
