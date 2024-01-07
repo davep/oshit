@@ -292,9 +292,7 @@ class CommentCardWithReplies(CommentCard):
         if event is not None:
             event.stop()
         if self._replies_loaded:
-            # We've already loaded the comments so let's just bounce into
-            # the first one.
-            self.query(CommentCard).first().focus()
+            self.get_child_by_id("replies").toggle_class("loaded")
         else:
             self.post_message(
                 self.LoadReplies(self.query_one("#replies"), self.comment)

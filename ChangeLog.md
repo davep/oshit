@@ -5,6 +5,7 @@
 **Released: WiP**
 
 - Tweaked the look of comment cards in the comments dialog.
+- Expanding the replies of a comment is now an open/close toggle.
 
 ## v0.1.1
 
