@@ -25,6 +25,7 @@ from humanize import naturaltime
 # Local imports.
 from ...hn import HN
 from ...hn.item import Article, Comment
+from ..screens.links import Links
 from ..screens.user import UserDetails
 
 
@@ -100,6 +101,7 @@ class CommentCard(Vertical, can_focus=True):
 
     BINDINGS = [
         Binding("enter", "gndn"),
+        Binding("l", "links", "Links"),
         Binding("s", "next(1)", "Next Sibling"),
         Binding("S", "next(-1)", "Prev Sibling", key_display="Sh+S"),
         Binding("p", "goto_parent", "Parent"),
@@ -140,6 +142,16 @@ class CommentCard(Vertical, can_focus=True):
         yield Label(
             f"{self.comment.by}, {naturaltime(self.comment.time)}", classes="byline"
         )
+
+    def action_links(self) -> None:
+        """Show the links in the comment to the user."""
+        links = self.comment.urls
+        if not links:
+            self.notify("No links found in the comment")
+        elif len(links) == 1:
+            open_url(links[0])
+        else:
+            self.app.push_screen(Links(self.comment.urls))
 
     def action_view_online(self) -> None:
         """View the comment on HackerNews."""
