@@ -1,5 +1,11 @@
 # OSHit ChangeLog
 
+## 0.3.0
+
+**Released: WiP**
+
+- Added a quick way of visiting links within comments.
+
 ## v0.2.0
 
 **Released: 2023-01-07**

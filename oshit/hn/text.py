@@ -2,8 +2,10 @@
 
 ##############################################################################
 # Python imports.
-from re import sub
 from html import unescape
+from re import compile, sub
+from typing import Pattern
+from typing_extensions import Final
 
 ##############################################################################
 # TODO! Throw in some proper HTML parsing here.
@@ -21,6 +23,23 @@ def tidy_text(text: str) -> str:
         The text tidied up for use in the terminal rather than on the web.
     """
     return sub("<[^<]+?>", "", unescape(text.replace("<p>", "\n\n")))
+
+
+HREF: Final[Pattern[str]] = compile(r'href="([^"]+)"')
+"""Regular expression for finding links in some text."""
+
+
+##############################################################################
+def text_urls(text: str) -> list[str]:
+    """Find any links in the given text.
+
+    Args:
+        text: The text to look in.
+
+    Returns:
+        The list of links found in the text.
+    """
+    return HREF.findall(unescape(text))
 
 
 ### text.py ends here

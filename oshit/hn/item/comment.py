@@ -7,7 +7,7 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..text import tidy_text
+from ..text import tidy_text, text_urls
 from .base import Item
 from .loader import Loader
 
@@ -40,6 +40,11 @@ class Comment(Item):
     def text(self) -> str:
         """The text for the comment."""
         return tidy_text(self.raw_text)
+
+    @property
+    def urls(self) -> list[str]:
+        """The URLs in the comment."""
+        return text_urls(self.raw_text)
 
     @property
     def flagged(self) -> bool:
