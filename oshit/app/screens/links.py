@@ -14,7 +14,7 @@ from textual.widgets import Button, OptionList
 
 
 ##############################################################################
-class Links(ModalScreen):
+class Links(ModalScreen[None]):
     """Modal dialog for showing and visiting links."""
 
     DEFAULT_CSS = """
