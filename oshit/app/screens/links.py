@@ -65,7 +65,7 @@ class Links(ModalScreen[None]):
                 yield Button("Okay [dim]\\[Esc][/]", id="close")
 
     @on(OptionList.OptionSelected)
-    def visit(self, event: OptionList.OptionSelected):
+    def visit(self, event: OptionList.OptionSelected) -> None:
         """Visit the selected link."""
         open_url(self._links[event.option_index])
 
