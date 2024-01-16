@@ -14,7 +14,7 @@ from textual.widgets import Button, OptionList
 
 
 ##############################################################################
-class Links(ModalScreen):
+class Links(ModalScreen[None]):
     """Modal dialog for showing and visiting links."""
 
     DEFAULT_CSS = """
@@ -65,7 +65,7 @@ class Links(ModalScreen):
                 yield Button("Okay [dim]\\[Esc][/]", id="close")
 
     @on(OptionList.OptionSelected)
-    def visit(self, event: OptionList.OptionSelected):
+    def visit(self, event: OptionList.OptionSelected) -> None:
         """Visit the selected link."""
         open_url(self._links[event.option_index])
 

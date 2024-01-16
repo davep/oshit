@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from html import unescape
-from re import compile, sub
+from re import compile as compile_re, sub
 from typing import Pattern
 from typing_extensions import Final
 
@@ -25,7 +25,7 @@ def tidy_text(text: str) -> str:
     return sub("<[^<]+?>", "", unescape(text.replace("<p>", "\n\n")))
 
 
-HREF: Final[Pattern[str]] = compile(r'href="([^"]+)"')
+HREF: Final[Pattern[str]] = compile_re(r'href="([^"]+)"')
 """Regular expression for finding links in some text."""
 
 
