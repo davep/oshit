@@ -8,13 +8,13 @@ from typing_extensions import Self
 ##############################################################################
 # Local imports.
 from ..text import tidy_text, text_urls
-from .base import Item
+from .base import ParentItem
 from .loader import Loader
 
 
 ##############################################################################
 @Loader.loads("comment")
-class Comment(Item):
+class Comment(ParentItem):
     """Class that holds the details of a HackerNews comment."""
 
     raw_text: str = ""

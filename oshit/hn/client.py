@@ -13,7 +13,17 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 
 ##############################################################################
 # Local imports.
-from .item import Item, Comment, ItemType, Link, Job, Loader, Story
+from .item import (
+    Article,
+    Comment,
+    ItemType,
+    Job,
+    Loader,
+    ParentItem,
+    Poll,
+    PollOption,
+    Story,
+)
 from .user import User
 
 
@@ -172,13 +182,13 @@ class HN:
         """
         return await self._id_list("topstories")
 
-    async def top_stories(self) -> list[Link]:
+    async def top_stories(self) -> list[Article]:
         """Get the top stories.
 
         Returns:
             The list of the top stories.
         """
-        return await self._items_from_ids(Link, await self.top_story_ids())
+        return await self._items_from_ids(Article, await self.top_story_ids())
 
     async def new_story_ids(self) -> list[int]:
         """Get the list of new story IDs.
@@ -188,13 +198,13 @@ class HN:
         """
         return await self._id_list("newstories")
 
-    async def new_stories(self) -> list[Link]:
+    async def new_stories(self) -> list[Article]:
         """Get the new stories.
 
         Returns:
             The list of the new stories.
         """
-        return await self._items_from_ids(Link, await self.new_story_ids())
+        return await self._items_from_ids(Article, await self.new_story_ids())
 
     async def best_story_ids(self) -> list[int]:
         """Get the list of best story IDs.
@@ -204,13 +214,13 @@ class HN:
         """
         return await self._id_list("beststories")
 
-    async def best_stories(self) -> list[Link]:
+    async def best_stories(self) -> list[Article]:
         """Get the best stories.
 
         Returns:
             The list of the best stories.
         """
-        return await self._items_from_ids(Link, await self.best_story_ids())
+        return await self._items_from_ids(Article, await self.best_story_ids())
 
     async def latest_ask_story_ids(self) -> list[int]:
         """Get the list of the latest ask story IDs.
@@ -276,15 +286,27 @@ class HN:
             return User().populate_with(user)
         raise self.NoSuchUser(f"Unknown user: {user_id}")
 
-    async def comments(self, item: Item) -> list[Comment]:
+    async def comments(self, item: ParentItem) -> list[Comment]:
         """Get the comments for the given item.
 
         Args:
             item: The item to get the comments for.
+
         Returns:
-            The list of the top stories.
+            The list of comments for the item.
         """
         return await self._items_from_ids(Comment, item.kids)
+
+    async def poll_options(self, poll: Poll) -> list[PollOption]:
+        """Get the options for the given poll.
+
+        Args:
+            item: The poll to get the options for.
+
+        Returns:
+            The list of options for the poll.
+        """
+        return await self._items_from_ids(PollOption, poll.parts)
 
 
 ### client.py ends here

@@ -25,6 +25,37 @@ class Item:
     time: datetime = datetime(1970, 1, 1)
     """The time of the item."""
 
+    def populate_with(self, data: dict[str, Any]) -> Self:
+        """Populate the item with the data from the given JSON value.
+
+        Args:
+            data: The data to populate from.
+
+        Returns:
+            Self
+        """
+        self.item_id = data["id"]
+        self.by = data.get("by", "")
+        self.item_type = data["type"]
+        self.time = datetime.fromtimestamp(data["time"])
+        return self
+
+    @property
+    def orange_site_url(self) -> str:
+        """The URL of the item on HackerNews."""
+        return f"https://news.ycombinator.com/item?id={self.item_id}"
+
+    @property
+    def visitable_url(self) -> str:
+        """A visitable URL for the item."""
+        return self.orange_site_url
+
+
+##############################################################################
+@dataclass
+class ParentItem(Item):
+    """Base class for items that can have children."""
+
     kids: list[int] = field(default_factory=list)
     """The children of the item."""
 
@@ -40,23 +71,9 @@ class Item:
         Returns:
             Self
         """
-        self.item_id = data["id"]
-        self.by = data.get("by", "")
-        self.item_type = data["type"]
-        self.time = datetime.fromtimestamp(data["time"])
         self.kids = data.get("kids", [])
         self.deleted = data.get("deleted", False)
-        return self
-
-    @property
-    def orange_site_url(self) -> str:
-        """The URL of the item on HackerNews."""
-        return f"https://news.ycombinator.com/item?id={self.item_id}"
-
-    @property
-    def visitable_url(self) -> str:
-        """A visitable URL for the item."""
-        return self.orange_site_url
+        return super().populate_with(data)
 
 
 ##############################################################################

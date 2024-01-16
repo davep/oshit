@@ -7,7 +7,7 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widget import Widget
-from textual.widgets import Button, Label, Footer
+from textual.widgets import Button, Label, Footer, Rule
 
 ##############################################################################
 # Humanize imports.
@@ -16,8 +16,24 @@ from humanize import intcomma, naturaltime
 ##############################################################################
 # Local imports.
 from ...hn import HN
-from ...hn.item import Article, Comment
+from ...hn.item import Article, Comment, Poll, PollOption
 from ..widgets import CommentCard, CommentCardWithReplies
+
+
+##############################################################################
+class PollOptionDisplay(Label):
+    """Widget that displays a poll option."""
+
+    def __init__(self, option: PollOption) -> None:
+        """Initialise the poll option display.
+
+        Args:
+            option: The option to display.
+        """
+        super().__init__()
+        self.update(
+            f"[bold]{option.text}[/]\n[dim]{option.score} point{'' if option.score == 1 else 's'}[/]"
+        )
 
 
 ##############################################################################
@@ -42,6 +58,10 @@ class Comments(ModalScreen[None]):
             height: auto;
             margin-bottom: 1;
             border-bottom: solid $primary;
+        }
+
+        #poll-options {
+            height: auto;
         }
 
         #buttons {
@@ -95,6 +115,9 @@ class Comments(ModalScreen[None]):
                     f"by {self._article.by} {naturaltime(self._article.time)}, "
                     f"{intcomma(self._article.descendants)} comment{'' if self._article.descendants == 1 else 's'}",
                 )
+                if isinstance(self._article, Poll):
+                    yield Rule()
+                    yield Vertical(id="poll-options")
             with VerticalScroll() as comments:
                 comments.can_focus = False
                 yield Label("No comments", id="no-comments")
@@ -117,8 +140,18 @@ class Comments(ModalScreen[None]):
             for comment in await self._hn.comments(item)
         )
 
+    @work
+    async def _load_poll_options(self, poll: Poll) -> None:
+        options = await self._hn.poll_options(poll)
+        self.notify(str(len(options)))
+        self.query_one("#poll-options").mount_all(
+            [PollOptionDisplay(option) for option in options]
+        )
+
     async def on_mount(self) -> None:
         """Start the comment loading process once the DOM is ready."""
+        if isinstance(self._article, Poll):
+            self._load_poll_options(self._article)
         if self._article.kids:
             await self.query_one("#no-comments").remove()
             self._load_comments(self.query_one(VerticalScroll), self._article)
