@@ -32,6 +32,7 @@ class Main(Screen[None]):
     | <kbd>F1</kbd> | This help screen. |
     | <kbd>F2</kbd> | Toggle compact/relaxed display. |
     | <kbd>F3</kbd> | Toggle dark/light mode. |
+    | <kbd>F4</kbd> | Toggle numbers against items. |
     | <kbd>F12</kbd> | Quit the application. |
     | <kbd>t</kbd> | View the top stories. |
     | <kbd>n</kbd> | View the new stories. |
@@ -53,6 +54,7 @@ class Main(Screen[None]):
         Binding("f1", "help", "Help"),
         Binding("f2", "compact", "Compact/Relaxed"),
         Binding("f3", "toggle_dark"),
+        Binding("f4", "numbered"),
         Binding("f12", "quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
@@ -110,6 +112,11 @@ class Main(Screen[None]):
         """Toggle the compact display."""
         news = self.query_one(HackerNews)
         news.compact = not news.compact
+
+    def action_numbered(self) -> None:
+        """Toggle the numbers display."""
+        news = self.query_one(HackerNews)
+        news.numbered = not news.numbered
 
     @on(ShowUser)
     def show_user(self, event: ShowUser) -> None:

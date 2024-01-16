@@ -27,9 +27,14 @@ class HackerNews(TabbedContent):
     compact: var[bool] = var(True)
     """Should we use a compact or relaxed display?"""
 
+    numbered: var[bool] = var(False)
+    """Should we show numbers against the items in the lists?"""
+
     def on_mount(self) -> None:
         """Configure the widget once the DOM is ready."""
-        self.compact = load_configuration().compact_mode
+        config = load_configuration()
+        self.compact = config.compact_mode
+        self.numbered = config.item_numbers
 
     @property
     def active_items(self) -> Items[Article]:
@@ -82,6 +87,14 @@ class HackerNews(TabbedContent):
             pane.compact = self.compact
         configuration = load_configuration()
         configuration.compact_mode = self.compact
+        save_configuration(configuration)
+
+    def _watch_numbered(self) -> None:
+        """React to the numbers setting value being changed."""
+        for pane in self.query(Items).results():
+            pane.numbered = self.numbered
+        configuration = load_configuration()
+        configuration.item_numbers = self.numbered
         save_configuration(configuration)
 
 

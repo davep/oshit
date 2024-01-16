@@ -23,6 +23,9 @@ class Configuration:
     compact_mode: bool = True
     """Should the items display in compact mode?"""
 
+    item_numbers: bool = False
+    """Should we show numbers against items in the lists?"""
+
     maximum_concurrency: int = 50
     """The maximum number of connections to use when getting items."""
 

@@ -19,6 +19,7 @@ from textual.widgets.option_list import Option
 ##############################################################################
 # Rich imports.
 from rich.console import Group
+from rich.table import Table
 
 ##############################################################################
 # Humanize imports.
@@ -39,7 +40,9 @@ ArticleType = TypeVar("ArticleType", bound=Article)
 class HackerNewsArticle(Option):
     """An article from HackerNews."""
 
-    def __init__(self, article: Article, compact: bool) -> None:
+    def __init__(
+        self, article: Article, compact: bool, number: int | None = None
+    ) -> None:
         """Initialise the hacker news article.
 
         Args:
@@ -50,6 +53,8 @@ class HackerNewsArticle(Option):
         """The article being shown."""
         self._compact = compact
         """Should we show a compact form?"""
+        self._number = number
+        """The number to show for this article, if at all."""
         super().__init__(self.prompt, id=str(article.item_id))
 
     @property
@@ -64,12 +69,19 @@ class HackerNewsArticle(Option):
         if isinstance(self.article, Link):
             if domain := self.article.domain:
                 domain = f" [dim italic]({domain})[/]"
-        return Group(
-            f"{prefix if self._compact else ' '} {self.article.title}{domain}",
+        info = Table.grid(expand=True)
+        info.add_column(no_wrap=True, ratio=1)
+        info.add_column(no_wrap=True, justify="right", width=6)
+        info.add_row(
             f"{' ' if self._compact else prefix} [dim italic]{intcomma(self.article.score)} "
             f"point{'' if self.article.score == 1 else 's'} "
             f"by {self.article.by} {naturaltime(self.article.time)}, "
             f"{intcomma(self.article.descendants)} comment{'' if self.article.descendants == 1 else 's'}[/]",
+            "" if self._number is None else f" [dim italic]#{self._number}[/]",
+        )
+        return Group(
+            f"{prefix if self._compact else ' '} {self.article.title}{domain}",
+            info,
             *([] if self._compact else [""]),
         )
 
@@ -150,6 +162,10 @@ class Items(Generic[ArticleType], TabPane):
         padding: 0;
         background: $panel;
 
+        & > .option-list--option {
+            padding: 0 1 0 0;
+        }
+
         &:focus {
             border: none;
             background: $panel;
@@ -163,6 +179,9 @@ class Items(Generic[ArticleType], TabPane):
 
     compact: var[bool] = var(True)
     """Should we use a compact display?"""
+
+    numbered: var[bool] = var(False)
+    """Should we show numbers against the items?"""
 
     def __init__(
         self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]]
@@ -205,7 +224,10 @@ class Items(Generic[ArticleType], TabPane):
         display = self.query_one(OptionList)
         remember = display.highlighted
         display.clear_options().add_options(
-            [HackerNewsArticle(item, self.compact) for item in self._items]
+            [
+                HackerNewsArticle(item, self.compact, number if self.numbered else None)
+                for number, item in enumerate(self._items)
+            ]
         )
         display.highlighted = remember
 
@@ -252,6 +274,11 @@ class Items(Generic[ArticleType], TabPane):
 
     def _watch_compact(self) -> None:
         """React to the compact setting being changed."""
+        if self.loaded:
+            self._redisplay()
+
+    def _watch_numbered(self) -> None:
+        """React to the numbered setting being changed."""
         if self.loaded:
             self._redisplay()
 
