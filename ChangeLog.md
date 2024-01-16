@@ -1,8 +1,8 @@
 # OSHit ChangeLog
 
-## WiP
+## v0.4.0
 
-**Released: WiP**
+**Released: 2024-01-16**
 
 - Added support for loading and displaying polls.
 
