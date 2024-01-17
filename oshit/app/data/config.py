@@ -23,11 +23,32 @@ class Configuration:
     compact_mode: bool = True
     """Should the items display in compact mode?"""
 
+    item_numbers: bool = False
+    """Should we show numbers against items in the lists?"""
+
     maximum_concurrency: int = 50
     """The maximum number of connections to use when getting items."""
 
     connection_timeout: int | None = 20
     """The timeout (in seconds) to use when connecting to the HackerNews API."""
+
+    maximum_top: int = 500
+    """The maximum number of top stories to show."""
+
+    maximum_new: int = 500
+    """The maximum number of new stories to show."""
+
+    maximum_best: int = 200
+    """The maximum number of best stories to show."""
+
+    maximum_ask: int = 200
+    """The maximum number of AskHN stories to show."""
+
+    maximum_show: int = 200
+    """The maximum number of ShowHN stories to show."""
+
+    maximum_jobs: int = 200
+    """The maximum number of jobs to show."""
 
 
 ##############################################################################

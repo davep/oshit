@@ -1,6 +1,10 @@
 """The main screen for the application."""
 
 ##############################################################################
+# Python imports.
+from functools import partial
+
+##############################################################################
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
@@ -32,6 +36,7 @@ class Main(Screen[None]):
     | <kbd>F1</kbd> | This help screen. |
     | <kbd>F2</kbd> | Toggle compact/relaxed display. |
     | <kbd>F3</kbd> | Toggle dark/light mode. |
+    | <kbd>F4</kbd> | Toggle numbers against items. |
     | <kbd>F12</kbd> | Quit the application. |
     | <kbd>t</kbd> | View the top stories. |
     | <kbd>n</kbd> | View the new stories. |
@@ -53,6 +58,7 @@ class Main(Screen[None]):
         Binding("f1", "help", "Help"),
         Binding("f2", "compact", "Compact/Relaxed"),
         Binding("f3", "toggle_dark"),
+        Binding("f4", "numbered"),
         Binding("f12", "quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
@@ -77,12 +83,21 @@ class Main(Screen[None]):
         """Compose the main screen's layout."""
         yield Header()
         with HackerNews():
-            yield Items("top", "t", self._hn.top_stories)
-            yield Items("new", "n", self._hn.new_stories)
-            yield Items("best", "b", self._hn.best_stories)
-            yield Items("ask", "a", self._hn.latest_ask_stories)
-            yield Items("show", "s", self._hn.latest_show_stories)
-            yield Items("jobs", "j", self._hn.latest_job_stories)
+            config = load_configuration()
+            yield Items("top", "t", partial(self._hn.top_stories, config.maximum_top))
+            yield Items("new", "n", partial(self._hn.new_stories, config.maximum_new))
+            yield Items(
+                "best", "b", partial(self._hn.best_stories, config.maximum_best)
+            )
+            yield Items(
+                "ask", "a", partial(self._hn.latest_ask_stories, config.maximum_ask)
+            )
+            yield Items(
+                "show", "s", partial(self._hn.latest_show_stories, config.maximum_show)
+            )
+            yield Items(
+                "jobs", "j", partial(self._hn.latest_job_stories, config.maximum_jobs)
+            )
         yield Footer()
 
     def _refresh_subtitle(self) -> None:
@@ -110,6 +125,11 @@ class Main(Screen[None]):
         """Toggle the compact display."""
         news = self.query_one(HackerNews)
         news.compact = not news.compact
+
+    def action_numbered(self) -> None:
+        """Toggle the numbers display."""
+        news = self.query_one(HackerNews)
+        news.numbered = not news.numbered
 
     @on(ShowUser)
     def show_user(self, event: ShowUser) -> None:
