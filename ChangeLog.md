@@ -1,5 +1,14 @@
 # OSHit ChangeLog
 
+## v0.5.0
+
+**Released: WiP**
+
+- Added support for optional numbering of items in each list.
+  ([#11](https://github.com/davep/oshit/issues/11))
+- Added support for placing caps on the number of items to fetch in each
+  list. ([#11](https://github.com/davep/oshit/issues/11))
+
 ## v0.4.0
 
 **Released: 2024-01-16**
