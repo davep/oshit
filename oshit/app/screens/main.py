@@ -51,8 +51,14 @@ class Main(Screen[None]):
         background: $panel;
     }
 
-    Header.-tall {
-        height: 1;
+    Header {
+        HeaderIcon {
+            visibility: hidden;
+        }
+
+        &.-tall {
+            height: 1;
+        }
     }
     """
 
