@@ -45,7 +45,7 @@ This version of OSHit is using [Textual](https://textual.textualize.io/) v{textu
 ## Licence
 
 OSHit - A terminal-based HackerNews reader.[EOL]
-Copyright (C) 2023 Dave Pearson
+Copyright (C) 2024 Dave Pearson
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free

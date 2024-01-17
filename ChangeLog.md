@@ -2,7 +2,7 @@
 
 ## v0.5.0
 
-**Released: WiP**
+**Released: 2024-01-17**
 
 - Added support for optional numbering of items in each list.
   ([#11](https://github.com/davep/oshit/issues/11))
