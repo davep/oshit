@@ -163,104 +163,144 @@ class HN:
             *[limited(self.item(item_type, item_id)) for item_id in item_ids]
         )
 
-    async def _id_list(self, list_type: str) -> list[int]:
+    async def _id_list(self, list_type: str, max_count: int | None = None) -> list[int]:
         """Get a given ID list.
 
         Args:
             list_type: The type of list to get.
+            max_count: Maximum number of IDs to fetch.
 
         Returns:
             The list of item IDs.
         """
-        return cast(list[int], loads(await self._call(f"{list_type}.json")))
+        return cast(
+            list[int], loads(await self._call(f"{list_type}.json"))[0:max_count]
+        )
 
-    async def top_story_ids(self) -> list[int]:
+    async def top_story_ids(self, max_count: int | None = None) -> list[int]:
         """Get the list of top story IDs.
+
+        Args:
+            max_count: Maximum number of IDs to fetch.
 
         Returns:
             The list of the top story IDs.
         """
-        return await self._id_list("topstories")
+        return await self._id_list("topstories", max_count)
 
-    async def top_stories(self) -> list[Article]:
+    async def top_stories(self, max_count: int | None = None) -> list[Article]:
         """Get the top stories.
+
+        Args:
+            max_count: Maximum number of stories to fetch.
 
         Returns:
             The list of the top stories.
         """
-        return await self._items_from_ids(Article, await self.top_story_ids())
+        return await self._items_from_ids(Article, await self.top_story_ids(max_count))
 
-    async def new_story_ids(self) -> list[int]:
+    async def new_story_ids(self, max_count: int | None = None) -> list[int]:
         """Get the list of new story IDs.
+
+        Args:
+            max_count: Maximum number of story IDs to fetch.
 
         Returns:
             The list of the new story IDs.
         """
-        return await self._id_list("newstories")
+        return await self._id_list("newstories", max_count)
 
-    async def new_stories(self) -> list[Article]:
+    async def new_stories(self, max_count: int | None = None) -> list[Article]:
         """Get the new stories.
+
+        Args:
+            max_count: Maximum number of stories to fetch.
 
         Returns:
             The list of the new stories.
         """
-        return await self._items_from_ids(Article, await self.new_story_ids())
+        return await self._items_from_ids(Article, await self.new_story_ids(max_count))
 
-    async def best_story_ids(self) -> list[int]:
+    async def best_story_ids(self, max_count: int | None = None) -> list[int]:
         """Get the list of best story IDs.
+
+        Args:
+            max_count: Maximum number of story IDs to fetch.
 
         Returns:
             The list of the best story IDs.
         """
-        return await self._id_list("beststories")
+        return await self._id_list("beststories", max_count)
 
-    async def best_stories(self) -> list[Article]:
+    async def best_stories(self, max_count: int | None = None) -> list[Article]:
         """Get the best stories.
+
+        Args:
+            max_count: Maximum number of stories to fetch.
 
         Returns:
             The list of the best stories.
         """
-        return await self._items_from_ids(Article, await self.best_story_ids())
+        return await self._items_from_ids(Article, await self.best_story_ids(max_count))
 
-    async def latest_ask_story_ids(self) -> list[int]:
+    async def latest_ask_story_ids(self, max_count: int | None = None) -> list[int]:
         """Get the list of the latest ask story IDs.
+
+        Args:
+            max_count: Maximum number of story IDs to fetch.
 
         Returns:
             The list of the latest ask story IDs.
         """
-        return await self._id_list("askstories")
+        return await self._id_list("askstories", max_count)
 
-    async def latest_ask_stories(self) -> list[Story]:
+    async def latest_ask_stories(self, max_count: int | None = None) -> list[Story]:
         """Get the latest AskHN stories.
+
+        Args:
+            max_count: Maximum number of stories to fetch.
 
         Returns:
             The list of the latest AskHN stories.
         """
-        return await self._items_from_ids(Story, await self.latest_ask_story_ids())
+        return await self._items_from_ids(
+            Story, await self.latest_ask_story_ids(max_count)
+        )
 
-    async def latest_show_story_ids(self) -> list[int]:
+    async def latest_show_story_ids(self, max_count: int | None = None) -> list[int]:
         """Get the list of the latest show story IDs.
+
+        Args:
+            max_count: Maximum number of story IDs to fetch.
 
         Returns:
             The list of the latest show story IDs.
         """
-        return await self._id_list("showstories")
+        return await self._id_list("showstories", max_count)
 
-    async def latest_show_stories(self) -> list[Story]:
+    async def latest_show_stories(self, max_count: int | None = None) -> list[Story]:
         """Get the latest ShowHN stories.
+
+        Args:
+            max_count: Maximum number of stories to fetch.
 
         Returns:
             The list of the latest ShowHN stories.
         """
-        return await self._items_from_ids(Story, await self.latest_show_story_ids())
+        return await self._items_from_ids(
+            Story, await self.latest_show_story_ids(max_count)
+        )
 
-    async def latest_job_story_ids(self) -> list[int]:
+    async def latest_job_story_ids(self, max_count: int | None = None) -> list[int]:
         """Get the list of the latest job story IDs.
+
+        Args:
+            max_count: Maximum number of stories to fetch.
 
         Returns:
             The list of the latest job story IDs.
         """
-        return await self._id_list("jobstories")
+        return await self._id_list("jobstories", max_count)
 
     async def latest_job_stories(self) -> list[Job]:
         """Get the latest job stories.
