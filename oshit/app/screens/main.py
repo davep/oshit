@@ -50,6 +50,10 @@ class Main(Screen[None]):
     TabbedContent, LoadingIndicator {
         background: $panel;
     }
+
+    Header.-tall {
+        height: 1;
+    }
     """
 
     TITLE = f"Orange Site Hit v{__version__}"
