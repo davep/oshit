@@ -32,6 +32,24 @@ class Configuration:
     connection_timeout: int | None = 20
     """The timeout (in seconds) to use when connecting to the HackerNews API."""
 
+    maximum_top: int = 500
+    """The maximum number of top stories to show."""
+
+    maximum_new: int = 500
+    """The maximum number of new stories to show."""
+
+    maximum_best: int = 200
+    """The maximum number of best stories to show."""
+
+    maximum_ask: int = 200
+    """The maximum number of AskHN stories to show."""
+
+    maximum_show: int = 200
+    """The maximum number of ShowHN stories to show."""
+
+    maximum_jobs: int = 200
+    """The maximum number of jobs to show."""
+
 
 ##############################################################################
 def configuration_file() -> Path:
