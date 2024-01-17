@@ -295,20 +295,25 @@ class HN:
         """Get the list of the latest job story IDs.
 
         Args:
-            max_count: Maximum number of stories to fetch.
+            max_count: Maximum number of job IDs to fetch.
 
         Returns:
             The list of the latest job story IDs.
         """
         return await self._id_list("jobstories", max_count)
 
-    async def latest_job_stories(self) -> list[Job]:
+    async def latest_job_stories(self, max_count: int | None = None) -> list[Job]:
         """Get the latest job stories.
+
+        Args:
+            max_count: Maximum number of jobs to fetch.
 
         Returns:
             The list of the latest job stories.
         """
-        return await self._items_from_ids(Job, await self.latest_job_story_ids())
+        return await self._items_from_ids(
+            Job, await self.latest_job_story_ids(max_count)
+        )
 
     async def user(self, user_id: str) -> User:
         """Get the details of the given user.
