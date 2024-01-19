@@ -1,17 +1,17 @@
 """Provides a modal screen for showing the comments for an item."""
 
 ##############################################################################
+# Humanize imports.
+from humanize import intcomma, naturaltime
+
+##############################################################################
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widget import Widget
-from textual.widgets import Button, Label, Footer, Rule
-
-##############################################################################
-# Humanize imports.
-from humanize import intcomma, naturaltime
+from textual.widgets import Button, Footer, Label, Rule
 
 ##############################################################################
 # Local imports.

@@ -4,6 +4,9 @@
 # Python imports.
 from dataclasses import dataclass, field
 from typing import Any
+
+##############################################################################
+# Backward-compatible typing.
 from typing_extensions import Self
 
 ##############################################################################

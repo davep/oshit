@@ -5,16 +5,16 @@
 from webbrowser import open as open_url
 
 ##############################################################################
+# Humanize imports.
+from humanize import intcomma, naturaltime
+
+##############################################################################
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label
-
-##############################################################################
-# Humanize imports.
-from humanize import intcomma, naturaltime
 
 ##############################################################################
 # Local imports.

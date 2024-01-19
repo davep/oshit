@@ -5,6 +5,9 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
+
+##############################################################################
+# Backward-compatible typing.
 from typing_extensions import Self
 
 ##############################################################################

@@ -2,14 +2,13 @@
 
 ##############################################################################
 # Python imports.
-from asyncio import gather, Semaphore
+from asyncio import Semaphore, gather
 from json import loads
-from typing import Any, cast, Awaitable
-from typing_extensions import Final
+from typing import Any, Awaitable, Final, cast
 
 ##############################################################################
 # HTTPX imports.
-from httpx import AsyncClient, RequestError, HTTPStatusError
+from httpx import AsyncClient, HTTPStatusError, RequestError
 
 ##############################################################################
 # Local imports.

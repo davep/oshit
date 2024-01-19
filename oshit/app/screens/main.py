@@ -16,8 +16,8 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ...hn import HN
-from ..data.config import load_configuration
 from ..commands import ShowComments, ShowUser
+from ..data.config import load_configuration
 from ..widgets import HackerNews, Items
 from .comments import Comments
 from .help import Help

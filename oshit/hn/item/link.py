@@ -2,8 +2,9 @@
 
 ##############################################################################
 # Python imports.
-from urllib.parse import urlparse
 from typing import Any
+from urllib.parse import urlparse
+
 from typing_extensions import Self
 
 ##############################################################################

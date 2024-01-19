@@ -3,8 +3,12 @@
 ##############################################################################
 # Python imports.
 from html import unescape
-from re import compile as compile_re, sub
+from re import compile as compile_re
+from re import sub
 from typing import Pattern
+
+##############################################################################
+# Backward-compatible typing.
 from typing_extensions import Final
 
 ##############################################################################

@@ -3,9 +3,17 @@
 ##############################################################################
 # Python imports.
 from datetime import datetime
-from typing import Awaitable, Callable, cast, TypeVar, Generic
+from typing import Awaitable, Callable, Generic, TypeVar, cast
 from webbrowser import open as open_url
-from typing_extensions import Self
+
+##############################################################################
+# Humanize imports.
+from humanize import intcomma, naturaltime
+
+##############################################################################
+# Rich imports.
+from rich.console import Group
+from rich.table import Table
 
 ##############################################################################
 # Textual imports.
@@ -17,13 +25,8 @@ from textual.widgets import OptionList, TabPane
 from textual.widgets.option_list import Option
 
 ##############################################################################
-# Rich imports.
-from rich.console import Group
-from rich.table import Table
-
-##############################################################################
-# Humanize imports.
-from humanize import intcomma, naturaltime
+# Backward-compatible typing.
+from typing_extensions import Self
 
 ##############################################################################
 # Local imports.

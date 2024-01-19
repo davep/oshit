@@ -6,20 +6,20 @@ from dataclasses import dataclass
 from webbrowser import open as open_url
 
 ##############################################################################
+# Humanize imports.
+from humanize import naturaltime
+
+##############################################################################
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Vertical
 from textual.binding import Binding
+from textual.containers import Vertical
 from textual.css.query import NoMatches
 from textual.events import Click
 from textual.message import Message
 from textual.widget import Widget
 from textual.widgets import Label
-
-##############################################################################
-# Humanize imports.
-from humanize import naturaltime
 
 ##############################################################################
 # Local imports.

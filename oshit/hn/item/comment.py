@@ -3,11 +3,12 @@
 ##############################################################################
 # Python imports.
 from typing import Any
+
 from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..text import tidy_text, text_urls
+from ..text import text_urls, tidy_text
 from .base import ParentItem
 from .loader import Loader
 
