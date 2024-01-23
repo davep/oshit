@@ -1,8 +1,8 @@
 # OSHit ChangeLog
 
-## WiP
+## v0.6.0
 
-**Released: WiP**
+**Released: 2024-01-23**
 
 - Simplified the header bar, disabling Textual's mouse toggle of the height,
   and removing the "icon" in the top left corner.
