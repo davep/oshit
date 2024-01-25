@@ -20,6 +20,7 @@ from rich.table import Table
 from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
+from textual.message import Message
 from textual.reactive import var
 from textual.widgets import OptionList, TabPane
 from textual.widgets.option_list import Option
@@ -186,6 +187,9 @@ class Items(Generic[ArticleType], TabPane):
     numbered: var[bool] = var(False)
     """Should we show numbers against the items?"""
 
+    show_age: var[bool] = var(True)
+    """Should we show the age of the data?"""
+
     def __init__(
         self, title: str, key: str, source: Callable[[], Awaitable[list[ArticleType]]]
     ) -> None:
@@ -218,7 +222,7 @@ class Items(Generic[ArticleType], TabPane):
             suffix = " - Loading..."
         elif not self._items:
             suffix = " - Reloading..."
-        else:
+        elif self.show_age:
             suffix = f" - Updated {naturaltime(self._snarfed)}"
         return f"{self._description.capitalize()}{suffix}"
 
@@ -234,12 +238,18 @@ class Items(Generic[ArticleType], TabPane):
         )
         display.highlighted = remember
 
+    class Loading(Message):
+        """Message sent when items start loading."""
+
+    class Loaded(Message):
+        """Message sent when items are loaded."""
+
     @work
     async def _load(self) -> None:
         """Load up the items and display them."""
         display = self.query_one(OptionList)
         display.loading = True
-        self._refresh_description()
+        self.post_message(self.Loading())
         try:
             self._items = await self._source()
         except HN.RequestError as error:
@@ -254,12 +264,7 @@ class Items(Generic[ArticleType], TabPane):
             self._snarfed = datetime.now()
             self._redisplay()
         display.loading = False
-        self._refresh_description()
-
-    def _refresh_description(self) -> None:
-        """Force a refresh of the description."""
-        # pylint:disable=attribute-defined-outside-init
-        self.screen.sub_title = self.description
+        self.post_message(self.Loaded())
 
     @property
     def loaded(self) -> bool:

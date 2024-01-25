@@ -30,11 +30,15 @@ class HackerNews(TabbedContent):
     numbered: var[bool] = var(False)
     """Should we show numbers against the items in the lists?"""
 
+    show_age: var[bool] = var(True)
+    """Should we show the age of the data in the lists?"""
+
     def on_mount(self) -> None:
         """Configure the widget once the DOM is ready."""
         config = load_configuration()
         self.compact = config.compact_mode
         self.numbered = config.item_numbers
+        self.show_age = config.show_data_age
 
     @property
     def active_items(self) -> Items[Article]:
@@ -95,6 +99,14 @@ class HackerNews(TabbedContent):
             pane.numbered = self.numbered
         configuration = load_configuration()
         configuration.item_numbers = self.numbered
+        save_configuration(configuration)
+
+    def _watch_show_age(self) -> None:
+        """React to the age showing setting being changed."""
+        for pane in self.query(Items).results():
+            pane.show_age = self.show_age
+        configuration = load_configuration()
+        configuration.show_data_age = self.show_age
         save_configuration(configuration)
 
 

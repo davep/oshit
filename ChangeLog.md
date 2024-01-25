@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## WiP
+
+**Released: WiP**
+
+- Added the option to turn off the title-bar-based updating display of the
+  age of the items.
+
 ## v0.6.0
 
 **Released: 2024-01-23**
