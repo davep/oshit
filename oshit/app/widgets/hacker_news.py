@@ -73,6 +73,7 @@ class HackerNews(TabbedContent):
             self.query_one(Tabs).action_next_tab()
 
     @on(TabbedContent.TabActivated)
+    @on(Items.Loading)
     def _settle_focus(self) -> None:
         """Settle the focus in the best place possible when a tab is activated."""
         if self.active_items.loaded:

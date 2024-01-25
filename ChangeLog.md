@@ -6,6 +6,7 @@
 
 - Added the option to turn off the title-bar-based updating display of the
   age of the items.
+- Fixed not being able to change tabs with left/right during a reload.
 
 ## v0.6.0
 
