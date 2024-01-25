@@ -10,6 +10,7 @@ from textual import on
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.screen import Screen
+from textual.timer import Timer
 from textual.widgets import Footer, Header
 
 ##############################################################################
@@ -37,6 +38,7 @@ class Main(Screen[None]):
     | <kbd>F2</kbd> | Toggle compact/relaxed display. |
     | <kbd>F3</kbd> | Toggle dark/light mode. |
     | <kbd>F4</kbd> | Toggle numbers against items. |
+    | <kbd>F5</kbd> | Toggle showing age of data. |
     | <kbd>F12</kbd> | Quit the application. |
     | <kbd>t</kbd> | View the top stories. |
     | <kbd>n</kbd> | View the new stories. |
@@ -69,6 +71,7 @@ class Main(Screen[None]):
         Binding("f2", "compact", "Compact/Relaxed"),
         Binding("f3", "toggle_dark"),
         Binding("f4", "numbered"),
+        Binding("f5", "show_age"),
         Binding("f12", "quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
@@ -88,6 +91,7 @@ class Main(Screen[None]):
             timeout=config.connection_timeout,
         )
         """The HackerNews client object."""
+        self._title_interval: Timer | None = None
 
     def compose(self) -> ComposeResult:
         """Compose the main screen's layout."""
@@ -110,13 +114,31 @@ class Main(Screen[None]):
             )
         yield Footer()
 
+    @on(HackerNews.TabActivated)
+    @on(Items.Loading)
+    @on(Items.Loaded)
     def _refresh_subtitle(self) -> None:
         """Refresh the subtitle of the screen."""
         self.sub_title = self.query_one(HackerNews).description
 
+    def _set_title_refresh(self, refresh: bool) -> None:
+        """Set the state of the title refresh interval.
+
+        Args:
+            refresh: The state to set it to.
+        """
+        if refresh:
+            if self._title_interval is None:
+                self._title_interval = self.set_interval(0.95, self._refresh_subtitle)
+        else:
+            if self._title_interval is not None:
+                self._title_interval.stop()
+                self._title_interval = None
+        self._refresh_subtitle()
+
     def on_mount(self) -> None:
         """Configure things once the DOM is ready."""
-        self.set_interval(0.95, self._refresh_subtitle)
+        self._set_title_refresh(load_configuration().show_data_age)
 
     def action_help(self) -> None:
         """Show the help screen."""
@@ -140,6 +162,12 @@ class Main(Screen[None]):
         """Toggle the numbers display."""
         news = self.query_one(HackerNews)
         news.numbered = not news.numbered
+
+    def action_show_age(self) -> None:
+        """Toggle the display of the age of the data in the lists."""
+        news = self.query_one(HackerNews)
+        news.show_age = not news.show_age
+        self._set_title_refresh(news.show_age)
 
     @on(ShowUser)
     def show_user(self, event: ShowUser) -> None:

@@ -26,6 +26,9 @@ class Configuration:
     item_numbers: bool = False
     """Should we show numbers against items in the lists?"""
 
+    show_data_age: bool = True
+    """Should we show the age of the data in the lists?"""
+
     maximum_concurrency: int = 50
     """The maximum number of connections to use when getting items."""
 
