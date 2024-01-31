@@ -60,6 +60,10 @@ class Comments(ModalScreen[None]):
             border-bottom: solid $primary;
         }
 
+        #article-text {
+            width: 1fr;
+        }
+
         #poll-options {
             height: auto;
         }
@@ -115,6 +119,9 @@ class Comments(ModalScreen[None]):
                     f"by {self._article.by} {naturaltime(self._article.time)}, "
                     f"{intcomma(self._article.descendants)} comment{'' if self._article.descendants == 1 else 's'}",
                 )
+                if self._article.has_text:
+                    yield Rule()
+                    yield Label(self._article.text, markup=False, id="article-text")
                 if isinstance(self._article, Poll):
                     yield Rule()
                     yield Vertical(id="poll-options")
