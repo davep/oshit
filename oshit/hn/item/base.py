@@ -72,7 +72,10 @@ class Item:
         return bool(self.text.strip())
 
     def __contains__(self, search_for: str) -> bool:
-        return search_for.casefold() in self.by.casefold()
+        return (
+            search_for.casefold() in self.by.casefold()
+            or search_for.casefold() in self.text
+        )
 
 
 ##############################################################################
