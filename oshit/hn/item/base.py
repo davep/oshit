@@ -10,6 +10,10 @@ from typing import Any, TypeVar
 # Backward-compatible typing.
 from typing_extensions import Self
 
+##############################################################################
+# Local imports.
+from ..text import tidy_text
+
 
 ##############################################################################
 @dataclass
@@ -27,6 +31,9 @@ class Item:
 
     time: datetime = datetime(1970, 1, 1)
     """The time of the item."""
+
+    raw_text: str = ""
+    """The raw text of the of the item, if it has text."""
 
     def populate_with(self, data: dict[str, Any]) -> Self:
         """Populate the item with the data from the given JSON value.
@@ -52,6 +59,16 @@ class Item:
     def visitable_url(self) -> str:
         """A visitable URL for the item."""
         return self.orange_site_url
+
+    @property
+    def text(self) -> str:
+        """The text for the item, if it has text."""
+        return tidy_text(self.raw_text)
+
+    @property
+    def has_text(self) -> bool:
+        """Does the item have any text?"""
+        return bool(self.text.strip())
 
 
 ##############################################################################
