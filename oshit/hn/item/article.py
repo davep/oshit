@@ -42,5 +42,11 @@ class Article(ParentItem):
         self.title = data["title"]
         return super().populate_with(data)
 
+    def __contains__(self, search_for: str) -> bool:
+        return (
+            super().__contains__(search_for)
+            or search_for.casefold() in self.title.casefold()
+        )
+
 
 ### article.py ends here

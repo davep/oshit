@@ -3,8 +3,9 @@
 ##############################################################################
 # Textual imports.
 from textual import on
+from textual.await_complete import AwaitComplete
 from textual.reactive import var
-from textual.widgets import TabbedContent, Tabs
+from textual.widgets import TabbedContent, TabPane, Tabs
 
 ##############################################################################
 # Local imports.
@@ -39,6 +40,21 @@ class HackerNews(TabbedContent):
         self.compact = config.compact_mode
         self.numbered = config.item_numbers
         self.show_age = config.show_data_age
+
+    def add_pane(
+        self,
+        pane: TabPane,
+        *,
+        before: TabPane | str | None = None,
+        after: TabPane | str | None = None,
+    ) -> AwaitComplete:
+        try:
+            return super().add_pane(pane, before=before, after=after)
+        finally:
+            if isinstance(pane, Items):
+                pane.compact = self.compact
+                pane.numbered = self.numbered
+                pane.show_age = False
 
     @property
     def active_items(self) -> Items[Article]:

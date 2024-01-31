@@ -53,6 +53,9 @@ class Item:
         """A visitable URL for the item."""
         return self.orange_site_url
 
+    def __contains__(self, search_for: str) -> bool:
+        return search_for.casefold() in self.by.casefold()
+
 
 ##############################################################################
 @dataclass

@@ -267,6 +267,11 @@ class Items(Generic[ArticleType], TabPane):
         self.post_message(self.Loaded())
 
     @property
+    def items(self) -> list[ArticleType]:
+        """The items."""
+        return self._items
+
+    @property
     def loaded(self) -> bool:
         """Has this tab loaded its items?"""
         return bool(self._items)

@@ -52,6 +52,12 @@ class Link(Article):
         """The domain from the URL, if there is one."""
         return urlparse(self.url).hostname or ""
 
+    def __contains__(self, search_for: str) -> bool:
+        return (
+            super().__contains__(search_for)
+            or search_for.casefold() in self.domain.casefold()
+        )
+
 
 ##############################################################################
 @Loader.loads("story")

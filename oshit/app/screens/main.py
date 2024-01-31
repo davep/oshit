@@ -6,7 +6,7 @@ from functools import partial
 
 ##############################################################################
 # Textual imports.
-from textual import on
+from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.screen import Screen
@@ -17,11 +17,13 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ...hn import HN
+from ...hn.item.article import Article
 from ..commands import ShowComments, ShowUser
 from ..data.config import load_configuration
 from ..widgets import HackerNews, Items
 from .comments import Comments
 from .help import Help
+from .search import Search
 from .user import UserDetails
 
 
@@ -79,6 +81,7 @@ class Main(Screen[None]):
         Binding("a", "go('ask')"),
         Binding("s", "go('show')"),
         Binding("j", "go('jobs')"),
+        Binding("/", "local_search"),
         Binding("down, enter", "pane"),
     ]
 
@@ -168,6 +171,24 @@ class Main(Screen[None]):
         news = self.query_one(HackerNews)
         news.show_age = not news.show_age
         self._set_title_refresh(news.show_age)
+
+    async def _search(self, search_text: str) -> list[Article]:
+        hits: dict[int, Article] = {}
+        for item_list in self.query(Items):
+            for item in item_list.items:
+                if search_text in item:
+                    hits[item.item_id] = item
+        return list(hits.values())
+
+    @work
+    async def action_local_search(self) -> None:
+        """Perform a local search."""
+        if search_text := await self.app.push_screen_wait(Search()):
+            await self.query_one(HackerNews).remove_pane("search")
+            await self.query_one(HackerNews).add_pane(
+                Items("search", "r", partial(self._search, search_text))
+            )
+            self.query_one(HackerNews).active = "search"
 
     @on(ShowUser)
     def show_user(self, event: ShowUser) -> None:
