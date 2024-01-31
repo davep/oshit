@@ -8,7 +8,7 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..text import text_urls, tidy_text
+from ..text import text_urls
 from .base import ParentItem
 from .loader import Loader
 
@@ -17,9 +17,6 @@ from .loader import Loader
 @Loader.loads("comment")
 class Comment(ParentItem):
     """Class that holds the details of a HackerNews comment."""
-
-    raw_text: str = ""
-    """The raw text of the comment."""
 
     parent: int = 0
     """The ID of the parent of the comment."""
@@ -36,11 +33,6 @@ class Comment(ParentItem):
         self.raw_text = data.get("text", "")
         self.parent = data["parent"]
         return super().populate_with(data)
-
-    @property
-    def text(self) -> str:
-        """The text for the comment."""
-        return tidy_text(self.raw_text)
 
     @property
     def urls(self) -> list[str]:
