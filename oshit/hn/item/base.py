@@ -48,6 +48,7 @@ class Item:
         self.by = data.get("by", "")
         self.item_type = data["type"]
         self.time = datetime.fromtimestamp(data["time"])
+        self.raw_text = data.get("text", "")
         return self
 
     @property
