@@ -268,7 +268,7 @@ class Items(Generic[ArticleType], TabPane):
 
     def steal_focus(self) -> None:
         """Steal focus for the item list within."""
-        self.query_one(OptionList).focus()
+        self.query_one(ArticleList).focus()
 
     def _watch_compact(self) -> None:
         """React to the compact setting being changed."""
