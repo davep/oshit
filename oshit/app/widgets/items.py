@@ -109,12 +109,6 @@ class ArticleList(OptionList):
         Binding("u", "user", "View User"),
     ]
 
-    def clear_options(self) -> Self:
-        """Workaround for https://github.com/Textualize/textual/issues/3714"""
-        super().clear_options()
-        self._clear_content_tracking()
-        return self
-
     def action_comments(self) -> None:
         """Visit the comments for the given"""
         if self.highlighted is not None:
