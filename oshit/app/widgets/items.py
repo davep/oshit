@@ -105,6 +105,11 @@ class ArticleList(OptionList):
         Binding("u", "user", "View User"),
     ]
 
+    def on_focus(self) -> None:
+        """Ensure the first item is highlighted if nothing is until now."""
+        if self.highlighted is None and self.option_count:
+            self.highlighted = 0
+
     def action_comments(self) -> None:
         """Visit the comments for the given"""
         if self.highlighted is not None:
