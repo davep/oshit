@@ -26,10 +26,6 @@ from textual.widgets import OptionList, TabPane
 from textual.widgets.option_list import Option
 
 ##############################################################################
-# Backward-compatible typing.
-from typing_extensions import Self
-
-##############################################################################
 # Local imports.
 from ...hn import HN
 from ...hn.item import Article, Job, Link
@@ -109,11 +105,10 @@ class ArticleList(OptionList):
         Binding("u", "user", "View User"),
     ]
 
-    def clear_options(self) -> Self:
-        """Workaround for https://github.com/Textualize/textual/issues/3714"""
-        super().clear_options()
-        self._clear_content_tracking()
-        return self
+    def on_focus(self) -> None:
+        """Ensure the first item is highlighted if nothing is until now."""
+        if self.highlighted is None and self.option_count:
+            self.highlighted = 0
 
     def action_comments(self) -> None:
         """Visit the comments for the given"""
@@ -278,7 +273,7 @@ class Items(Generic[ArticleType], TabPane):
 
     def steal_focus(self) -> None:
         """Steal focus for the item list within."""
-        self.query_one(OptionList).focus()
+        self.query_one(ArticleList).focus()
 
     def _watch_compact(self) -> None:
         """React to the compact setting being changed."""

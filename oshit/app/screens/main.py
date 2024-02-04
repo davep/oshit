@@ -79,7 +79,6 @@ class Main(Screen[None]):
         Binding("a", "go('ask')"),
         Binding("s", "go('show')"),
         Binding("j", "go('jobs')"),
-        Binding("down, enter", "pane"),
     ]
 
     def __init__(self) -> None:
