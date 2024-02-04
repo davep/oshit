@@ -82,7 +82,6 @@ class Main(Screen[None]):
         Binding("s", "go('show')"),
         Binding("j", "go('jobs')"),
         Binding("/", "local_search"),
-        Binding("down, enter", "pane"),
     ]
 
     def __init__(self) -> None:

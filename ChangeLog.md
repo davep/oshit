@@ -1,8 +1,8 @@
 # OSHit ChangeLog
 
-## WiP
+## v0.8.0
 
-**Released: WiP**
+**Released: 2024-02-04**
 
 - Added support for loading and viewing text associated with an item.
   ([#17](https://github.com/davep/oshit/issues/17))
