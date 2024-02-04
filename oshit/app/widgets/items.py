@@ -26,10 +26,6 @@ from textual.widgets import OptionList, TabPane
 from textual.widgets.option_list import Option
 
 ##############################################################################
-# Backward-compatible typing.
-from typing_extensions import Self
-
-##############################################################################
 # Local imports.
 from ...hn import HN
 from ...hn.item import Article, Job, Link
