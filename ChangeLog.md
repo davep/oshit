@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## v0.9.0
+
+**Released: 2024-02-09**
+
+- Article text and poll answers are no longer "sticky"
+  ([#21](https://github.com/davep/oshit/issues/21))
+
 ## v0.8.0
 
 **Released: 2024-02-04**
