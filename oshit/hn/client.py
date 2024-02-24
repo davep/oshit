@@ -4,6 +4,7 @@
 # Python imports.
 from asyncio import Semaphore, gather
 from json import loads
+from ssl import SSLCertVerificationError
 from typing import Any, Awaitable, Final, cast
 
 ##############################################################################
@@ -94,7 +95,7 @@ class HN:
                 headers={"user-agent": self.AGENT},
                 timeout=self._timeout,
             )
-        except RequestError as error:
+        except (RequestError, SSLCertVerificationError) as error:
             raise self.RequestError(str(error))
 
         try:

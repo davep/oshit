@@ -11,13 +11,13 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widget import Widget
-from textual.widgets import Button, Footer, Label, Rule
+from textual.widgets import Button, Footer, Label
 
 ##############################################################################
 # Local imports.
 from ...hn import HN
 from ...hn.item import Article, Comment, Poll, PollOption
-from ..widgets import CommentCard, CommentCardWithReplies
+from ..widgets import ArticleText, CommentCard, CommentCardWithReplies
 
 
 ##############################################################################
@@ -56,16 +56,26 @@ class Comments(ModalScreen[None]):
             padding: 1;
             background: $boost;
             height: auto;
-            margin-bottom: 1;
             border-bottom: solid $primary;
         }
 
-        #article-text {
-            width: 1fr;
+        ArticleText {
+            padding: 1;
+            margin-right: 1;
+            border-bottom: solid $primary;
+            background: $panel;
+
+            &:focus {
+                background: $boost;
+            }
         }
 
         #poll-options {
             height: auto;
+            padding: 1;
+            background:  $panel;
+            height: auto;
+            border-bottom: solid $primary;
         }
 
         #buttons {
@@ -84,6 +94,7 @@ class Comments(ModalScreen[None]):
         }
 
         #no-comments {
+            margin-top: 1;
             width: 1fr;
             text-align: center;
             color: $text-muted;
@@ -119,14 +130,12 @@ class Comments(ModalScreen[None]):
                     f"by {self._article.by} {naturaltime(self._article.time)}, "
                     f"{intcomma(self._article.descendants)} comment{'' if self._article.descendants == 1 else 's'}",
                 )
+            with VerticalScroll() as body:
+                body.can_focus = False
                 if self._article.has_text:
-                    yield Rule()
-                    yield Label(self._article.text, markup=False, id="article-text")
+                    yield ArticleText(self._article)
                 if isinstance(self._article, Poll):
-                    yield Rule()
                     yield Vertical(id="poll-options")
-            with VerticalScroll() as comments:
-                comments.can_focus = False
                 yield Label("No comments", id="no-comments")
             with Horizontal(id="buttons"):
                 yield Button("Okay [dim]\\[Esc][/]", id="close")
