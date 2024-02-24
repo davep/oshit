@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## WiP
+
+**Released: WiP**
+
+- Added option to search locally-loaded items and place the results in a
+  search tab.
+
 ## v0.9.0
 
 **Released: 2024-02-09**
