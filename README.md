@@ -69,7 +69,7 @@ Things I'm considering adding or addressing:
 - [ ] Expand the text-cleaning code to handle links, etc.
 - [ ] Look at some "markup" of comments, eg: make quoted text more obvious.
 - [ ] Add searching
-  - [ ] Amongst the current view
+  - [X] Amongst the current view
   - [ ] Amongst loaded comments within comment view
   - [ ] All of history ([`hn.algolia.com`](https://hn.algolia.com/api))
 
