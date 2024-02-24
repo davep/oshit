@@ -42,12 +42,15 @@ class Main(Screen[None]):
     | <kbd>F4</kbd> | Toggle numbers against items. |
     | <kbd>F5</kbd> | Toggle showing age of data. |
     | <kbd>F12</kbd> | Quit the application. |
+    | <kbd>/</kbd> | Search* and open tab with results. |
     | <kbd>t</kbd> | View the top stories. |
     | <kbd>n</kbd> | View the new stories. |
     | <kbd>b</kbd> | View the best stories. |
     | <kbd>a</kbd> | View the AskHN stories. |
     | <kbd>s</kbd> | View the ShowHN stories. |
     | <kbd>j</kbd> | View the jobs. |
+
+    \\* Note that the search only looks at already-downloaded items.
     """
 
     CSS = """
