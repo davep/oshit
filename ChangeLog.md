@@ -1,11 +1,12 @@
 # OSHit ChangeLog
 
-## WiP
+## 0.10.0
 
-**Released: WiP**
+**Released: 2024-02-28**
 
 - Added option to search locally-loaded items and place the results in a
   search tab.
+- Allowed Python 3.12.
 
 ## v0.9.0
 
