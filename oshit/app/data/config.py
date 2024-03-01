@@ -53,6 +53,9 @@ class Configuration:
     maximum_jobs: int = 200
     """The maximum number of jobs to show."""
 
+    background_load_tabs: bool = True
+    """Should the content of the tabs try and load in the background?"""
+
 
 ##############################################################################
 def configuration_file() -> Path:

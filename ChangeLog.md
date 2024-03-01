@@ -1,5 +1,13 @@
 # OSHit ChangeLog
 
+## WiP
+
+**Released: WiP**
+
+- Once the first viewed tab has loaded, other tabs will start to load in the
+  background (one after the other) as the user reads the first.
+- Added a config option to turn off the above.
+
 ## 0.10.0
 
 **Released: 2024-02-28**
