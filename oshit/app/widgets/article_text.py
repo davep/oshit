@@ -23,7 +23,7 @@ class ArticleText(Label, can_focus=True):
         self,
         article: Article,
         *,
-        id: str | None = None,
+        id: str | None = None,  # pylint:disable=redefined-builtin
         classes: str | None = None,
         disabled: bool = False
     ) -> None:

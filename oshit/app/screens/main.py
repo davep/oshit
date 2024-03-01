@@ -176,7 +176,7 @@ class Main(Screen[None]):
 
     async def _search(self, search_text: str) -> list[Article]:
         hits: dict[int, Article] = {}
-        for item_list in self.query(Items):
+        for item_list in self.query(Items).results():
             for item in item_list.items:
                 if search_text in item:
                     hits[item.item_id] = item
