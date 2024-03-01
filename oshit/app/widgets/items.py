@@ -261,6 +261,17 @@ class Items(Generic[ArticleType], TabPane):
         display.loading = False
         self.post_message(self.Loaded())
 
+    def maybe_load(self) -> bool:
+        """Start loading the items if they're not loaded and aren't currently loading.
+
+        Returns:
+            `True` if it was decided to load the items, `False` if not.
+        """
+        if not self.loaded and not self.query_one(OptionList).loading:
+            self._load()
+            return True
+        return False
+
     @property
     def items(self) -> list[ArticleType]:
         """The items."""

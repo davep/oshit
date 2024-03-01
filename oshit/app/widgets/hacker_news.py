@@ -34,12 +34,23 @@ class HackerNews(TabbedContent):
     show_age: var[bool] = var(True)
     """Should we show the age of the data in the lists?"""
 
+    background_load: var[bool] = var(True)
+    """Should the tabs try and load in the background.
+
+    If set to `True`, once a tab has finished loading, the next unloaded tab
+    will be asked to load, and so on, until all tabs have loaded their
+    stories. This means that by the time the user has finished with their
+    first tab, it's likely all the others will have loaded; thus making the
+    rest of the reading experience way faster.
+    """
+
     def on_mount(self) -> None:
         """Configure the widget once the DOM is ready."""
         config = load_configuration()
         self.compact = config.compact_mode
         self.numbered = config.item_numbers
         self.show_age = config.show_data_age
+        self.background_load = config.background_load_tabs
 
     def add_pane(
         self,
@@ -96,6 +107,14 @@ class HackerNews(TabbedContent):
             self.active_items.steal_focus()
         else:
             self.query_one(Tabs).focus()
+
+    @on(Items.Loaded)
+    def _load_next_unloaded_tab(self) -> None:
+        """When a tab has finished loading, start a background load of another tab."""
+        if self.background_load:
+            for tab in self.query(Items).results():
+                if tab.maybe_load():
+                    return
 
     @property
     def description(self) -> str:
