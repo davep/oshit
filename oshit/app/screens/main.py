@@ -9,6 +9,7 @@ from functools import partial
 from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
+from textual.css.query import NoMatches
 from textual.screen import Screen
 from textual.timer import Timer
 from textual.widgets import Footer, Header
@@ -124,7 +125,15 @@ class Main(Screen[None]):
     @on(Items.Loaded)
     def _refresh_subtitle(self) -> None:
         """Refresh the subtitle of the screen."""
-        self.sub_title = self.query_one(HackerNews).description
+        try:
+            self.sub_title = self.query_one(HackerNews).description
+        except NoMatches:
+            # There's a rare situation, it seems, where we can be on the way
+            # out, the DOM is being pulled down, and we get a message being
+            # processed too late that causes this method to fire. The result
+            # is that the `Header` widget will be asked to update something
+            # that doesn't exist any more. This guards against that.
+            pass
 
     def _set_title_refresh(self, refresh: bool) -> None:
         """Set the state of the title refresh interval.
