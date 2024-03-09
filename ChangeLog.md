@@ -1,8 +1,8 @@
 # OSHit ChangeLog
 
-## WiP
+## 0.11.0
 
-**Released: WiP**
+**Released: 2024-03-09**
 
 - Once the first viewed tab has loaded, other tabs will start to load in the
   background (one after the other) as the user reads the first.
