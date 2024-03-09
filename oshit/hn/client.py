@@ -155,13 +155,19 @@ class HN:
         """
         concurrency_limit = Semaphore(self._max_concurrency)
 
-        async def limited(coroutine: Awaitable[ItemType]) -> ItemType:
-            async with concurrency_limit:
-                return await coroutine
+        async def item(item_id: int) -> ItemType:
+            """Get an item, with a limit on concurrent requests.
 
-        return await gather(
-            *[limited(self.item(item_type, item_id)) for item_id in item_ids]
-        )
+            Args:
+                item_id: The ID of the item to get.
+
+            Returns:
+                The item.
+            """
+            async with concurrency_limit:
+                return await self.item(item_type, item_id)
+
+        return await gather(*[item(item_id) for item_id in item_ids])
 
     async def _id_list(self, list_type: str, max_count: int | None = None) -> list[int]:
         """Get a given ID list.

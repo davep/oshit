@@ -7,6 +7,8 @@
 - Once the first viewed tab has loaded, other tabs will start to load in the
   background (one after the other) as the user reads the first.
 - Added a config option to turn off the above.
+- Fixed a non-awaited-coroutine warning that could happen when quitting
+  while loading items. ([#26](https://github.com/davep/oshit/issues/26))
 
 ## 0.10.0
 
