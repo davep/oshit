@@ -23,16 +23,19 @@ The package can be installed using [`pipx`](https://pypa.github.io/pipx/):
 $ pipx install oshit
 ```
 
-Once installed run the `oshit` command.
-
 ### Homebrew
 
-The package is available via Homebrew. Us the following commands to install:
+The package can be installed using Homebrew. Use the following commands to
+install:
 
 ```sh
 $ brew tap davep/homebrew
 $ brew install oshit
 ```
+
+## Running
+
+Once installed run the `oshit` command.
 
 ## Main features
 
