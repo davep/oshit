@@ -15,6 +15,8 @@ API](https://github.com/HackerNews/API).
 
 ## Installing
 
+### pipx
+
 The package can be installed using [`pipx`](https://pypa.github.io/pipx/):
 
 ```sh
@@ -22,6 +24,15 @@ $ pipx install oshit
 ```
 
 Once installed run the `oshit` command.
+
+### Homebrew
+
+The package is available via Homebrew. Us the following commands to install:
+
+```sh
+$ brew tap davep/homebrew
+$ brew install oshit
+```
 
 ## Main features
 
