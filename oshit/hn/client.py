@@ -5,7 +5,7 @@
 from asyncio import Semaphore, gather
 from json import loads
 from ssl import SSLCertVerificationError
-from typing import Any, Awaitable, Final, cast
+from typing import Any, Final, cast
 
 ##############################################################################
 # HTTPX imports.
