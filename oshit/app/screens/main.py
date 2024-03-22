@@ -23,6 +23,7 @@ from ..commands import ShowComments, ShowUser
 from ..data.config import load_configuration
 from ..widgets import HackerNews, Items
 from .comments import Comments
+from .config import ConfigurationDialog
 from .help import Help
 from .search import Search
 from .user import UserDetails
@@ -78,6 +79,7 @@ class Main(Screen[None]):
         Binding("f3", "toggle_dark"),
         Binding("f4", "numbered"),
         Binding("f5", "show_age"),
+        Binding("f11", "config", "Configure"),
         Binding("f12", "quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
@@ -200,6 +202,10 @@ class Main(Screen[None]):
                 Items("search", "r", partial(self._search, search_text))
             )
             self.query_one(HackerNews).active = "search"
+
+    def action_config(self) -> None:
+        """Show the configuration dialog."""
+        self.app.push_screen(ConfigurationDialog())
 
     @on(ShowUser)
     def show_user(self, event: ShowUser) -> None:
