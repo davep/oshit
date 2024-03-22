@@ -55,7 +55,8 @@ class ConfigurationDialog(ModalScreen[None]):
     def compose(self) -> ComposeResult:
         """Compose the layout of the dialog."""
         config = load_configuration()
-        with Vertical():
+        with Vertical() as dialog:
+            dialog.border_title = "OSHit Configuration"
             yield Label("Maximum Concurrency:")
             yield Input(
                 str(config.maximum_concurrency),
