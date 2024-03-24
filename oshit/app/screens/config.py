@@ -118,26 +118,44 @@ class ConfigurationDialog(ModalScreen[None]):
                 yield Button("OK [dim]\\[F2][/]", id="ok")
                 yield Button("Cancel [dim]\\[Esc][/]", id="cancel")
 
+    @property
+    def dialog_valid(self) -> bool:
+        """Is the dialog as a whole valid?"""
+        for field in self.query(Input).results():
+            if not field.is_valid:
+                return False
+        return True
+
     @on(Button.Pressed, "#ok")
     def action_save(self) -> None:
         """Save the configuration."""
-        config = load_configuration()
-        config.maximum_concurrency = int(self.query_one("#max-con", Input).value)
-        config.connection_timeout = int(self.query_one("#timeout", Input).value)
-        config.maximum_top = int(self.query_one("#max-top", Input).value)
-        config.maximum_new = int(self.query_one("#max-new", Input).value)
-        config.maximum_best = int(self.query_one("#max-best", Input).value)
-        config.maximum_ask = int(self.query_one("#max-ask", Input).value)
-        config.maximum_show = int(self.query_one("#max-show", Input).value)
-        config.maximum_jobs = int(self.query_one("#max-jobs", Input).value)
-        config.background_load_tabs = self.query_one(Checkbox).value
-        save_configuration(config)
-        self.dismiss(None)
+        if self.dialog_valid:
+            config = load_configuration()
+            config.maximum_concurrency = int(self.query_one("#max-con", Input).value)
+            config.connection_timeout = int(self.query_one("#timeout", Input).value)
+            config.maximum_top = int(self.query_one("#max-top", Input).value)
+            config.maximum_new = int(self.query_one("#max-new", Input).value)
+            config.maximum_best = int(self.query_one("#max-best", Input).value)
+            config.maximum_ask = int(self.query_one("#max-ask", Input).value)
+            config.maximum_show = int(self.query_one("#max-show", Input).value)
+            config.maximum_jobs = int(self.query_one("#max-jobs", Input).value)
+            config.background_load_tabs = self.query_one(Checkbox).value
+            save_configuration(config)
+            self.dismiss(None)
 
     @on(Button.Pressed, "#cancel")
     def action_cancel(self) -> None:
         """Cancel the editing of the configuration."""
         self.dismiss(None)
+
+    @on(Input.Changed)
+    def allow_okay(self) -> None:
+        """Enable or disable the OK button based on the dialog validity."""
+        self.query_one("#ok").disabled = not self.dialog_valid
+
+    def on_mount(self) -> None:
+        """Configure the dialog on mount."""
+        self.allow_okay()
 
 
 ### config.py ends here
