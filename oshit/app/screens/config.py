@@ -4,7 +4,7 @@
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Horizontal, Vertical
+from textual.containers import Grid, Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.validation import Number
 from textual.widgets import Button, Checkbox, Input, Label
@@ -23,7 +23,7 @@ class ConfigurationDialog(ModalScreen[None]):
 
         align: center middle;
 
-        Vertical {
+        & > Vertical {
             width: 60%;
             height: auto;
             background: $surface;
@@ -31,8 +31,22 @@ class ConfigurationDialog(ModalScreen[None]):
             border-title-color: $accent;
             padding: 1 2;
 
-            Label {
-                margin-left: 1;
+            Grid {
+                grid-size: 3;
+                grid-rows: auto;
+                height: 12;
+
+                Label {
+                    margin-left: 1;
+                }
+
+                Input {
+                    width: 25;
+                }
+            }
+
+            Checkbox {
+                margin-top: 1;
             }
         }
 
@@ -57,62 +71,71 @@ class ConfigurationDialog(ModalScreen[None]):
         config = load_configuration()
         with Vertical() as dialog:
             dialog.border_title = "OSHit Configuration"
-            yield Label("Maximum Concurrency:")
-            yield Input(
-                str(config.maximum_concurrency),
-                id="max-con",
-                type="integer",
-                validators=[Number(minimum=1, maximum=500)],
-            )
-            yield Label("Connection Timeout:")
-            yield Input(
-                str(config.connection_timeout),
-                id="timeout",
-                type="integer",
-                validators=[Number(minimum=1, maximum=60)],
-            )
-            yield Label("Maximum Top Items:")
-            yield Input(
-                str(config.maximum_top),
-                id="max-top",
-                type="integer",
-                validators=[Number(minimum=1, maximum=500)],
-            )
-            yield Label("Maximum New Items:")
-            yield Input(
-                str(config.maximum_new),
-                id="max-new",
-                type="integer",
-                validators=[Number(minimum=1, maximum=500)],
-            )
-            yield Label("Maximum Best Items:")
-            yield Input(
-                str(config.maximum_best),
-                id="max-best",
-                type="integer",
-                validators=[Number(minimum=1, maximum=200)],
-            )
-            yield Label("Maximum Ask Items:")
-            yield Input(
-                str(config.maximum_ask),
-                id="max-ask",
-                type="integer",
-                validators=[Number(minimum=1, maximum=200)],
-            )
-            yield Label("Maximum Show Items:")
-            yield Input(
-                str(config.maximum_show),
-                id="max-show",
-                type="integer",
-                validators=[Number(minimum=1, maximum=200)],
-            )
-            yield Label("Maximum Jobs Items:")
-            yield Input(
-                str(config.maximum_jobs),
-                id="max-jobs",
-                type="integer",
-                validators=[Number(minimum=1, maximum=200)],
-            )
+            with Grid():
+                with Vertical():
+                    yield Label("Maximum Concurrency:")
+                    yield Input(
+                        str(config.maximum_concurrency),
+                        id="max-con",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=500)],
+                    )
+                with Vertical():
+                    yield Label("Connection Timeout:")
+                    yield Input(
+                        str(config.connection_timeout),
+                        id="timeout",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=60)],
+                    )
+                with Vertical():
+                    yield Label("Maximum Top Items:")
+                    yield Input(
+                        str(config.maximum_top),
+                        id="max-top",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=500)],
+                    )
+                with Vertical():
+                    yield Label("Maximum New Items:")
+                    yield Input(
+                        str(config.maximum_new),
+                        id="max-new",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=500)],
+                    )
+                with Vertical():
+                    yield Label("Maximum Best Items:")
+                    yield Input(
+                        str(config.maximum_best),
+                        id="max-best",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=200)],
+                    )
+                with Vertical():
+                    yield Label("Maximum Ask Items:")
+                    yield Input(
+                        str(config.maximum_ask),
+                        id="max-ask",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=200)],
+                    )
+                with Vertical():
+                    yield Label("Maximum Show Items:")
+                    yield Input(
+                        str(config.maximum_show),
+                        id="max-show",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=200)],
+                    )
+                with Vertical():
+                    yield Label("Maximum Jobs Items:")
+                    yield Input(
+                        str(config.maximum_jobs),
+                        id="max-jobs",
+                        type="integer",
+                        validators=[Number(minimum=1, maximum=200)],
+                    )
             yield Checkbox("Load other tabs in background", config.background_load_tabs)
             with Horizontal():
                 yield Button("OK [dim]\\[F2][/]", id="ok")
