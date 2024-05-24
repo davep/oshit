@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 httpx = "*"
-textual = "*"
+textual = "<=0.60.1"
 humanize = "*"
 xdg-base-dirs = "*"
 
