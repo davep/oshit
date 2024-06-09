@@ -68,6 +68,14 @@ class Main(Screen[None]):
             height: 1;
         }
     }
+
+    Footer, Footer * {
+        background: $primary;
+    }
+
+    FooterKey .footer-key--key {
+        color: $text;
+    }
     """
 
     TITLE = f"Orange Site Hit v{__version__}"
@@ -75,10 +83,10 @@ class Main(Screen[None]):
     BINDINGS = [
         Binding("f1", "help", "Help"),
         Binding("f2", "compact", "Compact/Relaxed"),
-        Binding("f3", "toggle_dark"),
+        Binding("f3", "app.toggle_dark"),
         Binding("f4", "numbered"),
         Binding("f5", "show_age"),
-        Binding("f12", "quit", "Quit"),
+        Binding("f12", "app.quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
         Binding("b", "go('best')"),
