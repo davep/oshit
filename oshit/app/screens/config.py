@@ -38,10 +38,11 @@ class ConfigurationDialog(ModalScreen[None]):
 
                 Label {
                     margin-left: 1;
+                    width: 1fr;
                 }
 
                 Input {
-                    width: 25;
+                    width: 1fr;
                 }
             }
 
