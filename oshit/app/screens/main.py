@@ -78,7 +78,7 @@ class Main(Screen[None]):
         Binding("f3", "app.toggle_dark"),
         Binding("f4", "numbered"),
         Binding("f5", "show_age"),
-        Binding("f12", "quit", "Quit"),
+        Binding("f12", "app.quit", "Quit"),
         Binding("t", "go('top')"),
         Binding("n", "go('new')"),
         Binding("b", "go('best')"),
