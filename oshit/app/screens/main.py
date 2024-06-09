@@ -75,7 +75,7 @@ class Main(Screen[None]):
     BINDINGS = [
         Binding("f1", "help", "Help"),
         Binding("f2", "compact", "Compact/Relaxed"),
-        Binding("f3", "toggle_dark"),
+        Binding("f3", "app.toggle_dark"),
         Binding("f4", "numbered"),
         Binding("f5", "show_age"),
         Binding("f12", "quit", "Quit"),
