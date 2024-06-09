@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## 0.12.0
+
+**Released: 2024-06-09**
+
+- Unpinned Textual, fixed a couple of issues the recent versions have
+  introduced, and attempted to undo questionable upstream cosmetic choices.
+
 ## 0.11.2
 
 **Released: 2024-05-24**
