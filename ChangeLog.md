@@ -1,5 +1,24 @@
 # OSHit ChangeLog
 
+## 0.12.0
+
+**Released: 2024-06-09**
+
+- Unpinned Textual, fixed a couple of issues the recent versions have
+  introduced, and attempted to undo questionable upstream cosmetic choices.
+
+## 0.11.2
+
+**Released: 2024-05-24**
+
+- Pinned Textual to <=0.60.1 due to ongoing problems with later versions.
+
+## 0.11.1
+
+**Released: 2024-03-10**
+
+- Distribution update to support installation with Homebrew.
+
 ## 0.11.0
 
 **Released: 2024-03-09**
