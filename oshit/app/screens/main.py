@@ -68,6 +68,14 @@ class Main(Screen[None]):
             height: 1;
         }
     }
+
+    Footer, Footer * {
+        background: $primary;
+    }
+
+    FooterKey .footer-key--key {
+        color: $text;
+    }
     """
 
     TITLE = f"Orange Site Hit v{__version__}"
