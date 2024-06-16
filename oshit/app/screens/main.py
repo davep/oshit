@@ -59,24 +59,6 @@ class Main(Screen[None]):
     TabbedContent, LoadingIndicator {
         background: $panel;
     }
-
-    Header {
-        HeaderIcon {
-            visibility: hidden;
-        }
-
-        &.-tall {
-            height: 1;
-        }
-    }
-
-    Footer, Footer * {
-        background: $primary;
-    }
-
-    FooterKey .footer-key--key {
-        color: $text;
-    }
     """
 
     TITLE = f"Orange Site Hit v{__version__}"

@@ -16,6 +16,26 @@ class OSHit(App[None]):
 
     ENABLE_COMMAND_PALETTE = False
 
+    CSS = """
+    Header {
+        HeaderIcon {
+            visibility: hidden;
+        }
+
+        &.-tall {
+            height: 1;
+        }
+    }
+
+    Footer, Footer * {
+        background: $primary;
+    }
+
+    FooterKey .footer-key--key {
+        color: $text;
+    }
+    """
+
     def __init__(self) -> None:
         """Initialise the application."""
         super().__init__()
