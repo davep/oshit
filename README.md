@@ -63,9 +63,10 @@ dial in the ideal number of concurrent connections made to load up the data,
 and also the timeout for the connections. As of the time of writing the
 defaults are 50 concurrent connections and a timeout of 20 seconds.
 
-If you run into problems look in `~/.config/oshit/configuration.json` and
-change the `"maximum_concurrency"` and `"connection_timeout"` values to
-taste.
+If you run into problems press <kbd>F11</kbd> and tweak the maximum
+concurrency and connection timeout values to taste (or look in
+`~/.config/oshit/configuration.json` and change the `"maximum_concurrency"`
+and `"connection_timeout"` values).
 
 ## Getting help
 

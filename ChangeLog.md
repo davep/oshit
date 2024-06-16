@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Added a configuration dialog for tweaking the story fetching concurrency
+  values.
+
 ## 0.12.0
 
 **Released: 2024-06-09**
