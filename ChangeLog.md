@@ -1,5 +1,11 @@
 # OSHit ChangeLog
 
+## v0.12.2
+
+**Released: 2024-06-23**
+
+- Pinned Textual.
+
 ## v0.12.1
 
 **Released: 2024-06-16**
