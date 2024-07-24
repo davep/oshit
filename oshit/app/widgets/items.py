@@ -229,6 +229,7 @@ class Items(Generic[ArticleType], TabPane):
             [
                 HackerNewsArticle(item, self.compact, number if self.numbered else None)
                 for number, item in enumerate(self._items)
+                if item.looks_valid
             ]
         )
         display.highlighted = remember
