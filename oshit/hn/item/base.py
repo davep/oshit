@@ -71,6 +71,11 @@ class Item:
         """Does the item have any text?"""
         return bool(self.text.strip())
 
+    @property
+    def looks_valid(self) -> bool:
+        """Does the item look valid?"""
+        return bool(self.item_id) and bool(self.item_type)
+
     def __contains__(self, search_for: str) -> bool:
         return (
             search_for.casefold() in self.by.casefold()
