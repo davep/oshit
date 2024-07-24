@@ -135,7 +135,12 @@ class HN:
         Returns:
             The item.
         """
-        if isinstance(item := Loader.load(await self._raw_item(item_id)), item_type):
+        # If we can get the item but it comes back with no data at all...
+        if not (data := await self._raw_item(item_id)):
+            # ...as https://hacker-news.firebaseio.com/v0/item/41050801.json
+            # does for some reason, just make an empty version of the item.
+            return item_type()
+        if isinstance(item := Loader.load(data), item_type):
             return item
         raise ValueError(
             f"The item of ID '{item_id}' is of type '{item.item_type}', not {item_type.__name__}"
