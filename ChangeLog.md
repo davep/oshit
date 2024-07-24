@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## v0.12.3
+
+**Released: 2024-07-24**
+
+- Fixed a crash when the HackerNews API returns `null` for an otherwise
+  valid and available story.
+
 ## v0.12.2
 
 **Released: 2024-06-23**
