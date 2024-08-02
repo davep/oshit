@@ -77,6 +77,7 @@ class Main(Screen[None]):
         Binding("a", "go('ask')"),
         Binding("s", "go('show')"),
         Binding("j", "go('jobs')"),
+        Binding("r", "go('search')"),
         Binding("/", "local_search"),
     ]
 
@@ -156,7 +157,12 @@ class Main(Screen[None]):
         Args:
             items: The name of the list of items to go to.
         """
-        self.query_one(HackerNews).active = items
+        before = self.query_one(HackerNews).active
+        try:
+            self.query_one(HackerNews).active = items
+        except ValueError:
+            self.query_one(HackerNews).active = before
+            return
         self.query_one(HackerNews).focus_active_pane()
 
     def action_compact(self) -> None:
