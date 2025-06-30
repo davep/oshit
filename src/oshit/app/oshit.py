@@ -27,12 +27,15 @@ class OSHit(App[None]):
         }
     }
 
-    Footer, Footer * {
-        background: $primary;
+    /* Make the LoadingIndicator look less like it was just slapped on. */
+    LoadingIndicator {
+        background: transparent;
     }
 
-    FooterKey .footer-key--key {
-        color: $text;
+    /* General style tweaks that affect all widgets. */
+    * {
+        /* Let's make scrollbars a wee bit thinner. */
+        scrollbar-size-vertical: 1;
     }
     """
 

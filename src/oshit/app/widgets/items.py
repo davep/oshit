@@ -90,6 +90,12 @@ class HackerNewsArticle(Option):
 class ArticleList(OptionList):
     """Widget to show a list of articles."""
 
+    DEFAULT_CSS = """
+    ArticleList {
+        background: transparent;
+    }
+    """
+
     CONTEXT_HELP = """
     ## Highlighted item keys
 
@@ -159,7 +165,6 @@ class Items(Generic[ArticleType], TabPane):
         height: 1fr;
         border: none;
         padding: 0;
-        background: $panel;
 
         & > .option-list--option {
             padding: 0 1 0 0;
@@ -167,7 +172,6 @@ class Items(Generic[ArticleType], TabPane):
 
         &:focus {
             border: none;
-            background: $panel;
         }
     }
     """
