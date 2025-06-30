@@ -25,7 +25,7 @@ class ArticleText(Label, can_focus=True):
         *,
         id: str | None = None,  # pylint:disable=redefined-builtin
         classes: str | None = None,
-        disabled: bool = False
+        disabled: bool = False,
     ) -> None:
         """Initialise the widget.
 

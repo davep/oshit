@@ -8,6 +8,8 @@ descendants.
 # Python imports.
 from typing import Any
 
+##############################################################################
+# Typing extensions imports.
 from typing_extensions import Self
 
 ##############################################################################

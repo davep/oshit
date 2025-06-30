@@ -5,6 +5,8 @@
 from typing import Any
 from urllib.parse import urlparse
 
+##############################################################################
+# Backward-compatible typing.
 from typing_extensions import Self
 
 ##############################################################################

@@ -1,5 +1,78 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+[project]
+name = "oshit"
+version = "0.12.5"
+description = "A terminal-based HackerNews reader"
+authors = [
+    { name = "Dave Pearson", email = "davep@davep.org" }
+]
+dependencies = [
+    "httpx",
+    "humanize>=4.8.0",
+    "textual>=3.5.0",
+    "xdg-base-dirs>=6.0.0",
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "GNU General Public License v3 or later (GPLv3+)" }
+keywords = [
+    "terminal",
+    "tui",
+    "chui",
+    "news",
+    "hackernews",
+    "hacker-news",
+    "orange-site",
+    "reader",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet",
+    "Topic :: Terminals",
+    "Typing :: Typed",
+]
 
-### pyproject.toml ends here
+[project.urls]
+Homepage = "https://github.com/davep/oshit"
+Repository = "https://github.com/davep/oshit"
+Documentation = "https://github.com/davep/oshit"
+Source = "https://github.com/davep/oshit"
+Issues = "https://github.com/davep/oshit/issues"
+Discussions = "https://github.com/davep/oshit/discussions"
+
+[project.scripts]
+oshit = "oshit.__main__:run"
+
+[build-system]
+# https://github.com/astral-sh/rye/issues/1446
+requires = ["hatchling==1.26.3", "hatch-vcs"]
+# requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pre-commit>=4.2.0",
+    "mypy>=1.16.1",
+    "textual-dev>=1.7.0",
+    "codespell>=2.4.1",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/oshit"]
+
+[tool.pyright]
+venvPath="."
+venv=".venv"
+exclude=[".venv"]
