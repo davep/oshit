@@ -38,8 +38,8 @@ class Article(ParentItem):
             Self
         """
         self.descendants = data.get("descendants", 0)
-        self.score = data["score"]
-        self.title = data["title"]
+        self.score = data.get("score", 0)
+        self.title = data.get("title", "")
         return super().populate_with(data)
 
     def __contains__(self, search_for: str) -> bool:
