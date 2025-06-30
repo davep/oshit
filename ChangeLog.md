@@ -1,5 +1,11 @@
 # OSHit ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Fix a crash due to an article missing a `score` and `title`.
+
 ## v0.12.4
 
 **Released: 2024-08-02**
