@@ -1,10 +1,11 @@
 # OSHit ChangeLog
 
-## Unreleased
+## v0.12.5
 
-**Released: WiP**
+**Released: 2025-06-30**
 
 - Fix a crash due to an article missing a `score` and `title`.
+  ([#34](https://github.com/davep/oshit/pull/34))
 
 ## v0.12.4
 
