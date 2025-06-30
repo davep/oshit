@@ -4,6 +4,8 @@
 # Python imports.
 from typing import Any
 
+##############################################################################
+# Backward-compatible typing.
 from typing_extensions import Self
 
 ##############################################################################

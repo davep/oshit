@@ -57,7 +57,7 @@ class Links(ModalScreen[None]):
         self._links = links
 
     def compose(self) -> ComposeResult:
-        """Compose the conent of the dialog."""
+        """Compose the content of the dialog."""
         with Vertical() as dialog:
             dialog.border_title = "Available links"
             yield OptionList(*self._links)
