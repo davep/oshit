@@ -55,12 +55,6 @@ class Main(Screen[None]):
     \\* Note that the search only looks at already-downloaded items.
     """
 
-    CSS = """
-    TabbedContent, LoadingIndicator {
-        background: $panel;
-    }
-    """
-
     TITLE = f"Orange Site Hit v{__version__}"
 
     BINDINGS = [
