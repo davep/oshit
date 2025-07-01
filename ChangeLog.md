@@ -1,5 +1,13 @@
 # OSHit ChangeLog
 
+## v1.0.0
+
+**Released: 2025-07-01**
+
+- Updated for more recent versions of Textual.
+  ([#36](https://github.com/davep/oshit/pull/36))
+  ([#37](https://github.com/davep/oshit/pull/37))
+
 ## v0.12.5
 
 **Released: 2025-06-30**
