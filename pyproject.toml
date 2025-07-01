@@ -1,6 +1,6 @@
 [project]
 name = "oshit"
-version = "0.12.5"
+version = "1.0.0"
 description = "A terminal-based HackerNews reader"
 authors = [
     { name = "Dave Pearson", email = "davep@davep.org" }
@@ -25,7 +25,7 @@ keywords = [
     "reader",
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
