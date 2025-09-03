@@ -7,6 +7,7 @@
 - Migrated from `rye` to `uv` for development management.
   ([#42](https://github.com/davep/oshit/pull/42))
 - Added Python 3.14 as a tested/supported Python version.
+  ([#43](https://github.com/davep/oshit/pull/43))
 
 ## v1.0.0
 
