@@ -1,5 +1,12 @@
 # OSHit ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Migrated from `rye` to `uv` for development management.
+  ([#42](https://github.com/davep/oshit/pull/42))
+
 ## v1.0.0
 
 **Released: 2025-07-01**
